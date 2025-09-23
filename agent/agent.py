@@ -5,6 +5,7 @@ from datetime import datetime
 from typing import List, Optional
 import uuid
 import logging
+import os
 
 # Azure AI imports
 from azure.ai.projects import AIProjectClient
@@ -18,9 +19,14 @@ from azure.core.exceptions import AzureError
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# Azure AI configuration
-AZURE_AI_ENDPOINT = "https://octopets-foundry.services.ai.azure.com/api/projects/octopets-project"
-AGENT_ID = "asst_rXORuz2mDU623yYpvf7YxIll"
+# Configuration from environment variables
+AZURE_AI_ENDPOINT = os.environ.get("AZURE_AI_ENDPOINT")
+AGENT_ID = os.environ.get("AGENT_ID")
+FRONTEND_URL = os.environ.get("FRONTEND_URL", "http://localhost:3000")
+
+# Parse CORS origins - can be a single URL or comma-separated list
+cors_origins = [origin.strip() for origin in FRONTEND_URL.split(",")]
+logger.info(f"CORS origins configured: {cors_origins}")
 
 # Initialize Azure AI client
 try:
@@ -38,9 +44,9 @@ app = FastAPI(title="Octopets Agent API", version="1.0.0")
 # CORS middleware to allow frontend connections
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # In production, specify exact origins
+    allow_origins=cors_origins,
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["GET", "POST", "DELETE"],
     allow_headers=["*"],
 )
 
@@ -83,7 +89,7 @@ async def root():
         "agent_id": AGENT_ID if ai_client else None
     }
 
-@app.post("/api/chat", response_model=ChatResponse)
+@app.post("/agent/chat", response_model=ChatResponse)
 async def chat_with_agent(request: ChatRequest):
     """
     Main chat endpoint that processes user messages and returns agent responses.
@@ -151,7 +157,7 @@ async def chat_with_agent(request: ChatRequest):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error processing chat: {str(e)}")
 
-@app.get("/api/conversations/{conversation_id}", response_model=ConversationHistory)
+@app.get("/agent/conversations/{conversation_id}", response_model=ConversationHistory)
 async def get_conversation(conversation_id: str):
     """Get conversation history by ID"""
     if conversation_id not in conversations:
@@ -159,7 +165,7 @@ async def get_conversation(conversation_id: str):
     
     return conversations[conversation_id]
 
-@app.delete("/api/conversations/{conversation_id}")
+@app.delete("/agent/conversations/{conversation_id}")
 async def delete_conversation(conversation_id: str):
     """Delete a conversation"""
     if conversation_id not in conversations:
@@ -168,7 +174,7 @@ async def delete_conversation(conversation_id: str):
     del conversations[conversation_id]
     return {"message": "Conversation deleted successfully"}
 
-@app.get("/api/venues/suggestions")
+@app.get("/agent/venues/suggestions")
 async def get_venue_suggestions(
     pet_type: Optional[str] = None,
     venue_type: Optional[str] = None,
@@ -293,7 +299,6 @@ async def generate_venue_suggestions(
 
 if __name__ == "__main__":
     import uvicorn
-    import os
     
     port = int(os.environ.get("PORT", 8001))
     uvicorn.run(app, port=port)

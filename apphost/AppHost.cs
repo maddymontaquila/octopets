@@ -1,37 +1,47 @@
+﻿#:package CommunityToolkit.Aspire.Hosting.Python.Extensions@9.8.0-beta.394
+#:package Aspire.Hosting.NodeJs@9.6.0-preview.1.25473.9
+#:package Aspire.Hosting.Azure.ApplicationInsights@9.6.0-preview.1.25473.9
+#:project ../backend/Octopets.Backend.csproj
+#:sdk Aspire.AppHost.Sdk@9.6.0-preview.1.25473.9
 #pragma warning disable
+
 var builder = DistributedApplication.CreateBuilder(args);
 
+var foundryProject = builder.AddParameter("FoundryProjectUrl");
+var foundryAgentId = builder.AddParameter("FoundryAgentId");
+
 var api = builder.AddProject<Projects.Octopets_Backend>("api")
-        .WithExternalHttpEndpoints()
         .WithEnvironment("ERRORS", builder.ExecutionContext.IsPublishMode ? "true" : "false")
         .WithEnvironment("ENABLE_CRUD", builder.ExecutionContext.IsPublishMode ? "false" : "true");
 
 var agent = builder.AddUvApp("agent", "../agent", "agent.py")
-    .WithHttpEndpoint(env: "PORT");
+    .WithHttpEndpoint(env: "PORT")
+    .WithEnvironment("AZURE_AI_ENDPOINT", foundryProject)
+    .WithEnvironment("AGENT_ID", foundryAgentId);
+
+var frontend = builder.AddNpmApp("frontend", "../frontend")
+    .WithReference(api).WaitFor(api)
+    .WithReference(agent).WaitFor(agent)
+    .WithHttpEndpoint(env: "PORT")
+    .WithExternalHttpEndpoints()
+    .WithEnvironment("BROWSER", "none")
+    .WithEnvironment("REACT_APP_USE_MOCK_DATA", builder.ExecutionContext.IsPublishMode ? "false" : "true")
+    .WithEnvironment("REACT_APP_AGENT_API_URL", agent.GetEndpoint("http"));
+
+// Configure CORS for agent service with frontend URL
+agent.WithEnvironment("FRONTEND_URL", frontend.GetEndpoint("http"));
 
 // Only add Application Insights in non-development environments
 if (builder.ExecutionContext.IsPublishMode)
 {
-    var frontend = builder.AddDockerfile("frontend", "../frontend", "Dockerfile")
-        .WithReference(api)
-        .WithReference(agent)
-        .WithHttpEndpoint(80, 80)
-        .WithExternalHttpEndpoints()
-        .WithBuildArg("REACT_APP_USE_MOCK_DATA",  "false")
-        .WithBuildArg("REACT_APP_AGENT_API_URL", agent.GetEndpoint("http"));
-
     var insights = builder.AddAzureApplicationInsights("octopets-appinsights");
     api.WithReference(insights);
     frontend.WithReference(insights);
 }
-else
-{
-    builder.AddNpmApp("frontend", "../frontend")
-    .WithReference(api).WaitFor(api)
-    .WithReference(agent).WaitFor(agent)
-    .WithHttpEndpoint(env: "PORT")
-    .WithEnvironment("BROWSER", "none")
-    .WithEnvironment("REACT_APP_AGENT_API_URL", agent.GetEndpoint("http"));
-}
 
-builder.Build().Run(); 
+foundryAgentId.WithParentRelationship(agent);
+foundryProject.WithParentRelationship(agent);
+agent.WithEnvironment("FRONTEND_URL", frontend.GetEndpoint("http"));
+api.WithEnvironment("FRONTEND_URL", frontend.GetEndpoint("http"));
+
+builder.Build().Run();

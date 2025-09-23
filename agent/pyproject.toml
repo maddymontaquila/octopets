@@ -14,6 +14,7 @@ dependencies = [
     "python-multipart>=0.0.6",
     "azure-ai-projects>=1.0.0",
     "azure-identity>=1.15.0",
+    "agent-framework[azure]", # or [azure,foundry]
 ]
 
 [project.optional-dependencies]
@@ -22,6 +23,12 @@ dev = [
     "pytest-asyncio>=0.21.0",
     "httpx>=0.25.0",
 ]
+
+[tool.uv.sources]
+"agent-framework" = { git = "https://github.com/microsoft/agent-framework.git", branch = "main", subdirectory = "python/packages/main" }
+"agent-framework-azure" = { git = "https://github.com/microsoft/agent-framework.git", branch = "main", subdirectory = "python/packages/azure" }
+"agent-framework-foundry" = { git = "https://github.com/microsoft/agent-framework.git", branch = "main", subdirectory = "python/packages/foundry" }
+"agent-framework-workflow" = { git = "https://github.com/microsoft/agent-framework.git", branch = "main", subdirectory = "python/packages/workflow" }
 
 [build-system]
 requires = ["hatchling"]

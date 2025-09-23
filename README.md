@@ -38,9 +38,12 @@ Octopets is a platform designed to help pet owners find and share pet-friendly v
 
 | Requirement | Version | Download Link |
 | --- | --- | --- |
+| Aspire CLI | Latest Daily | [Get Aspire CLI](https://github.com/dotnet/aspire/blob/main/docs/using-latest-daily.md) |
+| GH CLI | Latest | [Get GH CLI](https://cli.github.com/) |
 | .NET SDK | 9.0 or later | [Download .NET](https://dotnet.microsoft.com/download/dotnet/9.0) |
 | Node.js | v18.0.0 or later | [Download Node.js](https://nodejs.org/) |
 | npm | v10.0.0 or later | [npm Docs](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) (included with Node.js) |
+| Python and uv | Latest | [uv Docs](https://docs.astral.sh/uv/) |
 | Docker | Latest | [Download Docker](https://www.docker.com/products/docker-desktop/) |
 | Visual Studio | Latest | [Download Visual Studio](https://visualstudio.microsoft.com/downloads/) |
 | Visual Studio Code | Latest | [Download VS Code](https://code.visualstudio.com/) |
@@ -53,26 +56,39 @@ You can find prompts that can be used to generate the project as well as automat
 ### 📦 Installation
 
 1. Clone the repository
-   ```
+
+   ```bash
    git clone https://github.com/Azure-Samples/octopets.git
    cd octopets
    ```
 
-2. Install the frontend dependencies
-   ```
+1. Install the frontend dependencies
+
+   ```bash
    cd frontend
    npm install
    cd ..
    ```
 
-3. Start the application using Aspire AppHost
-   ```
-   dotnet run --project apphost
-   ```
-   
-   Alternatively, open the `Octopets.sln` solution in Visual Studio and run the AppHost project.
+1. Login to GH (for uv package resolution)
 
-4. The Aspire dashboard will open in your browser, providing access to:
+    ```bash
+    gh auth login
+    ```
+
+1. Restore Python agent dependencies
+
+    ```bash
+    uv sync
+    ```
+
+1. Start the application using Aspire AppHost
+
+   ```bash
+   aspire run
+   ```
+
+1. The Aspire dashboard will open in your browser, providing access to:
    - Frontend application (React)
    - Backend API endpoints with Scalar UI
    - Distributed application monitoring
@@ -83,7 +99,7 @@ You can find prompts that can be used to generate the project as well as automat
 
 The application uses a modern distributed architecture powered by .NET Aspire:
 
-- **.NET Aspire AppHost**: Orchestrates all application components and provides:
+- **Aspire AppHost**: Orchestrates all application components and provides:
   - Service discovery and communication
   - Resource management
   - Environment configuration
@@ -137,6 +153,7 @@ var frontend = builder.AddDockerfile("octopets-frontend", "../frontend", "Docker
 ```
 
 This ensures that both the frontend and backend are synchronized in their use of mock data:
+
 - In development: Both use mock data
 - In production: Both use real data services
 

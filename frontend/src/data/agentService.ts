@@ -33,7 +33,7 @@ class AgentService {
       context
     };
 
-    const response = await fetch(`${this.baseUrl}/api/chat`, {
+    const response = await fetch(`${this.baseUrl}/agent/chat`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

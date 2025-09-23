@@ -32,18 +32,23 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddOpenApi();
 
 // Enable CORS for frontend
+var frontendUrl = builder.Configuration.GetValue<string>("FRONTEND_URL") ?? "http://localhost:3000";
 builder.Services.AddCors(options =>
 {
-    options.AddDefaultPolicy(builder =>
+    options.AddDefaultPolicy(corsBuilder =>
     {
-        builder.AllowAnyOrigin()
+        corsBuilder.WithOrigins(frontendUrl)
                .AllowAnyMethod()
-               .AllowAnyHeader();
+               .AllowAnyHeader()
+               .AllowCredentials();
     });
 });
 
 // Build the app
 var app = builder.Build();
+
+// Log CORS configuration
+app.Logger.LogInformation("CORS configured for frontend URL: {FrontendUrl}", frontendUrl);
 
 app.MapDefaultEndpoints();
 
