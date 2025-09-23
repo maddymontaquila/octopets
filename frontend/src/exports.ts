@@ -4,6 +4,7 @@ export { default as Navbar } from './components/Navbar';
 export { default as Footer } from './components/Footer';
 export { default as PawIcon } from './components/PawIcon';
 export { default as FeatureIcon } from './components/FeatureIcon';
+export { default as AgentChat } from './components/AgentChat';
 
 // Export all pages
 export { default as Home } from './pages/Home';

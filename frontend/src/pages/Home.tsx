@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { LISTING_TYPES, ROUTES } from '../data/constants';
 import { PET_TYPES } from '../data/constantsJsx';
+import AgentChat from '../components/AgentChat';
 import '../styles/Home.css';
 
 const Home: React.FC = () => {
@@ -65,6 +66,9 @@ const Home: React.FC = () => {
           <div className="hero-circle hero-circle-yellow"></div>
         </div>
       </section>
+
+      {/* Agent Chat Experience */}
+      <AgentChat />
 
       <section className="content">
         <section className="pet-types">

@@ -66,3 +66,16 @@ export type FormState = {
     website: string;
   };
 };
+
+export type ChatMessage = {
+  id: string;
+  content: string;
+  sender: 'user' | 'agent';
+  timestamp: Date;
+  isTyping?: boolean;
+};
+
+export type ChatState = {
+  messages: ChatMessage[];
+  isWaitingForResponse: boolean;
+};
