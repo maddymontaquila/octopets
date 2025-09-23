@@ -5,6 +5,7 @@ export { default as Footer } from './components/Footer';
 export { default as PawIcon } from './components/PawIcon';
 export { default as FeatureIcon } from './components/FeatureIcon';
 export { default as AgentChat } from './components/AgentChat';
+export { default as MarkdownMessage } from './components/MarkdownMessage';
 
 // Export all pages
 export { default as Home } from './pages/Home';
@@ -14,6 +15,7 @@ export { default as ListingDetails } from './pages/ListingDetails';
 // Export data and constants
 export * from './data/constants';
 export { DataService } from './data/dataService';
+export { agentService } from './data/agentService';
 
 // Export types
 export * from './types/types';

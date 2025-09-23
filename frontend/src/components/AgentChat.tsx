@@ -1,5 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { ChatMessage, ChatState } from '../types/types';
+import { agentService } from '../data/agentService';
+import MarkdownMessage from './MarkdownMessage';
 import '../styles/AgentChat.css';
 
 const AgentChat: React.FC = () => {
@@ -7,7 +9,7 @@ const AgentChat: React.FC = () => {
     messages: [
       {
         id: '1',
-        content: "Hi there! 🐾 I'm here to help you find the perfect pet-friendly spots for your furry friend! Tell me about your pet - what kind of animal do they have, what do they enjoy doing, and what are you looking for today?",
+        content: "Hi there! 🐾 I'm here to help you find the best pet-friendly spots for you and your furry friend! Tell me about your pet - what kind of animal do you have, what do they enjoy doing, and what are you looking for today?",
         sender: 'agent',
         timestamp: new Date(),
       }
@@ -17,6 +19,7 @@ const AgentChat: React.FC = () => {
 
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  const [apiError, setApiError] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
@@ -33,30 +36,20 @@ const AgentChat: React.FC = () => {
     scrollToBottom();
   }, [chatState.messages]);
 
-  const generateAgentResponse = (userMessage: string): string => {
-    const lowerMessage = userMessage.toLowerCase();
+  // Check API health on component mount
+  useEffect(() => {
+    const checkApiHealth = async () => {
+      try {
+        await agentService.checkHealth();
+        setApiError(null);
+      } catch (error) {
+        console.warn('Agent API not available, using fallback responses:', error);
+        setApiError('Agent service unavailable - using fallback responses');
+      }
+    };
     
-    // Test responses based on keywords
-    if (lowerMessage.includes('dog') || lowerMessage.includes('puppy')) {
-      return "🐕 That's awesome! Dogs love exploring new places. Are you looking for dog parks, pet-friendly restaurants, or maybe hiking trails? I can help you find spots where your pup can socialize and have fun!";
-    } else if (lowerMessage.includes('cat') || lowerMessage.includes('kitten')) {
-      return "🐱 Cats are wonderful companions! Are you looking for cat-friendly cafes, pet stores with climbing areas, or perhaps quiet outdoor spaces where your kitty can safely explore?";
-    } else if (lowerMessage.includes('bird') || lowerMessage.includes('parrot')) {
-      return "🦜 Birds are such intelligent companions! Are you interested in bird-friendly venues, pet stores with avian sections, or outdoor spaces where your feathered friend can enjoy fresh air safely?";
-    } else if (lowerMessage.includes('rabbit') || lowerMessage.includes('bunny')) {
-      return "🐰 Rabbits are adorable! I can help you find bunny-friendly spaces, pet stores with rabbit supplies, or quiet outdoor areas where your hoppy friend can safely explore.";
-    } else if (lowerMessage.includes('restaurant') || lowerMessage.includes('cafe') || lowerMessage.includes('food')) {
-      return "🍽️ Great choice! I can help you find pet-friendly restaurants and cafes where you and your companion can enjoy a meal together. What type of cuisine are you in the mood for?";
-    } else if (lowerMessage.includes('park') || lowerMessage.includes('outdoor') || lowerMessage.includes('walk')) {
-      return "🌳 Perfect! Outdoor activities are great for pets. I can suggest dog parks, hiking trails, beaches, and other outdoor spaces where pets are welcome. What kind of outdoor experience are you looking for?";
-    } else if (lowerMessage.includes('shop') || lowerMessage.includes('store') || lowerMessage.includes('supplies')) {
-      return "🛍️ Shopping for your pet! I can direct you to the best pet stores, grooming services, and pet-friendly retail locations. What do you need to pick up for your furry friend?";
-    } else if (lowerMessage.includes('hello') || lowerMessage.includes('hi') || lowerMessage.includes('hey')) {
-      return "Hello! 👋 I'm excited to help you discover amazing pet-friendly places. Tell me about your pet and what kind of adventure you're planning today!";
-    } else {
-      return "That sounds interesting! 🎯 Based on what you've told me, I can help you find the perfect pet-friendly venues. Would you like me to suggest some options, or do you have a specific type of place in mind? I can recommend restaurants, parks, shops, or other pet-welcoming spots!";
-    }
-  };
+    checkApiHealth();
+  }, []);
 
   const handleSendMessage = async () => {
     if (!inputValue.trim() || chatState.isWaitingForResponse) return;
@@ -77,13 +70,41 @@ const AgentChat: React.FC = () => {
     setInputValue('');
     setIsTyping(true);
 
-    // Simulate typing delay
-    setTimeout(() => {
+    try {
+      // Call the real agent API
+      const response = await agentService.sendMessage(userMessage.content, {
+        // Add any context you want to send to the agent
+        timestamp: new Date().toISOString(),
+        sessionId: 'frontend-session'
+      });
+
       setIsTyping(false);
       
       const agentResponse: ChatMessage = {
+        id: response.message.id,
+        content: response.message.content,
+        sender: 'agent',
+        timestamp: new Date(response.message.timestamp),
+      };
+
+      setChatState(prev => ({
+        messages: [...prev.messages, agentResponse],
+        isWaitingForResponse: false,
+      }));
+
+      // Clear any previous API errors
+      setApiError(null);
+
+    } catch (error) {
+      console.error('Error calling agent API:', error);
+      setIsTyping(false);
+      
+      // Fallback to mock response if API fails
+      const fallbackResponse = getFallbackResponse(userMessage.content);
+      
+      const agentResponse: ChatMessage = {
         id: (Date.now() + 1).toString(),
-        content: generateAgentResponse(userMessage.content),
+        content: fallbackResponse,
         sender: 'agent',
         timestamp: new Date(),
       };
@@ -92,7 +113,33 @@ const AgentChat: React.FC = () => {
         messages: [...prev.messages, agentResponse],
         isWaitingForResponse: false,
       }));
-    }, 1500 + Math.random() * 1000); // Random delay between 1.5-2.5 seconds
+
+      setApiError('Using fallback responses - agent service unavailable');
+    }
+  };
+
+  const getFallbackResponse = (userMessage: string): string => {
+    const lowerMessage = userMessage.toLowerCase();
+    
+    if (lowerMessage.includes('dog') || lowerMessage.includes('puppy')) {
+      return "🐕 That's awesome! Dogs love exploring new places. Are you looking for dog parks, pet-friendly restaurants, or maybe hiking trails? I can help you find spots where your pup can socialize and have fun!";
+    } else if (lowerMessage.includes('cat') || lowerMessage.includes('kitten')) {
+      return "🐱 Cats are wonderful companions! Are you looking for cat-friendly cafes, pet stores with climbing areas, or perhaps quiet outdoor spaces where your kitty can safely explore?";
+    } else if (lowerMessage.includes('bird') || lowerMessage.includes('parrot')) {
+      return "🦜 Birds are such intelligent companions! Are you interested in bird-friendly venues, pet stores with avian sections, or outdoor spaces where your feathered friend can enjoy fresh air safely?";
+    } else if (lowerMessage.includes('rabbit') || lowerMessage.includes('bunny')) {
+      return "🐰 Rabbits are adorable! I can help you find bunny-friendly spaces, pet stores with rabbit supplies, or quiet outdoor areas where your hoppy friend can safely explore.";
+    } else if (lowerMessage.includes('restaurant') || lowerMessage.includes('cafe') || lowerMessage.includes('food')) {
+      return "🍽️ Great choice! I can help you find pet-friendly restaurants and cafes where you and your companion can enjoy a meal together. What type of cuisine are you in the mood for?";
+    } else if (lowerMessage.includes('park') || lowerMessage.includes('outdoor') || lowerMessage.includes('walk')) {
+      return "🌳 Perfect! Outdoor activities are great for pets. I can suggest dog parks, hiking trails, beaches, and other outdoor spaces where pets are welcome. What kind of outdoor experience are you looking for?";
+    } else if (lowerMessage.includes('shop') || lowerMessage.includes('store') || lowerMessage.includes('supplies')) {
+      return "🛍️ Shopping for your pet! I can direct you to the best pet stores, grooming services, and pet-friendly retail locations. What do you need to pick up for your furry friend?";
+    } else if (lowerMessage.includes('hello') || lowerMessage.includes('hi') || lowerMessage.includes('hey')) {
+      return "Hello! 👋 I'm excited to help you discover amazing pet-friendly places. Tell me about your pet and what kind of adventure you're planning today!";
+    } else {
+      return "That sounds interesting! 🎯 Based on what you've told me, I can help you find the perfect pet-friendly venues. Would you like me to suggest some options, or do you have a specific type of place in mind? I can recommend restaurants, parks, shops, or other pet-welcoming spots!";
+    }
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -115,7 +162,10 @@ const AgentChat: React.FC = () => {
           </div>
           <div className="agent-info">
             <h3>Your Pet-Friendly Guide</h3>
-            <p>Tell me about your pet and I'll help you find perfect spots!</p>
+            <p>Tell me about your pet and I'll help you find the purrrrfect spot!</p>
+            {apiError && (
+              <small className="api-status-warning">⚠️ {apiError}</small>
+            )}
           </div>
         </div>
         
@@ -126,7 +176,11 @@ const AgentChat: React.FC = () => {
               className={`message ${message.sender === 'user' ? 'user-message' : 'agent-message'}`}
             >
               <div className="message-content">
-                {message.content}
+                {message.sender === 'agent' ? (
+                  <MarkdownMessage content={message.content} />
+                ) : (
+                  message.content
+                )}
               </div>
               <div className="message-timestamp">
                 {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}

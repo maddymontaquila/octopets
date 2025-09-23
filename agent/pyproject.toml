@@ -1,0 +1,28 @@
+[project]
+name = "agent"
+version = "0.1.0"
+description = "FastAPI agent server for Octopets chat experience"
+readme = "README.md"
+authors = [
+    { name = "Octopets Team" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi>=0.104.1",
+    "uvicorn[standard]>=0.24.0",
+    "pydantic>=2.5.0",
+    "python-multipart>=0.0.6",
+    "azure-ai-projects>=1.0.0",
+    "azure-identity>=1.15.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-asyncio>=0.21.0",
+    "httpx>=0.25.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
