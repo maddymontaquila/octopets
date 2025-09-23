@@ -2,7 +2,6 @@ import { appConfig } from '../config/appConfig';
 
 export interface AgentChatRequest {
   message: string;
-  conversation_id?: string;
   context?: Record<string, any>;
 }
 
@@ -14,13 +13,11 @@ export interface AgentChatResponse {
     timestamp: string;
     isTyping?: boolean;
   };
-  conversation_id: string;
   suggestions?: string[];
 }
 
 class AgentService {
   private baseUrl: string;
-  private conversationId: string | null = null;
 
   constructor() {
     this.baseUrl = appConfig.agentApiUrl;
@@ -29,7 +26,6 @@ class AgentService {
   async sendMessage(message: string, context?: Record<string, any>): Promise<AgentChatResponse> {
     const request: AgentChatRequest = {
       message,
-      conversation_id: this.conversationId || undefined,
       context
     };
 
@@ -47,9 +43,6 @@ class AgentService {
 
     const data: AgentChatResponse = await response.json();
     
-    // Store conversation ID for future messages
-    this.conversationId = data.conversation_id;
-    
     return data;
   }
 
@@ -61,10 +54,6 @@ class AgentService {
     }
     
     return response.json();
-  }
-
-  clearConversation(): void {
-    this.conversationId = null;
   }
 
   getBaseUrl(): string {

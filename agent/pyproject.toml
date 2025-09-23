@@ -14,7 +14,7 @@ dependencies = [
     "python-multipart>=0.0.6",
     "azure-ai-projects>=1.0.0",
     "azure-identity>=1.15.0",
-    "agent-framework[azure]", # or [azure,foundry]
+    "agent-framework[foundry]"
 ]
 
 [project.optional-dependencies]
