@@ -14,7 +14,12 @@ from agent_framework import ChatAgent
 from agent_framework.foundry import FoundryChatClient
 from azure.core.exceptions import AzureError
 
-
+# OpenTelemetry imports
+from opentelemetry import trace
+from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import OTLPSpanExporter
+from opentelemetry.sdk.trace import TracerProvider
+from opentelemetry.sdk.trace.export import BatchSpanProcessor
+from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -83,6 +88,14 @@ app.add_middleware(
     allow_methods=["GET", "POST", "DELETE"],
     allow_headers=["*"],
 )
+
+# Instrument FastAPI with OpenTelemetry
+trace.set_tracer_provider(TracerProvider())
+otlpExporter = OTLPSpanExporter(endpoint=os.environ.get("OTEL_EXPORTER_OTLP_ENDPOINT"))
+processor = BatchSpanProcessor(otlpExporter)
+trace.get_tracer_provider().add_span_processor(processor)
+
+FastAPIInstrumentor().instrument_app(app)
 
 
 @app.get("/")
