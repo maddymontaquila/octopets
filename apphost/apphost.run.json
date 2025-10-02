@@ -11,7 +11,9 @@
         "DOTNET_ENVIRONMENT": "Development",
         "ASPIRE_DASHBOARD_OTLP_ENDPOINT_URL": "http://localhost:19197",
         "ASPIRE_RESOURCE_SERVICE_ENDPOINT_URL": "http://localhost:20111",
-        "ASPIRE_ALLOW_UNSECURED_TRANSPORT": "true"
+        "ASPIRE_ALLOW_UNSECURED_TRANSPORT": "true",
+        "AGENT_ID": "asst_C6zoM897AY7d6S7N6Ttk0WUr",
+        "AZURE_AI_ENDPOINT": "https://nextgentesting123-resource.services.ai.azure.com/api/projects/nextgentesting123",
       }
     },
     "https": {
@@ -23,7 +25,9 @@
         "ASPNETCORE_ENVIRONMENT": "Development",
         "DOTNET_ENVIRONMENT": "Development",
         "ASPIRE_DASHBOARD_OTLP_ENDPOINT_URL": "https://localhost:21131",
-        "ASPIRE_RESOURCE_SERVICE_ENDPOINT_URL": "https://localhost:22016"
+        "ASPIRE_RESOURCE_SERVICE_ENDPOINT_URL": "https://localhost:22016",
+        "AGENT_ID": "asst_C6zoM897AY7d6S7N6Ttk0WUr",
+        "AZURE_AI_ENDPOINT": "https://nextgentesting123-resource.services.ai.azure.com/api/projects/nextgentesting123",
       }
     }
   }

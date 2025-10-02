@@ -11,15 +11,15 @@ var builder = DistributedApplication.CreateBuilder(args);
 var foundryProject = builder.AddParameter("FoundryProjectUrl");
 var foundryAgentId = builder.AddParameter("FoundryAgentId");
 
-var foundryResource = builder.AddParameter("FoundryResource", value: "octopets-foundry");
-var foundryRG = builder.AddParameter("FoundryRG", value: "rg-octopets-demo");
+// var foundryResource = builder.AddParameter("FoundryResource", value: "octopets-foundry");
+// var foundryRG = builder.AddParameter("FoundryRG", value: "rg-octopets-demo");
 
-var foundry = builder.AddAzureAIFoundry("foundry-agent")
-    .AsExisting(foundryResource, foundryRG)
-    .WithIconName("Sparkle");
+// var foundry = builder.AddAzureAIFoundry("foundry-agent")
+//     .AsExisting(foundryResource, foundryRG)
+//     .WithIconName("Sparkle");
 
-foundryResource.WithParentRelationship(foundry);
-foundryRG.WithParentRelationship(foundry);
+// foundryResource.WithParentRelationship(foundry);
+// foundryRG.WithParentRelationship(foundry);
 
 var api = builder.AddProject<Projects.Octopets_Backend>("api")
     .WithEnvironment("ERRORS", builder.ExecutionContext.IsPublishMode ? "true" : "false")
@@ -29,7 +29,7 @@ var agent = builder.AddUvApp("python-agent-chat", "../agent", "agent.py")
     .WithHttpEndpoint(env: "PORT")
     .WithEnvironment("AZURE_AI_ENDPOINT", foundryProject)
     .WithEnvironment("AGENT_ID", foundryAgentId)
-    .WithReference(foundry)
+//    .WithReference(foundry)
     .WithIconName("ChatEmpty")
     .WithOtlpExporter();
 
