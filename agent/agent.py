@@ -7,12 +7,28 @@ import uuid
 import logging
 import os
 
-# Azure AI imports
-from azure.ai.projects.aio import AIProjectClient
-from azure.identity.aio import DefaultAzureCredential
-from agent_framework import ChatAgent
-from agent_framework.foundry import FoundryChatClient
-from azure.core.exceptions import AzureError
+# Try to import Azure AI and agent-framework, but provide fallback if unavailable
+try:
+    from azure.ai.projects.aio import AIProjectClient
+    from azure.identity.aio import DefaultAzureCredential
+    from azure.core.exceptions import AzureError
+    AZURE_AI_AVAILABLE = True
+except ImportError as e:
+    logging.warning(f"Azure AI libraries not available: {e}")
+    AIProjectClient = None
+    DefaultAzureCredential = None
+    AzureError = Exception
+    AZURE_AI_AVAILABLE = False
+
+try:
+    from agent_framework import ChatAgent
+    from agent_framework_azure_ai import AzureAIAgentClient
+    AGENT_FRAMEWORK_AVAILABLE = True
+except ImportError as e:
+    logging.warning(f"agent-framework not available: {e}")
+    ChatAgent = None
+    AzureAIAgentClient = None
+    AGENT_FRAMEWORK_AVAILABLE = False
 
 # OpenTelemetry imports
 from opentelemetry import trace
@@ -34,8 +50,8 @@ FRONTEND_URL = os.environ.get("FRONTEND_URL", "http://localhost:3000")
 cors_origins = [origin.strip() for origin in FRONTEND_URL.split(",")]
 logger.info(f"CORS origins configured: {cors_origins}")
 
-# In-memory storage for conversations and ChatAgent
-chat_agent: Optional[ChatAgent] = None
+# Global state for ChatAgent
+chat_agent = None
 
 # Pydantic models for API
 class ChatMessage(BaseModel):
@@ -56,27 +72,45 @@ class ChatResponse(BaseModel):
 ai_client = None
 
 async def init_azure_client():
+    """Initialize Azure AI client if credentials are available"""
     global ai_client
-    if not ai_client:
-        try:
-            ai_client = AIProjectClient(
-                credential=DefaultAzureCredential(),
-                endpoint=AZURE_AI_ENDPOINT
-            )
-            logger.info("Azure AI client initialized successfully")
-        except Exception as e:
-            logger.error(f"Failed to initialize Azure AI client: {e}")
-            ai_client = None
+    if not AZURE_AI_ENDPOINT:
+        logger.info("Azure AI not configured. Using fallback mode.")
+        return
+    
+    try:
+        ai_client = AIProjectClient(
+            credential=DefaultAzureCredential(),
+            endpoint=AZURE_AI_ENDPOINT
+        )
+        logger.info("Azure AI client initialized successfully")
+    except Exception as e:
+        logger.warning(f"Failed to initialize Azure AI client: {e}")
+        ai_client = None
 
 # Initialize ChatAgent
 async def init_chat_agent():
+    """Initialize ChatAgent with Azure AI"""
     global chat_agent
-    if not chat_agent and ai_client:
+    if not ai_client or not AGENT_ID or not AGENT_FRAMEWORK_AVAILABLE:
+        logger.info("Azure AI or agent-framework not configured. Agent will use fallback responses.")
+        chat_agent = None
+        return
+    
+    try:
+        # Use AzureAIAgentClient with Azure AI Projects
+        chat_client = AzureAIAgentClient(
+            project_client=ai_client,
+            agent_id=AGENT_ID
+        )
         chat_agent = ChatAgent(
-            chat_client=FoundryChatClient(client=ai_client, agent_id=AGENT_ID),
+            chat_client=chat_client,
             instructions="You are a helpful pet-friendly venue assistant for Octopets. Help users find pet-friendly venues, provide pet care advice, and make recommendations based on their needs. Be friendly, informative, and focus on pet-related topics. When users ask about dogs, cats, or other pets, provide helpful suggestions for venues, activities, and care tips."
         )
         logger.info("ChatAgent initialized successfully")
+    except Exception as e:
+        logger.warning(f"Failed to initialize ChatAgent: {e}")
+        chat_agent = None
 
 app = FastAPI(title="Octopets Agent API", version="1.0.0")
 

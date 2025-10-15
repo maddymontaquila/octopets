@@ -2,6 +2,7 @@
 #:package Aspire.Hosting.NodeJs@9.6.0-preview.1.25473.9
 #:package Aspire.Hosting.Azure.ApplicationInsights@9.6.0-preview.1.25473.9
 #:package Aspire.Hosting.Azure.AIFoundry@9.6.0-preview.1.25474.8
+#:package Aspire.Hosting.Redis@9.6.0-preview.1.25473.9
 #:project ../backend/Octopets.Backend.csproj
 #:sdk Aspire.AppHost.Sdk@9.6.0-preview.1.25473.9
 #pragma warning disable
@@ -21,7 +22,11 @@ var foundry = builder.AddAzureAIFoundry("foundry-agent")
 foundryResource.WithParentRelationship(foundry);
 foundryRG.WithParentRelationship(foundry);
 
+// Add Redis cache
+var redis = builder.AddRedis("cache");
+
 var api = builder.AddProject<Projects.Octopets_Backend>("api")
+    .WithReference(redis)
     .WithEnvironment("ERRORS", builder.ExecutionContext.IsPublishMode ? "true" : "false")
     .WithEnvironment("ENABLE_CRUD", builder.ExecutionContext.IsPublishMode ? "false" : "true");
 
