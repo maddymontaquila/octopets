@@ -30,25 +30,29 @@
 
 .listing-card {
   background-color: var(--neutral-100);
-  border-radius: 20px;
+  border-radius: 16px;
   overflow: hidden;
   position: relative;
   display: flex;
   flex-direction: column;
-  border: 1px solid var(--neutral-900);
+  border: 1px solid var(--neutral-300);
   text-decoration: none;
   height: fit-content;
   padding: 12px;
   gap: 8px;
+  transition: all 0.2s ease;
 }
 
-/* No hover effect as requested - no motion */
+.listing-card:hover {
+  border-color: var(--neutral-400);
+  background: var(--neutral-200);
+}
 
 .listing-image {
   height: 200px;
   overflow: hidden;
   position: relative;
-  border-radius: 12px;
+  border-radius: 8px;
 }
 
 .listing-image img {

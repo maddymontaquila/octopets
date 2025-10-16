@@ -68,23 +68,37 @@ const Home: React.FC = () => {
 
       <section className="content">
         <section className="pet-types">
-          <div className="section-header">
-            <h2>Find places for your pets</h2>
-            <p>We make finding pet-friendly places easy and fun</p>
-          </div>
-          <div className="pet-types-grid">
-            {PET_TYPES.map(pet => (
-              <Link
-                to={`${ROUTES.LISTINGS}?petType=${pet.id}`}
-                key={pet.id}
-                className="pet-type-card"
-              >
-                <div className="pet-circle">
-                  <span className="pet-icon">{pet.icon}</span>
-                </div>
-                <h3>{pet.name}</h3>
-              </Link>
-            ))}
+          <div className="pet-types-wrapper">
+            <div className="pet-types-content">
+              <div className="section-header" style={{ textAlign: 'left', marginBottom: '32px' }}>
+                <h2>Find places for your pets</h2>
+                <p>Browse venues by the type of companion you're bringing along.</p>
+              </div>
+              <div className="pet-types-grid">
+                {PET_TYPES.map(pet => (
+                  <Link
+                    to={`${ROUTES.LISTINGS}?petType=${pet.id}`}
+                    key={pet.id}
+                    className="pet-type-card"
+                  >
+                    <div className="pet-circle">
+                      <span className="pet-icon">{pet.icon}</span>
+                    </div>
+                    <h3>{pet.name}</h3>
+                  </Link>
+                ))}
+              </div>
+            </div>
+            <div className="pet-types-illustration">
+              <div className="pet-emoji-group">
+                <span>🐶</span>
+                <span>🐱</span>
+                <span>🐰</span>
+                <span>🐦</span>
+                <span>🐢</span>
+                <span>🐹</span>
+              </div>
+            </div>
           </div>
         </section>        <section className="why-section">
           {/* Floating polaroid photos container */}

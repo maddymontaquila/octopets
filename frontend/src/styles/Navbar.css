@@ -1,6 +1,6 @@
 .navbar {
-  background: var(--neutral-900);
-  height: var(--header-height, 52px);
+  background: var(--neutral-100);
+  height: var(--header-height, 60px);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -9,7 +9,8 @@
   left: 0;
   right: 0;
   z-index: var(--z-index-sticky, 100);
-  color: var(--neutral-100);
+  color: var(--neutral-900);
+  border-bottom: 1px solid var(--neutral-300);
 }
 
 .navbar-container {
@@ -30,16 +31,16 @@
 .navbar-logo {
   display: flex;
   align-items: center;
-  color: var(--neutral-100);
+  color: var(--neutral-900);
   text-decoration: none;
   padding: 10px;
 }
 
 .logo-text {
-  color: var(--neutral-100);
+  color: var(--neutral-900);
   font-family: var(--font-family-base);
-  font-weight: 700;
-  font-size: 24px;
+  font-weight: 600;
+  font-size: 20px;
 }
 
 .nav-menu {
@@ -57,19 +58,16 @@
 
 .nav-link {
   display: inline-block;
-  color: var(--neutral-100);
+  color: var(--neutral-600);
   text-decoration: none;
   font-family: var(--font-family-base);
-  font-weight: 500; /* Reduced from 600 to 500 for better balance */
-  font-size: 14px;
-  letter-spacing: -0.03em;
-  transition: opacity var(--transition-normal, 0.3s);
+  font-weight: 500;
+  font-size: 15px;
+  transition: color 0.2s ease;
 }
 
 .nav-link:hover {
-  color: var(--neutral-100);
-  opacity: 0.8;
-  text-decoration: none;
+  color: var(--neutral-900);
 }
 
 .navbar-right {
@@ -79,24 +77,21 @@
 }
 
 .btn.btn-primary {
-  background-color: var(--neutral-100);
-  color: var(--neutral-900);
+  background-color: var(--neutral-900);
+  color: var(--neutral-100);
   font-family: var(--font-family-base);
-  font-weight: 700;
+  font-weight: 500;
   font-size: 14px;
-  padding: 8px 12px;
-  border-radius: 20px;
+  padding: 8px 16px;
+  border-radius: 8px;
   border: none;
   cursor: pointer;
-  transition: background-color var(--transition-normal, 0.3s);
+  transition: background-color 0.2s ease;
   text-decoration: none;
 }
 
-.nav-link:hover {
-  color: white;
-  opacity: 1;
-  background-color: rgba(255, 255, 255, 0.1);
-  text-decoration: none;
+.btn.btn-primary:hover {
+  background-color: var(--neutral-800);
 }
 
 .nav-link.active {

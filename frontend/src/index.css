@@ -78,25 +78,12 @@ p {
 a {
   color: var(--primary-600);
   text-decoration: none;
-  transition: all var(--transition-normal);
-  position: relative;
+  transition: color 0.15s ease;
   font-weight: var(--font-weight-medium);
 }
 
 a:hover {
   color: var(--primary-700);
-  text-decoration: none;
-}
-
-a:not(.btn):not(.nav-link):not(.navbar-logo):not(.card):not(.pet-type-card):not(.venue-type-card):after {
-  content: '';
-  position: absolute;
-  width: 0;
-  height: 2px;
-  bottom: -2px;
-  left: 0;
-  background-color: var(--primary-600);
-  transition: width var(--transition-normal);
 }
 
 a:not(.btn):not(.nav-link):not(.navbar-logo):not(.card):not(.pet-type-card):not(.venue-type-card):hover:after {
