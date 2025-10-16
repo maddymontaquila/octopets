@@ -90,7 +90,12 @@ async def init_azure_client():
 
 # Initialize ChatAgent
 async def init_chat_agent():
-    """Initialize ChatAgent with Azure AI"""
+    """Initialize ChatAgent with Azure AI
+    
+    Note: When using an existing agent_id, the agent's tools and instructions
+    are already configured in AI Foundry. We don't override them here to ensure
+    the agent uses the tools and instructions defined in the portal.
+    """
     global chat_agent
     if not ai_client or not AGENT_ID or not AGENT_FRAMEWORK_AVAILABLE:
         logger.info("Azure AI or agent-framework not configured. Agent will use fallback responses.")
@@ -99,15 +104,19 @@ async def init_chat_agent():
     
     try:
         # Use AzureAIAgentClient with Azure AI Projects
+        # When agent_id is provided, it will use the agent configuration from AI Foundry
+        # including tools and instructions defined in the portal
         chat_client = AzureAIAgentClient(
             project_client=ai_client,
             agent_id=AGENT_ID
         )
+        
+        # Create ChatAgent without overriding instructions or tools
+        # This ensures the agent uses the configuration from AI Foundry portal
         chat_agent = ChatAgent(
-            chat_client=chat_client,
-            instructions="You are a helpful pet-friendly venue assistant for Octopets. Help users find pet-friendly venues, provide pet care advice, and make recommendations based on their needs. Be friendly, informative, and focus on pet-related topics. When users ask about dogs, cats, or other pets, provide helpful suggestions for venues, activities, and care tips."
+            chat_client=chat_client
         )
-        logger.info("ChatAgent initialized successfully")
+        logger.info("ChatAgent initialized successfully with AI Foundry configuration")
     except Exception as e:
         logger.warning(f"Failed to initialize ChatAgent: {e}")
         chat_agent = None
