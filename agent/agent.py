@@ -42,7 +42,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # Configuration from environment variables
-AZURE_AI_ENDPOINT = os.environ.get("AZURE_AI_ENDPOINT")
+AZURE_AI_ENDPOINT = os.environ.get("AZURE_OPENAI_ENDPOINT")
 AGENT_ID = os.environ.get("AGENT_ID")
 FRONTEND_URL = os.environ.get("FRONTEND_URL", "http://localhost:3000")
 

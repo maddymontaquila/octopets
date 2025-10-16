@@ -1,0 +1,35 @@
+[project]
+name = "pet-sitter-agent"
+version = "0.1.0"
+description = "AI-powered pet sitter recommendation API"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "agent-framework-core",
+    "agent-framework-azure-ai",
+    "azure-identity",
+    "fastapi>=0.104.1",
+    "uvicorn[standard]>=0.24.0",
+    "pydantic>=2.5.0",
+    "python-dotenv",
+    "opentelemetry-api>=1.33.0",
+    "opentelemetry-exporter-otlp-proto-grpc>=1.33.0",
+    "opentelemetry-instrumentation-fastapi>=0.54b0",
+    "opentelemetry-sdk>=1.33.0",
+    "grpcio>=1.50.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.uv]
+# Allow pre-release versions (required for agent-framework-azure-ai)
+prerelease = "allow"
+
+[tool.uv.sources]
+agent-framework-core = { git = "https://github.com/microsoft/agent-framework.git", subdirectory = "python/packages/core" }
+agent-framework-azure-ai = { git = "https://github.com/microsoft/agent-framework.git", subdirectory = "python/packages/azure-ai" }
+
+[dependency-groups]
+dev = []
