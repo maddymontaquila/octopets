@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { ChatMessage, ChatState } from '../types/types';
-import { agentService } from '../data/agentService';
+import { agentService, AgentType } from '../data/agentService';
 import MarkdownMessage from './MarkdownMessage';
 import '../styles/AgentChat.css';
 
@@ -72,11 +72,15 @@ const AgentChat: React.FC = () => {
 
     try {
       // Call the real agent API
-      const response = await agentService.sendMessage(userMessage.content, {
-        // Add any context you want to send to the agent
-        timestamp: new Date().toISOString(),
-        sessionId: 'frontend-session'
-      });
+      const response = await agentService.sendMessage(
+        userMessage.content,
+        AgentType.ORCHESTRATOR,
+        {
+          // Add any context you want to send to the agent
+          timestamp: new Date().toISOString(),
+          sessionId: 'frontend-session'
+        }
+      );
 
       setIsTyping(false);
       

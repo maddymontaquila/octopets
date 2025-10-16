@@ -43,7 +43,7 @@ logger = logging.getLogger(__name__)
 
 # Configuration from environment variables
 # Azure AI Foundry project endpoint (not AZURE_OPENAI_ENDPOINT)
-AZURE_AI_ENDPOINT = os.environ.get("AZURE_AI_ENDPOINT")
+AZURE_OPENAI_ENDPOINT = os.environ.get("AZURE_OPENAI_ENDPOINT")
 AGENT_ID = os.environ.get("AGENT_ID")
 FRONTEND_URL = os.environ.get("FRONTEND_URL", "http://localhost:3000")
 
@@ -76,10 +76,10 @@ async def init_azure_client():
     """Initialize Azure AI client if credentials are available"""
     global ai_client
     print(f"🔍 Starting Azure AI client initialization...")
-    print(f"🔍 AZURE_AI_ENDPOINT: {AZURE_AI_ENDPOINT}")
+    print(f"🔍 AZURE_OPENAI_ENDPOINT: {AZURE_OPENAI_ENDPOINT}")
     print(f"🔍 AGENT_ID: {AGENT_ID}")
     
-    if not AZURE_AI_ENDPOINT:
+    if not AZURE_OPENAI_ENDPOINT:
         print("Azure AI not configured. Using fallback mode.")
         return
     
@@ -88,9 +88,9 @@ async def init_azure_client():
         print("🔍 Attempting connection string initialization...")
         ai_client = AIProjectClient.from_connection_string(
             credential=DefaultAzureCredential(),
-            conn_str=AZURE_AI_ENDPOINT
+            conn_str=AZURE_OPENAI_ENDPOINT
         )
-        print(f"✓ Azure AI client initialized successfully for endpoint: {AZURE_AI_ENDPOINT}")
+        print(f"✓ Azure AI client initialized successfully for endpoint: {AZURE_OPENAI_ENDPOINT}")
     except Exception as e:
         # Fallback to direct endpoint if connection string doesn't work
         logger.warning(f"Connection string failed: {e}")
@@ -98,9 +98,9 @@ async def init_azure_client():
             print("🔍 Attempting direct endpoint initialization...")
             ai_client = AIProjectClient(
                 credential=DefaultAzureCredential(),
-                endpoint=AZURE_AI_ENDPOINT
+                endpoint=AZURE_OPENAI_ENDPOINT
             )
-            print(f"✓ Azure AI client initialized with direct endpoint: {AZURE_AI_ENDPOINT}")
+            print(f"✓ Azure AI client initialized with direct endpoint: {AZURE_OPENAI_ENDPOINT}")
         except Exception as e2:
             print(f"❌ Failed to initialize Azure AI client: {e}, {e2}")
             ai_client = None
