@@ -5,6 +5,7 @@ export { default as Footer } from './components/Footer';
 export { default as PawIcon } from './components/PawIcon';
 export { default as FeatureIcon } from './components/FeatureIcon';
 export { default as AgentChat } from './components/AgentChat';
+export { default as FloatingChatWidget } from './components/FloatingChatWidget';
 export { default as MarkdownMessage } from './components/MarkdownMessage';
 
 // Export all pages
