@@ -483,3 +483,6 @@ $RECYCLE.BIN/
 # Vim temporary swap files
 *.swp
 .azure
+
+# Agent framework feedback (internal documentation)
+AGENT_FRAMEWORK_FEEDBACK.md

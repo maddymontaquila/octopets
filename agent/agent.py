@@ -42,7 +42,8 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # Configuration from environment variables
-AZURE_AI_ENDPOINT = os.environ.get("AZURE_OPENAI_ENDPOINT")
+# Azure AI Foundry project endpoint (not AZURE_OPENAI_ENDPOINT)
+AZURE_AI_ENDPOINT = os.environ.get("AZURE_AI_ENDPOINT")
 AGENT_ID = os.environ.get("AGENT_ID")
 FRONTEND_URL = os.environ.get("FRONTEND_URL", "http://localhost:3000")
 
@@ -74,19 +75,35 @@ ai_client = None
 async def init_azure_client():
     """Initialize Azure AI client if credentials are available"""
     global ai_client
+    print(f"🔍 Starting Azure AI client initialization...")
+    print(f"🔍 AZURE_AI_ENDPOINT: {AZURE_AI_ENDPOINT}")
+    print(f"🔍 AGENT_ID: {AGENT_ID}")
+    
     if not AZURE_AI_ENDPOINT:
-        logger.info("Azure AI not configured. Using fallback mode.")
+        print("Azure AI not configured. Using fallback mode.")
         return
     
     try:
-        ai_client = AIProjectClient(
+        # Initialize AIProjectClient with the AI Foundry project endpoint
+        print("🔍 Attempting connection string initialization...")
+        ai_client = AIProjectClient.from_connection_string(
             credential=DefaultAzureCredential(),
-            endpoint=AZURE_AI_ENDPOINT
+            conn_str=AZURE_AI_ENDPOINT
         )
-        logger.info("Azure AI client initialized successfully")
+        print(f"✓ Azure AI client initialized successfully for endpoint: {AZURE_AI_ENDPOINT}")
     except Exception as e:
-        logger.warning(f"Failed to initialize Azure AI client: {e}")
-        ai_client = None
+        # Fallback to direct endpoint if connection string doesn't work
+        logger.warning(f"Connection string failed: {e}")
+        try:
+            print("🔍 Attempting direct endpoint initialization...")
+            ai_client = AIProjectClient(
+                credential=DefaultAzureCredential(),
+                endpoint=AZURE_AI_ENDPOINT
+            )
+            print(f"✓ Azure AI client initialized with direct endpoint: {AZURE_AI_ENDPOINT}")
+        except Exception as e2:
+            print(f"❌ Failed to initialize Azure AI client: {e}, {e2}")
+            ai_client = None
 
 # Initialize ChatAgent
 async def init_chat_agent():
@@ -97,8 +114,13 @@ async def init_chat_agent():
     the agent uses the tools and instructions defined in the portal.
     """
     global chat_agent
+    print("🔍 Starting ChatAgent initialization...")
+    print(f"🔍 ai_client is None: {ai_client is None}")
+    print(f"🔍 AGENT_ID: {AGENT_ID}")
+    print(f"🔍 AGENT_FRAMEWORK_AVAILABLE: {AGENT_FRAMEWORK_AVAILABLE}")
+    
     if not ai_client or not AGENT_ID or not AGENT_FRAMEWORK_AVAILABLE:
-        logger.info("Azure AI or agent-framework not configured. Agent will use fallback responses.")
+        print("⚠️ Azure AI or agent-framework not configured. Agent will use fallback responses.")
         chat_agent = None
         return
     
@@ -106,19 +128,71 @@ async def init_chat_agent():
         # Use AzureAIAgentClient with Azure AI Projects
         # When agent_id is provided, it will use the agent configuration from AI Foundry
         # including tools and instructions defined in the portal
+        logger.info(f"Initializing AzureAIAgentClient with agent_id: {AGENT_ID}")
+        
         chat_client = AzureAIAgentClient(
             project_client=ai_client,
             agent_id=AGENT_ID
         )
         
+        # Log agent definition to verify tools are loaded
+        print("🔍 Attempting to retrieve agent definition for diagnostics...")
+        try:
+            # Retrieve agent definition directly from AI Projects API
+            print(f"🔍 Calling ai_client.agents.get_agent({AGENT_ID})...")
+            agent_def = await ai_client.agents.get_agent(AGENT_ID)
+            print(f"🔍 Agent definition retrieved: {type(agent_def)}")
+            if agent_def:
+                print(f"✓ Agent definition loaded: {agent_def.name}")
+                print(f"✓ Agent model: {agent_def.model}")
+                if hasattr(agent_def, 'instructions') and agent_def.instructions:
+                    print(f"✓ Agent instructions: {agent_def.instructions[:100]}...")
+                if hasattr(agent_def, 'tools') and agent_def.tools:
+                    print(f"✓ Agent has {len(agent_def.tools)} tools configured:")
+                    for i, tool in enumerate(agent_def.tools):
+                        tool_type = type(tool).__name__
+                        print(f"  - Tool {i+1}: {tool_type}")
+                        if hasattr(tool, 'function'):
+                            func = tool.function
+                            if hasattr(func, 'name'):
+                                print(f"    Function name: {func.name}")
+                            if hasattr(func, 'description'):
+                                print(f"    Description: {func.description}")
+                else:
+                    print("⚠️ No tools configured in AI Foundry agent")
+                
+                # Check tool_resources for file search vector stores
+                if hasattr(agent_def, 'tool_resources') and agent_def.tool_resources:
+                    print(f"✓ Agent has tool_resources configured")
+                    tool_res = agent_def.tool_resources
+                    if hasattr(tool_res, 'file_search') and tool_res.file_search:
+                        print(f"  - File search resources found")
+                        if hasattr(tool_res.file_search, 'vector_store_ids'):
+                            vector_store_ids = tool_res.file_search.vector_store_ids
+                            if vector_store_ids:
+                                print(f"  - Vector store IDs: {vector_store_ids}")
+                            else:
+                                print(f"  ⚠️ No vector store IDs in file search resources!")
+                    else:
+                        print(f"  ⚠️ No file_search in tool_resources")
+                else:
+                    print("⚠️ No tool_resources configured in agent")
+            else:
+                print("⚠️ No agent definition found (returned None)")
+        except Exception as diag_e:
+            print(f"❌ Could not retrieve agent definition for diagnostics: {diag_e}")
+            import traceback
+            traceback.print_exc()
+        
         # Create ChatAgent without overriding instructions or tools
-        # This ensures the agent uses the configuration from AI Foundry portal
+        # The AzureAIAgentClient will automatically use the tools and instructions
+        # from the AI Foundry agent definition
         chat_agent = ChatAgent(
             chat_client=chat_client
         )
-        logger.info("ChatAgent initialized successfully with AI Foundry configuration")
+        print("✓ ChatAgent initialized successfully with AI Foundry configuration")
     except Exception as e:
-        logger.warning(f"Failed to initialize ChatAgent: {e}")
+        logger.error(f"✗ Failed to initialize ChatAgent: {e}", exc_info=True)
         chat_agent = None
 
 app = FastAPI(title="Octopets Agent API", version="1.0.0")
@@ -191,27 +265,60 @@ async def chat_with_agent(request: ChatRequest):
 # Agent logic functions using ChatAgent
 async def generate_agent_response(user_message: str) -> str:
     """
-    Generate agent response using ChatAgent framework.
+    Generate agent response using Azure AI Agents SDK directly to ensure file search works.
     
-    Simple approach matching the sample - just pass the message to the agent
-    and let it handle conversation state internally.
+    The ChatAgent framework abstraction may not properly invoke file search tools,
+    so we use the lower-level agents API directly.
     """
-    if not chat_agent:
-        logger.warning("ChatAgent not available, falling back to placeholder response")
+    if not ai_client or not AGENT_ID:
+        logger.warning("Agent not available, falling back to placeholder response")
         return "Agent not connected"
     
     try:
-        # Use the ChatAgent to generate a response - it handles conversation state internally
-        result = await chat_agent.run(user_message)
+        print(f"🔍 Sending message to agent: {user_message[:100]}...")
         
-        # Extract the actual response content from the AgentRunResponse object
-        response_content = result.text
+        # Create a thread for this conversation
+        thread = await ai_client.agents.threads.create()
+        print(f"✓ Created thread: {thread.id}")
         
-        logger.info(f"Received agent response: {response_content[:100]}...")
-        return response_content
+        # Create a message in the thread
+        message = await ai_client.agents.messages.create(
+            thread_id=thread.id,
+            role="user",
+            content=user_message
+        )
+        print(f"✓ Created message: {message.id}")
+        
+        # Run the agent - this will invoke file search automatically
+        run = await ai_client.agents.runs.create_and_process(
+            thread_id=thread.id,
+            agent_id=AGENT_ID
+        )
+        print(f"✓ Run completed with status: {run.status}")
+        
+        if run.status == "failed":
+            print(f"❌ Run failed: {run.last_error}")
+            return "I encountered an error processing your request."
+        
+        # Get the agent's response messages
+        messages = []
+        async for msg in ai_client.agents.messages.list(thread_id=thread.id):
+            messages.append(msg)
+        
+        # Get the latest assistant message
+        for msg in messages:
+            if msg.role == "assistant" and msg.text_messages:
+                response_content = msg.text_messages[-1].text.value
+                print(f"✓ Agent response received ({len(response_content)} chars)")
+                return response_content
+        
+        return "I couldn't generate a response. Please try again."
         
     except Exception as e:
-        logger.error(f"Error in ChatAgent response: {e}")
+        logger.error(f"Error in agent response: {e}")
+        print(f"❌ Error in agent response: {e}")
+        import traceback
+        traceback.print_exc()
         return "Agent not connected"
 
 if __name__ == "__main__":
