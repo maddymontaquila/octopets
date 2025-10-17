@@ -57,10 +57,10 @@ const heroPets: { [key: string]: PetInfo } = {
   },
   bunny: {
     image: '/images/pets/bunny.jpg',
-    name: 'Cotton',
+    name: 'Milk',
     type: 'Holland Lop Rabbit',
-    description: 'This adorable bunny loves hopping around pet-friendly cafes and parks. Cotton is a certified therapy rabbit who brings smiles wherever she goes.',
-    funFact: 'Cotton can do tricks and enjoys eating fresh parsley!'
+    description: 'A gruff bunny with a misanthropic streak, Milk is a bunnicula who tolerates pet-friendly venues on his own terms. He\'s not here to make friends.',
+    funFact: 'Milk prefers dark corners and has been spotted giving judgmental side-eye to overly cheerful dogs.'
   },
   venue: {
     image: '/images/venues/_custom.jpg',
@@ -75,6 +75,16 @@ const Home: React.FC = () => {
   const [randomPetImage, setRandomPetImage] = useState<string>('/images/generic/doggo.jpg');
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const [selectedPet, setSelectedPet] = useState<PetInfo | null>(null);
+  const [sparkles, setSparkles] = useState<Array<{ 
+    id: number; 
+    x: number; 
+    y: number; 
+    size: number; 
+    distance: number; 
+    angle: number; 
+    rotation: number; 
+    duration: number;
+  }>>([]);
 
   // Helper function to get pet icon
   const getPetIcon = (petId: string) => {
@@ -88,6 +98,32 @@ const Home: React.FC = () => {
       'other': faPaw
     };
     return iconMap[petId] || faPaw;
+  };
+
+  // Easter egg: sparkle effect when clicking emoji
+  const handleEmojiClick = (event: React.MouseEvent<HTMLSpanElement>) => {
+    const rect = event.currentTarget.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+
+    // Create 24 sparkles in a circular pattern with randomization
+    const newSparkles = Array.from({ length: 24 }, (_, i) => ({
+      id: Date.now() + i,
+      x: centerX,
+      y: centerY,
+      size: Math.random() * 1.5 + 0.5, // Random size between 0.5 and 2
+      distance: Math.random() * 100 + 100, // Random distance between 100px and 200px
+      angle: (i * 15) + (Math.random() * 10 - 5), // Base angle with ±5deg randomness
+      rotation: Math.random() * 720, // Random rotation between 0 and 720 degrees
+      duration: Math.random() * 0.4 + 0.8, // Random duration between 0.8s and 1.2s
+    }));
+
+    setSparkles(prev => [...prev, ...newSparkles]);
+
+    // Remove sparkles after animation completes (use max duration)
+    setTimeout(() => {
+      setSparkles(prev => prev.filter(s => !newSparkles.some(ns => ns.id === s.id)));
+    }, 1200);
   };
   
   useEffect(() => {
@@ -261,13 +297,34 @@ const Home: React.FC = () => {
 
       <div className="pet-emoji-peek">
         <div className="pet-emoji-group">
-          <span>🐶</span>
-          <span>🐱</span>
-          <span>🐰</span>
-          <span>🐦</span>
-          <span>🐢</span>
-          <span>🐹</span>
+          <span onClick={handleEmojiClick}>🐶</span>
+          <span onClick={handleEmojiClick}>🐱</span>
+          <span onClick={handleEmojiClick}>🐰</span>
+          <span onClick={handleEmojiClick}>🐦</span>
+          <span onClick={handleEmojiClick}>🐢</span>
+          <span onClick={handleEmojiClick}>🐹</span>
         </div>
+      </div>
+
+      {/* Sparkles container */}
+      <div className="sparkles-container">
+        {sparkles.map((sparkle) => (
+          <div
+            key={sparkle.id}
+            className="sparkle"
+            style={{
+              left: sparkle.x,
+              top: sparkle.y,
+              fontSize: `${sparkle.size * 24}px`,
+              '--angle': `${sparkle.angle}deg`,
+              '--distance': `${sparkle.distance}px`,
+              '--rotation': `${sparkle.rotation}deg`,
+              '--duration': `${sparkle.duration}s`,
+            } as React.CSSProperties}
+          >
+            ✨
+          </div>
+        ))}
       </div>
 
       <section className="content">

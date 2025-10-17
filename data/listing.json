@@ -295,6 +295,15 @@
         "comment": "The agility course is amazing! My border collie gets such a great workout here.",
         "createdAt": "2025-05-15T00:00:00",
         "listing": null
+      },
+      {
+        "id": 702,
+        "listingId": 7,
+        "reviewer": "Sam Chen",
+        "rating": 5,
+        "comment": "Great atmosphere and very accommodating to pets.",
+        "createdAt": "2025-10-15T22:02:43",
+        "listing": null
       }
     ]
   },
@@ -328,6 +337,15 @@
         "rating": 5,
         "comment": "Amazing facility! The webcams let me check on my dog throughout the day. She loved the waterfront walks!",
         "createdAt": "2025-06-02T00:00:00",
+        "listing": null
+      },
+      {
+        "id": 802,
+        "listingId": 8,
+        "reviewer": "Jordan Blake",
+        "rating": 4,
+        "comment": "Five stars! This place really understands pet needs.",
+        "createdAt": "2025-09-25T22:02:43",
         "listing": null
       }
     ]
@@ -363,6 +381,15 @@
         "comment": "Perfect home for our weekend getaway! The enclosed garden was ideal for our anxious rescue dog.",
         "createdAt": "2025-06-10T00:00:00",
         "listing": null
+      },
+      {
+        "id": 902,
+        "listingId": 9,
+        "reviewer": "Jamie Lee",
+        "rating": 5,
+        "comment": "Great atmosphere and very accommodating to pets.",
+        "createdAt": "2025-09-27T22:02:43",
+        "listing": null
       }
     ]
   },
@@ -396,6 +423,15 @@
         "comment": "Perfect for my cockatiel! The outdoor aviaries gave him so much enrichment.",
         "createdAt": "2025-06-18T00:00:00",
         "listing": null
+      },
+      {
+        "id": 1002,
+        "listingId": 10,
+        "reviewer": "Quinn Taylor",
+        "rating": 4,
+        "comment": "Cannot wait to come back. Highly recommended!",
+        "createdAt": "2025-09-24T22:02:43",
+        "listing": null
       }
     ]
   },
@@ -428,6 +464,15 @@
         "rating": 4,
         "comment": "Great food and my dog loved the pet patio! The water misters were perfect on a hot day.",
         "createdAt": "2025-07-01T00:00:00",
+        "listing": null
+      },
+      {
+        "id": 1102,
+        "listingId": 11,
+        "reviewer": "Quinn Taylor",
+        "rating": 5,
+        "comment": "My pets felt right at home here. Will definitely return!",
+        "createdAt": "2025-10-09T22:02:43",
         "listing": null
       }
     ]
@@ -463,6 +508,15 @@
         "comment": "Perfect for active dogs! The hiking trails and pet fitness programs were incredible.",
         "createdAt": "2025-07-12T00:00:00",
         "listing": null
+      },
+      {
+        "id": 1202,
+        "listingId": 12,
+        "reviewer": "Casey Morgan",
+        "rating": 5,
+        "comment": "Professional staff and excellent facilities.",
+        "createdAt": "2025-09-22T22:02:43",
+        "listing": null
       }
     ]
   },
@@ -496,6 +550,15 @@
         "rating": 5,
         "comment": "The individual suites are fantastic! My senior dog was so comfortable and well-cared for during our week away.",
         "createdAt": "2025-07-20T00:00:00",
+        "listing": null
+      },
+      {
+        "id": 1302,
+        "listingId": 13,
+        "reviewer": "Alex Parker",
+        "rating": 4,
+        "comment": "Great atmosphere and very accommodating to pets.",
+        "createdAt": "2025-09-28T22:02:43",
         "listing": null
       }
     ]
@@ -532,6 +595,15 @@
         "comment": "The only place I trust with my iguana! They really understand exotic pet needs.",
         "createdAt": "2025-08-05T00:00:00",
         "listing": null
+      },
+      {
+        "id": 1402,
+        "listingId": 14,
+        "reviewer": "Jamie Lee",
+        "rating": 5,
+        "comment": "Clean, safe, and perfect for bringing our furry friends.",
+        "createdAt": "2025-09-28T22:02:43",
+        "listing": null
       }
     ]
   },
@@ -564,6 +636,15 @@
         "rating": 5,
         "comment": "Paradise for dogs! The private beach access and pet washing station made our vacation perfect.",
         "createdAt": "2025-08-15T00:00:00",
+        "listing": null
+      },
+      {
+        "id": 1502,
+        "listingId": 15,
+        "reviewer": "Quinn Taylor",
+        "rating": 5,
+        "comment": "Such a welcoming environment for both pets and owners.",
+        "createdAt": "2025-10-15T22:02:43",
         "listing": null
       }
     ]
@@ -600,6 +681,15 @@
         "comment": "Love the variety! My rabbit enjoyed the specialized runs, and the native plant gardens are beautiful.",
         "createdAt": "2025-09-01T00:00:00",
         "listing": null
+      },
+      {
+        "id": 1602,
+        "listingId": 16,
+        "reviewer": "Drew Wilson",
+        "rating": 4,
+        "comment": "My pets felt right at home here. Will definitely return!",
+        "createdAt": "2025-10-16T22:02:43",
+        "listing": null
       }
     ]
   },
@@ -632,6 +722,15 @@
         "rating": 5,
         "comment": "My cats absolutely loved it! The banana-themed decor is so fun and unique.",
         "createdAt": "2025-09-10T00:00:00",
+        "listing": null
+      },
+      {
+        "id": 1702,
+        "listingId": 17,
+        "reviewer": "Taylor Rivera",
+        "rating": 5,
+        "comment": "Such a welcoming environment for both pets and owners.",
+        "createdAt": "2025-09-29T22:02:43",
         "listing": null
       }
     ]
@@ -666,6 +765,15 @@
         "comment": "Five-star experience! My poodle got a massage while I relaxed by the pool.",
         "createdAt": "2025-09-15T00:00:00",
         "listing": null
+      },
+      {
+        "id": 1802,
+        "listingId": 18,
+        "reviewer": "Jordan Blake",
+        "rating": 4,
+        "comment": "Five stars! This place really understands pet needs.",
+        "createdAt": "2025-10-01T22:02:43",
+        "listing": null
       }
     ]
   },
@@ -697,6 +805,15 @@
         "rating": 5,
         "comment": "Perfect for active dogs! Beautiful trails and my lab loves the streams.",
         "createdAt": "2025-09-20T00:00:00",
+        "listing": null
+      },
+      {
+        "id": 1902,
+        "listingId": 19,
+        "reviewer": "Drew Wilson",
+        "rating": 4,
+        "comment": "Cannot wait to come back. Highly recommended!",
+        "createdAt": "2025-09-21T22:02:43",
         "listing": null
       }
     ]
@@ -732,6 +849,15 @@
         "comment": "Peaceful and quiet. Our dogs loved running in the huge yard!",
         "createdAt": "2025-09-25T00:00:00",
         "listing": null
+      },
+      {
+        "id": 2002,
+        "listingId": 20,
+        "reviewer": "Quinn Taylor",
+        "rating": 4,
+        "comment": "Exceeded our expectations in every way.",
+        "createdAt": "2025-10-05T22:02:43",
+        "listing": null
       }
     ]
   },
@@ -763,6 +889,15 @@
         "rating": 5,
         "comment": "Great vibes! My dog made friends while I enjoyed local craft beer.",
         "createdAt": "2025-10-01T00:00:00",
+        "listing": null
+      },
+      {
+        "id": 2102,
+        "listingId": 21,
+        "reviewer": "Taylor Rivera",
+        "rating": 4,
+        "comment": "Five stars! This place really understands pet needs.",
+        "createdAt": "2025-09-18T22:02:43",
         "listing": null
       }
     ]
@@ -797,6 +932,15 @@
         "rating": 5,
         "comment": "Finally a place that understands exotic pets! The staff is incredibly knowledgeable.",
         "createdAt": "2025-10-05T00:00:00",
+        "listing": null
+      },
+      {
+        "id": 2202,
+        "listingId": 22,
+        "reviewer": "Jamie Lee",
+        "rating": 5,
+        "comment": "My pets felt right at home here. Will definitely return!",
+        "createdAt": "2025-10-01T22:02:43",
         "listing": null
       }
     ]

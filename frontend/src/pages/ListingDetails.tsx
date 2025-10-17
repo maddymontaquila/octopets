@@ -43,7 +43,10 @@ import {
   faHouse,
   faHotel,
   faCartShopping,
-  faBuilding
+  faBuilding,
+  faCalendarCheck,
+  faMessage,
+  faAward
 } from '@fortawesome/free-solid-svg-icons';
 import { LISTING_TYPES, ROUTES } from '../data/constants';
 import { PET_TYPES } from '../data/constantsJsx';
@@ -273,6 +276,18 @@ const ListingDetails: React.FC = () => {
 
           {/* Sidebar */}
           <div className="listing-sidebar">
+            {/* Action Buttons */}
+            <div className="sidebar-actions">
+              <button className="btn btn-primary btn-booking">
+                <FontAwesomeIcon icon={faCalendarCheck} />
+                <span>Book this venue</span>
+              </button>
+              <button className="btn btn-outline btn-message">
+                <FontAwesomeIcon icon={faMessage} />
+                <span>Message manager</span>
+              </button>
+            </div>
+
             <div className="sidebar-card">
               {/* Allowed Pets */}
               <div className="card-section">
@@ -321,9 +336,66 @@ const ListingDetails: React.FC = () => {
             </div>
           </div>
         </div>
+
+        {/* Reviews Section */}
+        <div className="reviews-section">
+          <div className="reviews-wrapper">
+            {/* Rating Display with Laurels */}
+            <div className="rating-display">
+              <img src={`${process.env.PUBLIC_URL}/images/laurel.svg`} alt="" className="laurel-background" />
+              <div className="rating-value">
+                <div className="rating-number">{listing.rating.toFixed(1)}</div>
+                <div className="rating-stars">
+                  {[...Array(5)].map((_, i) => (
+                    <FontAwesomeIcon 
+                      key={i} 
+                      icon={faStar} 
+                      className={i < Math.floor(listing.rating) ? "star-filled" : "star-empty"}
+                    />
+                  ))}
+                </div>
+                <div className="rating-count">
+                  {(listing.reviews?.length || 0)} {(listing.reviews?.length || 0) === 1 ? 'review' : 'reviews'}
+                </div>
+              </div>
+            </div>
+
+            {/* Individual Reviews */}
+            {listing.reviews && listing.reviews.length > 0 && (
+              <div className="reviews-list">
+                {listing.reviews.map((review) => (
+                  <div key={review.id} className="review-item">
+                    <div className="review-header">
+                      <div className="review-author">
+                        <div className="author-avatar">
+                          {review.userName.charAt(0).toUpperCase()}
+                        </div>
+                        <div className="author-info">
+                          <div className="author-name">{review.userName}</div>
+                          <div className="review-date">{new Date(review.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</div>
+                        </div>
+                      </div>
+                      <div className="review-rating">
+                        {[...Array(5)].map((_, i) => (
+                          <FontAwesomeIcon 
+                            key={i} 
+                            icon={faStar} 
+                            className={i < review.rating ? "star-filled" : "star-empty"}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                    <div className="review-comment">{review.comment}</div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );
 };
 
 export default ListingDetails;
+
