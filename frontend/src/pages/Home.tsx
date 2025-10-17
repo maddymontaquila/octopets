@@ -80,6 +80,9 @@ const Home: React.FC = () => {
             <div className="hero-image hero-image-back">
               <img src={`${process.env.PUBLIC_URL}/images/venues/_park.jpg`} alt="Pet-friendly park" />
             </div>
+            <div className="hero-image hero-image-middle">
+              <img src={`${process.env.PUBLIC_URL}/images/pets/bunny.jpg`} alt="Cute bunny" />
+            </div>
             <div className="hero-image hero-image-front">
               <img src={`${process.env.PUBLIC_URL}/images/venues/_custom.jpg`} alt="Pet-friendly venue" />
             </div>
