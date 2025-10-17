@@ -38,11 +38,21 @@ const Home: React.FC = () => {
   return (
     <div className="home-page">
       <section className="hero">
-        <div className="hero-content">
-          <h1>Find places where your pets are welcome</h1>
-          <p>Discover and share pet-friendly venues. Browse by pet type, location, or venue category.</p>
-          <div className="hero-buttons">
-            <Link to={ROUTES.LISTINGS} className="btn btn-outline">Browse listings</Link>
+        <div className="hero-wrapper">
+          <div className="hero-content">
+            <h1>Find places where your pets are welcome</h1>
+            <p>Discover and share pet-friendly venues. Browse by pet type, location, or venue category.</p>
+            <div className="hero-buttons">
+              <Link to={ROUTES.LISTINGS} className="btn btn-outline">Browse listings</Link>
+            </div>
+          </div>
+          <div className="hero-images">
+            <div className="hero-image hero-image-back">
+              <img src={`${process.env.PUBLIC_URL}/images/venues/_park.jpg`} alt="Pet-friendly park" />
+            </div>
+            <div className="hero-image hero-image-front">
+              <img src={`${process.env.PUBLIC_URL}/images/venues/_custom.jpg`} alt="Pet-friendly venue" />
+            </div>
           </div>
         </div>
       </section>
