@@ -61,7 +61,7 @@
   position: absolute;
   right: 0;
   bottom: 0;
-  width: 600px;
+  width: 700px;
   height: 400px;
   z-index: 1;
 }
@@ -75,15 +75,21 @@
 }
 
 .hero-image-back {
-  right: 200px;
+  right: 400px;
   z-index: 1;
   opacity: 0.7;
   height: 380px;
 }
 
+.hero-image-middle {
+  right: 200px;
+  z-index: 2;
+  height: 365px;
+}
+
 .hero-image-front {
   right: 0;
-  z-index: 2;
+  z-index: 3;
 }
 
 .hero-image img {
@@ -1050,12 +1056,17 @@
   }
   
   .hero-image-back {
-    right: 50px;
+    right: 100px;
     opacity: 0.5;
   }
   
+  .hero-image-middle {
+    right: 0;
+    opacity: 0.8;
+  }
+  
   .hero-image-front {
-    right: -50px;
+    right: -100px;
   }
   
   .hero h1 {
