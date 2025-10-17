@@ -75,8 +75,8 @@
 
 .radar-text {
   max-width: 700px;
-  margin: 0 auto;
-  text-align: center;
+  margin: 0; /* Left-aligned instead of centered */
+  text-align: left; /* Left-aligned */
   color: var(--neutral-100);
 }
 
@@ -99,11 +99,11 @@
   color: rgba(255, 255, 255, 0.8);
 }
 
-/* Feature pills */
+/* Feature pills - minimalist style */
 .radar-features {
   display: flex;
-  justify-content: center;
-  gap: 16px;
+  justify-content: flex-start; /* Left-aligned instead of centered */
+  gap: 12px; /* Reduced gap for more compact look */
   flex-wrap: wrap;
   margin-top: 32px;
 }
@@ -112,12 +112,12 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 12px 20px;
+  padding: 8px 16px; /* Reduced padding for more minimal look */
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 24px;
+  border-radius: 6px; /* Less rounded for minimalist style */
   font-family: var(--font-family-base);
-  font-size: 15px;
+  font-size: 14px; /* Slightly smaller text */
   font-weight: 500;
   color: rgba(255, 255, 255, 0.9);
   backdrop-filter: blur(10px);
@@ -125,22 +125,18 @@
 }
 
 .radar-feature:hover {
-  background: rgba(59, 130, 246, 0.15);
-  border-color: rgba(59, 130, 246, 0.3);
-  transform: translateY(-2px);
+  background: rgba(59, 130, 246, 0.1);
+  border-color: rgba(59, 130, 246, 0.2);
+  transform: none; /* No transform for more minimal hover */
 }
 
-.radar-feature-icon {
-  font-size: 20px;
-  display: flex;
-  align-items: center;
-}
+/* Removed radar-feature-icon styles since emojis are removed */
 
 /* CTA Button Container */
 .radar-cta {
   margin-top: 40px;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start; /* Left-aligned instead of centered */
 }
 
 .radar-btn {

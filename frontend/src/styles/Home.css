@@ -690,6 +690,13 @@
   margin: 0;
 }
 
+.cta-buttons {
+  margin-top: 24px;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
 /* Coming Soon Section - Subtle background */
 .coming-soon {
   padding: 80px 20px;

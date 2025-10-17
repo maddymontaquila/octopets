@@ -98,6 +98,22 @@
   border-color: var(--neutral-900);
 }
 
+/* CTA section buttons - black background, no color change on hover */
+.cta-section .btn,
+.cta-section .btn-secondary {
+  background-color: var(--neutral-900);
+  color: var(--neutral-100);
+  border: 2px solid var(--neutral-900);
+}
+
+.cta-section .btn:hover,
+.cta-section .btn-secondary:hover {
+  background-color: var(--neutral-900);
+  color: var(--neutral-100);
+  border-color: var(--neutral-900);
+  opacity: 0.9; /* Subtle opacity change instead of color swap */
+}
+
 /* Apply card button styles to secondary buttons in cards */
 .review-card .btn-secondary,
 .form-actions .btn-secondary,

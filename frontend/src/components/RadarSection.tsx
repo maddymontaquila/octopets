@@ -254,15 +254,12 @@ const RadarSection: React.FC = () => {
           </p>
           <div className="radar-features">
             <div className="radar-feature">
-              <span className="radar-feature-icon">🎯</span>
               <span>Real-time discovery</span>
             </div>
             <div className="radar-feature">
-              <span className="radar-feature-icon">🤖</span>
               <span>AI-powered matching</span>
             </div>
             <div className="radar-feature">
-              <span className="radar-feature-icon">📍</span>
               <span>Location-aware</span>
             </div>
           </div>

@@ -239,6 +239,11 @@ const Home: React.FC = () => {
               <div className="cta-text">
                 <h2>Have a pet-friendly place to share?</h2>
                 <p>Help other pet owners discover great places for their furry, feathery, or scaly friends.</p>
+                <div className="cta-buttons">
+                  <Link to={ROUTES.LISTINGS} className="btn btn-secondary">
+                    Add a listing
+                  </Link>
+                </div>
               </div>
             </div>          </section>
         </section>
