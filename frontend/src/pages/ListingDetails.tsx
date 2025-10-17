@@ -61,37 +61,42 @@ const ListingDetails: React.FC = () => {
           </div>
           <div className="listing-title">
             <h1>{listing.name}</h1>          
-            <div className="listing-location">
-              <span>📍</span> {listing.location}
-            </div>
             <div className="rating-container">
               <span>★ {listing.rating.toFixed(1)} <span className="reviews-gray">({listing.reviews.length} reviews)</span></span>
             </div>
-            <div className="hero-contact-info">
+            <div className="hero-contact-bar">
+              <div className="contact-item">
+                <span className="contact-icon">📍</span>
+                <span>{listing.location}</span>
+              </div>
               {listing.contactInfo?.phone && (
-                <div className="hero-contact-item">
-                  <span className="contact-icon">📞</span>
-                  <span>{listing.contactInfo.phone}</span>
-                </div>
+                <>
+                  <span className="hero-contact-separator" />
+                  <div className="contact-item">
+                    <span className="contact-icon">📞</span>
+                    <span>{listing.contactInfo.phone}</span>
+                  </div>
+                </>
               )}
               {listing.contactInfo?.email && (
-                <div className="hero-contact-item">
-                  <span className="contact-icon">📧</span>
-                  <span>{listing.contactInfo.email}</span>
-                </div>
+                <>
+                  <span className="hero-contact-separator" />
+                  <div className="contact-item">
+                    <span className="contact-icon">📧</span>
+                    <span>{listing.contactInfo.email}</span>
+                  </div>
+                </>
               )}
               {listing.contactInfo?.website && (
-                <div className="hero-contact-item">
-                  <span className="contact-icon">🌐</span>
-                  <a href={listing.contactInfo.website} target="_blank" rel="noopener noreferrer">
-                    Visit Website
-                  </a>
-                </div>
+                <>
+                  <span className="hero-contact-separator" />
+                  <div className="contact-item">
+                    <span className="contact-icon">🌐</span>
+                    <a href={listing.contactInfo.website} target="_blank" rel="noopener noreferrer">Visit Website</a>
+                  </div>
+                </>
               )}
             </div>
-          </div>
-          <div className="listing-actions">
-            <Link to={ROUTES.LISTINGS} className="btn btn-outline">Back to Listings</Link>
           </div>
         </div>
       </div>
