@@ -41,12 +41,15 @@ const RadarSection: React.FC = () => {
       brightness: number;
       maxBrightness: number;
       fadeSpeed: number;
+      hasLabel: boolean;
+      label?: string;
+      labelAngle?: number;
     }
 
     const pings: Ping[] = [];
     const dots: Dot[] = [];
     let lastPingTime = 0;
-    const pingInterval = 4000; // Create new ping every 4 seconds
+    const pingInterval = 5000; // Create new ping every 5 seconds
 
     // Center point (where radar originates from - bottom center, behind the div)
     const centerX = canvas.width / (2 * window.devicePixelRatio);
@@ -56,13 +59,24 @@ const RadarSection: React.FC = () => {
     const generateDots = () => {
       const rect = canvas.getBoundingClientRect();
       const numDots = 25; // Number of dots to scatter
+      
+      // Aviation-style labels for select dots
+      const labels = [
+        'PAW-01', 'DOG-23', 'CAT-15', 'PARK-8', 'VET-42',
+        'PET-19', 'CAFE-7', 'TRAIL-5'
+      ];
+      
       for (let i = 0; i < numDots; i++) {
+        const hasLabel = i < 8; // First 8 dots get labels
         dots.push({
           x: Math.random() * rect.width,
           y: Math.random() * rect.height,
           brightness: 0,
           maxBrightness: 0.6 + Math.random() * 0.4, // Random brightness between 0.6 and 1.0
           fadeSpeed: 0.01 + Math.random() * 0.02, // Random fade speed
+          hasLabel: hasLabel,
+          label: hasLabel ? labels[i] : undefined,
+          labelAngle: hasLabel ? Math.random() * Math.PI * 2 : undefined, // Random angle for label position
         });
       }
     };
@@ -122,6 +136,45 @@ const RadarSection: React.FC = () => {
           ctx.arc(dot.x, dot.y, 6, 0, Math.PI * 2);
           ctx.fillStyle = `rgba(34, 197, 94, ${dot.brightness * 0.3})`;
           ctx.fill();
+
+          // Draw label if this dot has one and is bright enough
+          if (dot.hasLabel && dot.brightness > 0.2 && dot.label && dot.labelAngle !== undefined) {
+            const lineLength = 25;
+            const labelDistance = 35;
+            
+            // Calculate line end position
+            const lineEndX = dot.x + Math.cos(dot.labelAngle) * lineLength;
+            const lineEndY = dot.y + Math.sin(dot.labelAngle) * lineLength;
+            
+            // Calculate label position
+            const labelX = dot.x + Math.cos(dot.labelAngle) * labelDistance;
+            const labelY = dot.y + Math.sin(dot.labelAngle) * labelDistance;
+            
+            // Draw connecting line
+            ctx.beginPath();
+            ctx.moveTo(dot.x, dot.y);
+            ctx.lineTo(lineEndX, lineEndY);
+            ctx.strokeStyle = `rgba(34, 197, 94, ${dot.brightness * 0.6})`;
+            ctx.lineWidth = 1;
+            ctx.stroke();
+            
+            // Draw label background
+            ctx.font = '10px monospace';
+            const textMetrics = ctx.measureText(dot.label);
+            const padding = 3;
+            
+            ctx.fillStyle = `rgba(0, 0, 0, ${dot.brightness * 0.7})`;
+            ctx.fillRect(
+              labelX - padding,
+              labelY - 8 - padding,
+              textMetrics.width + padding * 2,
+              12 + padding * 2
+            );
+            
+            // Draw label text
+            ctx.fillStyle = `rgba(34, 197, 94, ${dot.brightness})`;
+            ctx.fillText(dot.label, labelX, labelY);
+          }
         }
       });
 
