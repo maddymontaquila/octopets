@@ -5,8 +5,29 @@ import { PET_TYPES } from '../data/constantsJsx';
 import RadarSection from '../components/RadarSection';
 import '../styles/Home.css';
 
+const testimonials = [
+  {
+    text: "Finding pet-friendly places used to be a guessing game. Octopets made it effortless to discover venues where my dog is truly welcome, with real reviews from other pet owners.",
+    author: "Sarah, Seattle"
+  },
+  {
+    text: "Octopets transformed how we explore the city with our cats. No more awkward calls or showing up to discover pets aren't actually welcome. Every listing is accurate and helpful.",
+    author: "Michael, Portland"
+  },
+  {
+    text: "As a rabbit owner, finding suitable venues was nearly impossible. Octopets connected me with a community of exotic pet owners and places that genuinely accommodate all animals.",
+    author: "Jessica, Austin"
+  },
+  {
+    text: "The detailed information about noise levels, surface types, and pet amenities helps me plan perfect outings for my anxious rescue dog. Octopets gets the details that matter.",
+    author: "David, San Francisco"
+  }
+];
+
 const Home: React.FC = () => {
   const [randomPetImage, setRandomPetImage] = useState<string>('/images/generic/doggo.jpg');
+  const [currentTestimonial, setCurrentTestimonial] = useState(0);
+  
   useEffect(() => {
     // List of pet images available in the public/images/pets directory
     const petImages = [
@@ -34,6 +55,14 @@ const Home: React.FC = () => {
     // Select a random image from the array using the generated index
     const randomImage = petImages[randomIndex];
     setRandomPetImage(`/images/pets/${randomImage}`);
+  }, []);
+
+  // Cycle testimonials every 5 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
+    }, 5000);
+    return () => clearInterval(interval);
   }, []);
 
   return (
@@ -197,6 +226,26 @@ const Home: React.FC = () => {
                   <p>Comfort and safety indicators including noise levels and environment details.</p>
                 </div>
               </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="testimonials-section">
+          <div className="testimonials-content">
+            <div className="quote-mark">&ldquo;</div>
+            <div className="testimonial-quote">
+              <p className="quote-text">{testimonials[currentTestimonial].text}</p>
+              <p className="quote-author">{testimonials[currentTestimonial].author}</p>
+            </div>
+            <div className="testimonial-navigation">
+              {testimonials.map((_, index) => (
+                <button
+                  key={index}
+                  className={`nav-dot ${index === currentTestimonial ? 'active' : ''}`}
+                  onClick={() => setCurrentTestimonial(index)}
+                  aria-label={`Go to testimonial ${index + 1}`}
+                />
+              ))}
             </div>
           </div>
         </section>
