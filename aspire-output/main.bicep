@@ -11,11 +11,20 @@ resource rg 'Microsoft.Resources/resourceGroups@2023-07-01' = {
   location: location
 }
 
+module octopetsacr 'octopetsacr/octopetsacr.bicep' = {
+  name: 'octopetsacr'
+  scope: rg
+  params: {
+    location: location
+  }
+}
+
 module octopets_aca 'octopets-aca/octopets-aca.bicep' = {
   name: 'octopets-aca'
   scope: rg
   params: {
     location: location
+    octopetsacr_outputs_name: octopetsacr.outputs.name
     userPrincipalId: principalId
   }
 }

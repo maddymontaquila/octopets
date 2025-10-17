@@ -40,7 +40,7 @@ resource frontend 'Microsoft.App/containerApps@2025-01-01' = {
           env: [
             {
               name: 'NODE_ENV'
-              value: 'development'
+              value: 'production'
             }
             {
               name: 'services__api__http__0'

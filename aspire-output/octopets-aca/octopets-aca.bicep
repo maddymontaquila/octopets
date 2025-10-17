@@ -5,29 +5,26 @@ param userPrincipalId string = ''
 
 param tags object = { }
 
+param octopetsacr_outputs_name string
+
 resource octopets_aca_mi 'Microsoft.ManagedIdentity/userAssignedIdentities@2024-11-30' = {
   name: take('octopets_aca_mi-${uniqueString(resourceGroup().id)}', 128)
   location: location
   tags: tags
 }
 
-resource octopets_aca_acr 'Microsoft.ContainerRegistry/registries@2025-04-01' = {
-  name: take('octopetsacaacr${uniqueString(resourceGroup().id)}', 50)
-  location: location
-  sku: {
-    name: 'Basic'
-  }
-  tags: tags
+resource octopetsacr 'Microsoft.ContainerRegistry/registries@2025-04-01' existing = {
+  name: octopetsacr_outputs_name
 }
 
-resource octopets_aca_acr_octopets_aca_mi_AcrPull 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
-  name: guid(octopets_aca_acr.id, octopets_aca_mi.id, subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '7f951dda-4ed3-4680-a7ca-43fe172d538d'))
+resource octopetsacr_octopets_aca_mi_AcrPull 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+  name: guid(octopetsacr.id, octopets_aca_mi.id, subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '7f951dda-4ed3-4680-a7ca-43fe172d538d'))
   properties: {
     principalId: octopets_aca_mi.properties.principalId
     roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '7f951dda-4ed3-4680-a7ca-43fe172d538d')
     principalType: 'ServicePrincipal'
   }
-  scope: octopets_aca_acr
+  scope: octopetsacr
 }
 
 resource octopets_aca_law 'Microsoft.OperationalInsights/workspaces@2025-02-01' = {
@@ -74,9 +71,9 @@ output AZURE_LOG_ANALYTICS_WORKSPACE_NAME string = octopets_aca_law.name
 
 output AZURE_LOG_ANALYTICS_WORKSPACE_ID string = octopets_aca_law.id
 
-output AZURE_CONTAINER_REGISTRY_NAME string = octopets_aca_acr.name
+output AZURE_CONTAINER_REGISTRY_NAME string = octopetsacr_outputs_name
 
-output AZURE_CONTAINER_REGISTRY_ENDPOINT string = octopets_aca_acr.properties.loginServer
+output AZURE_CONTAINER_REGISTRY_ENDPOINT string = octopetsacr.properties.loginServer
 
 output AZURE_CONTAINER_REGISTRY_MANAGED_IDENTITY_ID string = octopets_aca_mi.id
 

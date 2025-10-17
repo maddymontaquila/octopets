@@ -1,13 +1,13 @@
-﻿#:package CommunityToolkit.Aspire.Hosting.Python.Extensions@9.8.0-beta.394
-#:package Aspire.Hosting.NodeJs@9.6.0-preview.1.25468.31
-#:package Aspire.Hosting.Azure.ApplicationInsights@9.6.0-preview.1.25468.31
-#:package Aspire.Hosting.Azure.AIFoundry@9.6.0-preview.1.25474.8
-#:package Aspire.Hosting.Redis@9.6.0-preview.1.25468.31
-#:package Aspire.Hosting.Azure.AppContainers@9.5.1
-#:package Aspire.Hosting.Docker@9.5.1-preview.1.25502.11
-#:package Aspire.Hosting.Azure.ContainerRegistry@9.5.1-preview.1.25502.11
+﻿#:package Aspire.Hosting.Python@13.0.0-preview.1.25517.6
+#:package Aspire.Hosting.NodeJs@13.0.0-preview.1.25517.6
+#:package Aspire.Hosting.Azure.ApplicationInsights@13.0.0-preview.1.25517.6
+#:package Aspire.Hosting.Azure.AIFoundry@13.0.0-preview.1.25517.6
+#:package Aspire.Hosting.Redis@13.0.0-preview.1.25517.6
+#:package Aspire.Hosting.Azure.AppContainers@13.0.0-preview.1.25517.6
+#:package Aspire.Hosting.Docker@13.0.0-preview.1.25517.6
+#:package Aspire.Hosting.Azure.ContainerRegistry@13.0.0-preview.1.25517.6
 #:project ../backend/Octopets.Backend.csproj
-#:sdk Aspire.AppHost.Sdk@9.6.0-preview.1.25468.31
+#:sdk Aspire.AppHost.Sdk@13.0.0-preview.1.25517.6
 #:property UserSecretsId=octopets
 #pragma warning disable
 
@@ -39,7 +39,8 @@ var api = builder.AddProject<Projects.Octopets_Backend>("api")
     .WithEnvironment("ENABLE_CRUD", builder.ExecutionContext.IsPublishMode ? "false" : "true")
     .PublishAsAzureContainerApp((module, containerApp) => { });
 
-var agent = builder.AddUvApp("python-agent-chat", "../agent", "agent.py")
+var agent = builder.AddPythonScript("python-agent-chat", "../agent", "agent.py")
+    .WithUvEnvironment()
     .WithHttpEndpoint(env: "PORT")
     .WithEnvironment("AZURE_OPENAI_ENDPOINT", foundryProject)
     .WithEnvironment("AGENT_ID", foundryAgentId)
@@ -49,7 +50,8 @@ var agent = builder.AddUvApp("python-agent-chat", "../agent", "agent.py")
     .PublishAsAzureContainerApp((module, containerApp) => { })
     .WithOtlpExporter();
 
-var sitter_agent = builder.AddUvApp("python-agent-sitter", "../sitter-agent", "app.py")
+var sitter_agent = builder.AddPythonScript("python-agent-sitter", "../sitter-agent", "app.py")
+    .WithUvEnvironment()
     .WithHttpEndpoint(env: "PORT")
     .WithEnvironment("AZURE_OPENAI_ENDPOINT", foundryProject)
     //.WithReference(foundry)
@@ -58,7 +60,8 @@ var sitter_agent = builder.AddUvApp("python-agent-sitter", "../sitter-agent", "a
     .PublishAsAzureContainerApp((module, containerApp) => { })
     .WithOtlpExporter();
 
-var orchestrator = builder.AddUvApp("orchestrator-agent", "../orchestrator-agent", "app.py")
+var orchestrator = builder.AddPythonScript("orchestrator-agent", "../orchestrator-agent", "app.py")
+    .WithUvEnvironment()
     .WithHttpEndpoint(env: "PORT")
     .WithEnvironment("AZURE_OPENAI_ENDPOINT", foundryProject)
     .WithEnvironment("LISTINGS_AGENT_URL", agent.GetEndpoint("http"))
