@@ -38,9 +38,9 @@
 .venue-card .btn:hover,
 .coming-soon-content .btn:hover,
 .listing-buttons .btn:hover {
-  background-color: var(--neutral-900);
-  color: var(--neutral-100);
-  border-color: var(--neutral-100);
+  background-color: var(--neutral-200);
+  color: var(--neutral-900);
+  border-color: var(--neutral-400);
 }
 
 /* Disabled state */

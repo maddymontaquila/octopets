@@ -14,12 +14,12 @@ const Navbar: React.FC = () => {
           
           <ul className="nav-menu">
             <li className="nav-item">
-              <NavLink 
+              <Link 
                 to={ROUTES.LISTINGS} 
-                className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}
+                className="nav-link"
               >
                 Listings
-              </NavLink>
+              </Link>
             </li>
           </ul>
         </div>

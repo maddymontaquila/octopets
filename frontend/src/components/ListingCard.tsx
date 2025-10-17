@@ -34,7 +34,16 @@ const ListingCard: React.FC<ListingCardProps> = ({ listing }) => {
 
       <div className="listing-details-under-name">
         <h3>{listing.name}</h3>
-        <div className="listing-address">{listing.location}</div>        <div className="allowed-pets-horizontal">
+        <div className="listing-address">{listing.location}</div>
+        <div className="listing-buttons">
+          <Link to={`/listing/${listing.id}`} className="btn btn-small btn-outline">
+            View details
+          </Link>
+        </div>
+      </div>
+
+      <div className="listing-card-footer">
+        <div className="allowed-pets-horizontal">
           {listing.allowedPets.map(petId => {
             const pet = PET_TYPES.find(p => p.id === petId);
             return pet ? (
@@ -43,11 +52,6 @@ const ListingCard: React.FC<ListingCardProps> = ({ listing }) => {
               </span>
             ) : null;
           })}
-        </div>
-        <div className="listing-buttons">
-          <Link to={`/listing/${listing.id}`} className="btn btn-small btn-outline">
-            View details
-          </Link>
         </div>
       </div>
     </div>

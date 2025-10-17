@@ -265,7 +265,8 @@ const RadarSection: React.FC = () => {
           </div>
           <div className="radar-cta">
             <Link to={ROUTES.LISTINGS} className="btn btn-outline radar-btn">
-              Explore nearby places
+              Download App
+              <span className="btn-arrow">↓</span>
             </Link>
           </div>
         </div>

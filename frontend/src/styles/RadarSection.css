@@ -149,7 +149,9 @@
   font-weight: 500;
   border-radius: 10px;
   text-decoration: none;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   transition: all 0.2s ease;
 }
 
@@ -157,6 +159,17 @@
   background-color: var(--neutral-200);
   border-color: var(--neutral-200);
   color: #1a1a1a;
+}
+
+.radar-btn .btn-arrow {
+  font-size: 18px;
+  display: inline-flex;
+  align-items: center;
+  transition: transform 0.2s ease;
+}
+
+.radar-btn:hover .btn-arrow {
+  transform: translateY(2px);
 }
 
 /* Responsive adjustments */
