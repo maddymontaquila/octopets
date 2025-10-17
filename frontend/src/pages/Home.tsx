@@ -134,30 +134,33 @@ const Home: React.FC = () => {
         </section>
 
         <section className="venue-types">
-
-          <div className="section-header">
+          <div className="section-header" style={{ textAlign: 'left', marginBottom: '32px' }}>
             <h2>Explore venue types</h2>
             <p>Discover a variety of pet-friendly establishments for every occasion</p>
           </div>
 
-          <div className="venue-types-grid">
-            {LISTING_TYPES.map(type => (
-              <div className="venue-card" key={type.id}>
-                <div className="venue-media">
-                  <img
-                    src={`${process.env.PUBLIC_URL}/images/venues/_${type.id}.jpg`}
-                    alt={type.name}
-                    className="venue-image"
-                  />
-                </div>
-                <div className="venue-info">
-                  <h3>{type.name}</h3>
-                  <Link to={`${ROUTES.LISTINGS}?listingType=${type.id}`} className="btn btn-small btn-outline">
-                    Find venues
-                  </Link>
-                </div>
-              </div>
-            ))}
+          <div className="venue-types-wrapper">
+            <div className="venue-types-grid">
+              {LISTING_TYPES.map(type => (
+                <Link
+                  to={`${ROUTES.LISTINGS}?listingType=${type.id}`}
+                  key={type.id}
+                  className="venue-card"
+                >
+                  <div className="venue-card-content">
+                    <h3>{type.name}</h3>
+                    <p>{type.description}</p>
+                  </div>
+                  <div className="venue-image-container">
+                    <img
+                      src={`${process.env.PUBLIC_URL}/images/venues/_${type.id}.jpg`}
+                      alt={type.name}
+                      className="venue-image"
+                    />
+                  </div>
+                </Link>
+              ))}
+            </div>
           </div>
         </section>        <section className="cta-section-container">
           <section className="cta-section">
