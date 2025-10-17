@@ -86,11 +86,11 @@
   --error-600: #e54667;  --error-700: #d13258;  --error-800: #b32347;
   --error-900: #911538;  
   
-  /* Typography - Cal Sans as primary font */
-  --font-family-base: 'Cal Sans', sans-serif;
-  --font-family-heading: 'Cal Sans', sans-serif;
-  --font-family-logo: 'Cal Sans', sans-serif;
-  --font-family-button: 'Cal Sans', sans-serif;
+  /* Typography - Funnel Display as primary font */
+  --font-family-base: 'Funnel Display', sans-serif;
+  --font-family-heading: 'Funnel Display', sans-serif;
+  --font-family-logo: 'Funnel Display', sans-serif;
+  --font-family-button: 'Funnel Display', sans-serif;
   
   --font-size-xs: 0.75rem;    /* 12px */
   --font-size-sm: 0.875rem;   /* 14px */
