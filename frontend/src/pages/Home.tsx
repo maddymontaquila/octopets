@@ -194,38 +194,53 @@ const Home: React.FC = () => {
         </section>
         <RadarSection />
         <section className="why-section">
-          <div className="section-header" style={{ textAlign: 'left', marginBottom: '32px' }}>
-            <h2>Why choose Octopets?</h2>
-            <p>Purpose-built discovery for real outings with animals — not generic POI lists.</p>
-          </div>
           <div className="why-wrapper">
-            <div className="why-content">
-              <div className="why-grid">
-                <div className="why-card">
-                  <h3>Discover</h3>
-                  <p>Curated listings filtered by the pets actually visiting them.</p>
-                </div>
-                <div className="why-card">
-                  <h3>Connect</h3>
-                  <p>Lightweight sharing of what worked and what to prepare for.</p>
-                </div>
-                <div className="why-card">
-                  <h3>Rate & Review</h3>
-                  <p>Structured feedback that helps the next owner make a faster decision.</p>
-                </div>
-                <div className="why-card">
-                  <h3>Get Context</h3>
-                  <p>Surface type, shade, water access, ambient noise and staff attitude details.</p>
-                </div>
-                <div className="why-card">
-                  <h3>Arrival Notes</h3>
-                  <p>Practical tips on parking, entrance access, and what to expect on arrival.</p>
-                </div>
-                <div className="why-card">
-                  <h3>Safety First</h3>
-                  <p>Comfort and safety indicators including noise levels and environment details.</p>
+            <div className="why-images">
+              <div className="why-image-main">
+                <img src={`${process.env.PUBLIC_URL}/images/pets/dog3.jpg`} alt="Happy dog" />
+              </div>
+              <div className="why-image-overlay">
+                <div className="benefits-card">
+                  <div className="benefit-item">
+                    <div className="benefit-icon">🐾</div>
+                    <div className="benefit-text">
+                      <h4>Curated Listings</h4>
+                      <p>Filtered by pets</p>
+                    </div>
+                  </div>
+                  <div className="benefit-item">
+                    <div className="benefit-icon">💬</div>
+                    <div className="benefit-text">
+                      <h4>Real Reviews</h4>
+                      <p>From pet owners</p>
+                    </div>
+                  </div>
+                  <div className="benefit-item">
+                    <div className="benefit-icon">📍</div>
+                    <div className="benefit-text">
+                      <h4>Detailed Context</h4>
+                      <p>Surface, noise, access</p>
+                    </div>
+                  </div>
+                  <div className="benefit-item">
+                    <div className="benefit-icon">🛡️</div>
+                    <div className="benefit-text">
+                      <h4>Safety First</h4>
+                      <p>Environment details</p>
+                    </div>
+                  </div>
                 </div>
               </div>
+            </div>
+            <div className="why-content">
+              <h2>Why choose Octopets?</h2>
+              <p className="why-description">
+                Purpose-built discovery for real outings with animals — not generic POI lists. 
+                We help you find the perfect places where your pets are truly welcome and safe.
+              </p>
+              <Link to={ROUTES.LISTINGS} className="btn btn-primary">
+                Explore listings
+              </Link>
             </div>
           </div>
         </section>
@@ -265,7 +280,10 @@ const Home: React.FC = () => {
                   className="venue-card"
                 >
                   <div className="venue-card-content">
-                    <h3>{type.name}</h3>
+                    <h3>
+                      {type.name}
+                      {(type.id === 'park' || type.id === 'cafe') && <span className="new-badge">New</span>}
+                    </h3>
                     <p>{type.description}</p>
                   </div>
                   <div className="venue-image-container">

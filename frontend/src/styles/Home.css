@@ -407,81 +407,189 @@
   border-bottom: 1px solid var(--neutral-300);
 }
 
-.why-section .section-header {
-  max-width: 1400px;
-  margin: 0 auto 40px;
-  text-align: left;
-}
-
-.why-section .section-header p {
-  margin: 0;
-  text-align: left;
-}
-
 .why-wrapper {
   max-width: 1400px;
   margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+
+.why-images {
+  position: relative;
+  height: 500px;
+}
+
+.why-image-main {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 24px;
+  overflow: hidden;
+  background: var(--neutral-300);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+}
+
+.why-image-main img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.why-image-overlay {
+  position: absolute;
+  right: -40px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+}
+
+.benefits-card {
+  background: white;
+  border: 1px solid var(--neutral-300);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15);
   display: flex;
   flex-direction: column;
+  gap: 20px;
+  min-width: 320px;
+}
+
+.benefit-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px;
+  border-radius: 12px;
+  transition: background 0.2s ease;
+}
+
+.benefit-item:hover {
+  background: var(--neutral-100);
+}
+
+.benefit-icon {
+  font-size: 24px;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--neutral-100);
+  border-radius: 12px;
+  flex-shrink: 0;
+}
+
+.benefit-text {
+  flex: 1;
+}
+
+.benefit-text h4 {
+  margin: 0 0 4px 0;
+  font-family: var(--font-family-heading);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--neutral-900);
+}
+
+.benefit-text p {
+  margin: 0;
+  font-size: 13px;
+  color: var(--neutral-600);
+  line-height: 1.4;
 }
 
 .why-content {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 20px;
+  padding-left: 40px;
 }
 
-.why-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-  max-width: 100%;
-}
-
-.why-card {
-  background: var(--neutral-100);
-  border: 1px solid var(--neutral-300);
-  border-radius: 12px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 28px;
-  gap: 14px;
-}
-
-.why-icon {
-  font-size: 32px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 4px;
-}
-
-.why-card h3 {
-  margin: 0;
+.why-content h2 {
   font-family: var(--font-family-heading);
-  font-size: 18px;
-  font-weight: 500;
+  font-size: clamp(32px, 4vw, 48px);
+  font-weight: 600;
+  margin: 0;
   color: var(--neutral-900);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
 }
 
-.why-card p {
-  margin: 0;
-  font-size: 15px;
+.why-description {
+  font-size: 16px;
   color: var(--neutral-600);
   line-height: 1.6;
+  margin: 0 0 12px 0;
+  max-width: 500px;
 }
 
-@media (max-width: 1100px) {
-  .why-grid {
-    grid-template-columns: repeat(2, 1fr);
+.why-content .btn {
+  background-color: var(--neutral-100);
+  color: #1a1a1a;
+  border: 1px solid var(--neutral-100);
+  padding: 13px 28px;
+  font-size: 15px;
+  font-weight: 500;
+  border-radius: 10px;
+  width: fit-content;
+}
+
+.why-content .btn:hover {
+  background-color: var(--neutral-200);
+  border-color: var(--neutral-200);
+}
+
+@media (max-width: 968px) {
+  .why-wrapper {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .why-content {
+    padding-left: 0;
+    text-align: center;
+    align-items: center;
+  }
+
+  .why-images {
+    height: 400px;
+  }
+
+  .why-image-overlay {
+    right: 20px;
+    left: 20px;
+    top: auto;
+    bottom: -60px;
+    transform: none;
+  }
+
+  .benefits-card {
+    min-width: auto;
+    width: 100%;
   }
 }
 
 @media (max-width: 640px) {
-  .why-grid {
-    grid-template-columns: 1fr;
+  .why-images {
+    height: 350px;
+  }
+
+  .benefits-card {
+    padding: 16px;
     gap: 12px;
+  }
+
+  .benefit-item {
+    padding: 8px;
+  }
+
+  .benefit-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
   }
 }
 
@@ -721,6 +829,20 @@
   display: flex;
   align-items: center;
   gap: 8px;
+}
+
+.new-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #e0f2fe;
+  color: #0369a1;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .venue-card-content h3::after {
