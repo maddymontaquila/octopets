@@ -526,10 +526,10 @@
   max-width: 500px;
 }
 
-.why-content .btn {
+.why-content .btn.btn-primary {
   background-color: var(--neutral-100);
   color: #1a1a1a;
-  border: 1px solid var(--neutral-100);
+  border: 2px solid var(--neutral-900);
   padding: 13px 28px;
   font-size: 15px;
   font-weight: 500;
@@ -537,9 +537,10 @@
   width: fit-content;
 }
 
-.why-content .btn:hover {
+.why-content .btn.btn-primary:hover {
   background-color: var(--neutral-200);
-  border-color: var(--neutral-200);
+  border-color: var(--neutral-900);
+  color: #1a1a1a;
 }
 
 @media (max-width: 968px) {
