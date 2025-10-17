@@ -2,6 +2,7 @@
   width: 100%;
   margin: 0 auto;
   background: var(--neutral-100);
+  margin-top: 80px;
 }
 
 /* Listing Header */
@@ -17,6 +18,9 @@
   overflow: hidden;
   min-height: auto; /* remove fixed min-height to allow natural height */
   z-index: 1;
+  margin-bottom: 0;
+  margin-top: -80px;
+  padding-top: 104px;
 }
 
 .listing-header::before {
@@ -170,6 +174,8 @@
   width: 100%;
   background: var(--neutral-100);
   padding: 60px 0; /* vertical only */
+  position: relative;
+  z-index: 2;
 }
 
 .listing-content-inner {
@@ -579,7 +585,7 @@
   white-space: nowrap;
   box-shadow: none;
   margin: 0 var(--space-1) var(--space-2) 0;
-  border: 1px solid var(--neutral-300);
+  border: 2px solid var(--neutral-400);
   opacity: 1;
   height: 28px;
   box-sizing: border-box;
