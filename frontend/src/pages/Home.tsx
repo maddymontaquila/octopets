@@ -171,32 +171,26 @@ const Home: React.FC = () => {
             <div className="why-content">
               <div className="why-grid">
                 <div className="why-card">
-                  <span className="why-icon">🔎</span>
                   <h3>Discover</h3>
                   <p>Curated listings filtered by the pets actually visiting them.</p>
                 </div>
                 <div className="why-card">
-                  <span className="why-icon">🤝</span>
                   <h3>Connect</h3>
                   <p>Lightweight sharing of what worked and what to prepare for.</p>
                 </div>
                 <div className="why-card">
-                  <span className="why-icon">⭐</span>
                   <h3>Rate & Review</h3>
                   <p>Structured feedback that helps the next owner make a faster decision.</p>
                 </div>
                 <div className="why-card">
-                  <span className="why-icon">💡</span>
                   <h3>Get Context</h3>
                   <p>Surface type, shade, water access, ambient noise and staff attitude details.</p>
                 </div>
                 <div className="why-card">
-                  <span className="why-icon">📍</span>
                   <h3>Arrival Notes</h3>
                   <p>Practical tips on parking, entrance access, and what to expect on arrival.</p>
                 </div>
                 <div className="why-card">
-                  <span className="why-icon">🛡️</span>
                   <h3>Safety First</h3>
                   <p>Comfort and safety indicators including noise levels and environment details.</p>
                 </div>
