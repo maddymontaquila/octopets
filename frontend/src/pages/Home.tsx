@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { LISTING_TYPES, ROUTES } from '../data/constants';
 import { PET_TYPES } from '../data/constantsJsx';
 import RadarSection from '../components/RadarSection';
+import PetPolaroid from '../components/PetPolaroid';
 import '../styles/Home.css';
 
 const testimonials = [
@@ -24,9 +25,42 @@ const testimonials = [
   }
 ];
 
+interface PetInfo {
+  image: string;
+  name: string;
+  type: string;
+  description: string;
+  funFact?: string;
+}
+
+const heroPets: { [key: string]: PetInfo } = {
+  park: {
+    image: '/images/venues/_park.jpg',
+    name: 'Happy Trails Park',
+    type: 'Dog Park',
+    description: 'A spacious park where dogs can run free and make new friends. Features include agility equipment and shaded rest areas.',
+    funFact: 'This park hosts monthly "Yappy Hours" for socializing!'
+  },
+  bunny: {
+    image: '/images/pets/bunny.jpg',
+    name: 'Cotton',
+    type: 'Holland Lop Rabbit',
+    description: 'This adorable bunny loves hopping around pet-friendly cafes and parks. Cotton is a certified therapy rabbit who brings smiles wherever she goes.',
+    funFact: 'Cotton can do tricks and enjoys eating fresh parsley!'
+  },
+  venue: {
+    image: '/images/venues/_custom.jpg',
+    name: 'The Cozy Corner Café',
+    type: 'Pet-Friendly Café',
+    description: 'A welcoming café where pets and their humans can relax together. Offers water bowls, pet treats, and a dedicated outdoor seating area.',
+    funFact: 'They serve "puppuccinos" and have a special cat menu!'
+  }
+};
+
 const Home: React.FC = () => {
   const [randomPetImage, setRandomPetImage] = useState<string>('/images/generic/doggo.jpg');
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
+  const [selectedPet, setSelectedPet] = useState<PetInfo | null>(null);
   
   useEffect(() => {
     // List of pet images available in the public/images/pets directory
@@ -77,18 +111,53 @@ const Home: React.FC = () => {
             </div>
           </div>
           <div className="hero-images">
-            <div className="hero-image hero-image-back">
-              <img src={`${process.env.PUBLIC_URL}/images/venues/_park.jpg`} alt="Pet-friendly park" />
+            <div 
+              className="hero-image hero-image-back hero-image-clickable"
+              onClick={() => setSelectedPet(heroPets.park)}
+              role="button"
+              tabIndex={0}
+              onKeyPress={(e) => e.key === 'Enter' && setSelectedPet(heroPets.park)}
+            >
+              <div className="hero-card">
+                <img src={`${process.env.PUBLIC_URL}/images/venues/_park.jpg`} alt="Pet-friendly park" />
+              </div>
             </div>
-            <div className="hero-image hero-image-middle">
-              <img src={`${process.env.PUBLIC_URL}/images/pets/bunny.jpg`} alt="Cute bunny" />
+            <div 
+              className="hero-image hero-image-middle hero-image-clickable"
+              onClick={() => setSelectedPet(heroPets.bunny)}
+              role="button"
+              tabIndex={0}
+              onKeyPress={(e) => e.key === 'Enter' && setSelectedPet(heroPets.bunny)}
+            >
+              <div className="hero-card">
+                <img src={`${process.env.PUBLIC_URL}/images/pets/bunny.jpg`} alt="Cute bunny" />
+              </div>
             </div>
-            <div className="hero-image hero-image-front">
-              <img src={`${process.env.PUBLIC_URL}/images/venues/_custom.jpg`} alt="Pet-friendly venue" />
+            <div 
+              className="hero-image hero-image-front hero-image-clickable"
+              onClick={() => setSelectedPet(heroPets.venue)}
+              role="button"
+              tabIndex={0}
+              onKeyPress={(e) => e.key === 'Enter' && setSelectedPet(heroPets.venue)}
+            >
+              <div className="hero-card">
+                <img src={`${process.env.PUBLIC_URL}/images/venues/_custom.jpg`} alt="Pet-friendly venue" />
+              </div>
             </div>
           </div>
         </div>
       </section>
+
+      {selectedPet && (
+        <PetPolaroid
+          image={`${process.env.PUBLIC_URL}${selectedPet.image}`}
+          name={selectedPet.name}
+          type={selectedPet.type}
+          description={selectedPet.description}
+          funFact={selectedPet.funFact}
+          onClose={() => setSelectedPet(null)}
+        />
+      )}
 
       <section className="partners-section">
         <div className="partners-container">

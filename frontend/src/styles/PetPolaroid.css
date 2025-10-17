@@ -1,0 +1,145 @@
+.polaroid-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.polaroid-card {
+  background: white;
+  padding: 20px 20px 30px;
+  border-radius: 4px;
+  box-shadow: 0 10px 50px rgba(0, 0, 0, 0.3);
+  max-width: 400px;
+  width: 90%;
+  position: relative;
+  animation: slideUp 0.4s ease;
+  transform-origin: center;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(30px) scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+.polaroid-photo {
+  width: 100%;
+  aspect-ratio: 4/3;
+  overflow: hidden;
+  background: #f0f0f0;
+  margin-bottom: 20px;
+}
+
+.polaroid-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.polaroid-caption {
+  text-align: center;
+  padding: 0 10px;
+}
+
+.polaroid-caption h3 {
+  font-family: var(--font-family-heading);
+  font-size: 28px;
+  margin: 0 0 8px;
+  color: var(--color-primary);
+}
+
+.polaroid-type {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-secondary);
+  margin: 0 0 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.polaroid-description {
+  font-size: 15px;
+  line-height: 1.6;
+  color: #333;
+  margin: 0 0 12px;
+}
+
+.polaroid-fun-fact {
+  font-size: 14px;
+  line-height: 1.5;
+  color: #555;
+  font-style: italic;
+  margin: 0;
+  padding-top: 12px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.fun-fact-label {
+  font-weight: 600;
+  font-style: normal;
+  color: var(--color-primary);
+}
+
+.polaroid-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease;
+}
+
+.polaroid-close:hover {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+@media (max-width: 768px) {
+  .polaroid-card {
+    max-width: 340px;
+  }
+
+  .polaroid-caption h3 {
+    font-size: 24px;
+  }
+
+  .polaroid-type {
+    font-size: 14px;
+  }
+
+  .polaroid-description {
+    font-size: 14px;
+  }
+}
