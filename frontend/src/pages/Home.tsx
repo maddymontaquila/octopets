@@ -36,10 +36,10 @@ interface PetInfo {
 const heroPets: { [key: string]: PetInfo } = {
   park: {
     image: '/images/venues/_park.jpg',
-    name: 'Happy Trails Park',
-    type: 'Dog Park',
-    description: 'A spacious park where dogs can run free and make new friends. Features include agility equipment and shaded rest areas.',
-    funFact: 'This park hosts monthly "Yappy Hours" for socializing!'
+    name: 'Max',
+    type: 'Golden Retriever',
+    description: 'Max is an energetic and friendly golden retriever who loves exploring new pet-friendly venues. He\'s always ready for an adventure and makes friends wherever he goes.',
+    funFact: 'Max knows over 20 different commands and loves swimming!'
   },
   bunny: {
     image: '/images/pets/bunny.jpg',
@@ -50,10 +50,10 @@ const heroPets: { [key: string]: PetInfo } = {
   },
   venue: {
     image: '/images/venues/_custom.jpg',
-    name: 'The Cozy Corner Café',
-    type: 'Pet-Friendly Café',
-    description: 'A welcoming café where pets and their humans can relax together. Offers water bowls, pet treats, and a dedicated outdoor seating area.',
-    funFact: 'They serve "puppuccinos" and have a special cat menu!'
+    name: 'Luna',
+    type: 'Tabby Cat',
+    description: 'Luna is a curious and adventurous tabby who enjoys visiting cat-friendly cafes. She\'s calm, well-behaved, and loves meeting new people and pets.',
+    funFact: 'Luna purrs so loudly she sounds like a tiny motor!'
   }
 };
 
