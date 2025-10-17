@@ -132,19 +132,20 @@
   border-color: var(--neutral-100);
 }
 
-/* Hero section buttons - subtle styling */
+/* Hero section buttons - light button on dark background */
 .hero-buttons .btn-outline {
-  background-color: var(--neutral-900);
-  color: var(--neutral-100);
-  border: 1px solid var(--neutral-900);
-  padding: 12px 28px;
+  background-color: var(--neutral-100);
+  color: #1a1a1a;
+  border: 1px solid var(--neutral-100);
+  padding: 13px 28px;
   font-size: 15px;
   font-weight: 500;
+  border-radius: 10px;
 }
 
 .hero-buttons .btn-outline:hover {
-  background-color: var(--neutral-800);
-  border-color: var(--neutral-800);
+  background-color: var(--neutral-200);
+  border-color: var(--neutral-200);
 }
 
 /* Make sure card-specific buttons use card button styles, even if they have other classes */

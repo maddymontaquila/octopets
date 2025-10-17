@@ -6,62 +6,52 @@
   background: var(--neutral-100);
 }
 
-/* Hero Section - Subtle, minimal design */
+/* Hero Section - Dark, bold, Cursor-inspired */
 .hero {
-  background: var(--neutral-100);
-  min-height: 600px;
+  background: #1a1a1a;
+  min-height: 500px;
   margin: 0;
   display: flex;
   justify-content: center;
   align-items: center;
-  color: var(--neutral-900);
+  color: var(--neutral-100);
   position: relative;
-  overflow: hidden;
-  padding: 120px 20px 100px;
-  border-bottom: 1px solid var(--neutral-300);
+  padding: 140px 20px 120px;
 }
 
 .hero-content {
-  text-align: center;
-  max-width: 900px;
-  padding: 0 var(--space-4);
-  z-index: 3;
-  position: relative;
+  text-align: left;
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 20px;
 }
 
 .hero h1 {
   font-family: var(--font-family-heading);
-  font-size: clamp(48px, 8vw, 72px);
-  line-height: 1.1;
-  margin-bottom: 20px;
-  color: var(--neutral-900);
-  font-weight: 600;
-  letter-spacing: -0.03em;
+  font-size: clamp(42px, 6.5vw, 58px);
+  line-height: 1.2;
+  margin-bottom: 24px;
+  color: var(--neutral-100);
+  font-weight: 500;
+  letter-spacing: -0.02em;
 }
 
 .hero p {
   font-family: var(--font-family-base);
   font-size: 18px;
   font-weight: 400;
-  margin-bottom: 40px;
-  color: var(--neutral-600);
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
+  line-height: 1.6;
+  margin-bottom: 32px;
+  color: rgba(255, 255, 255, 0.8);
+  max-width: 520px;
 }
 
 .hero-buttons {
   display: flex;
-  justify-content: center;
-  gap: 16px;
+  justify-content: flex-start;
+  gap: 12px;
   flex-wrap: wrap;
-}
-
-/* Remove all decoration elements */
-.hero-decoration,
-.hero-circle,
-.hero-circle-yellow {
-  display: none;
 }
 
 /* Content Section - Remove default padding, let each section define its own */
@@ -145,25 +135,14 @@
 
 .pet-type-card:hover {
   border-color: var(--neutral-400);
-  background: var(--neutral-200);
-}
-
-.pet-circle {
-  width: 48px;
-  height: 48px;
-  border-radius: 8px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: var(--neutral-200);
-  flex-shrink: 0;
 }
 
 .pet-types-grid .pet-icon {
-  font-size: 28px;
+  font-size: 48px;
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-shrink: 0;
 }
 
 .pet-type-card h3 {
@@ -254,21 +233,91 @@
   }
 }
 
-/* Features Section - Subtle background differentiation */
+/* Features Section - Match pet-types card style */
 .why-section {
   margin: 0;
-  padding: 80px 20px;
+  padding: 100px 20px;
   background: var(--neutral-200);
   position: relative;
   border-bottom: 1px solid var(--neutral-300);
 }
 
-.why-section .features-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 32px;
-  max-width: 1160px;
+.why-section .section-header {
+  max-width: 1400px;
+  margin: 0 auto 40px;
+  text-align: left;
+}
+
+.why-section .section-header p {
+  margin: 0;
+  text-align: left;
+}
+
+.why-wrapper {
+  max-width: 1400px;
   margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.why-content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.why-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  max-width: 100%;
+}
+
+.why-card {
+  background: var(--neutral-100);
+  border: 1px solid var(--neutral-300);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 20px;
+  gap: 12px;
+}
+
+.why-icon {
+  font-size: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.why-card h3 {
+  margin: 0;
+  font-family: var(--font-family-heading);
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--neutral-900);
+}
+
+.why-card p {
+  margin: 0;
+  font-size: 14px;
+  color: var(--neutral-600);
+  line-height: 1.5;
+}
+
+@media (max-width: 1100px) {
+  .why-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .why-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
 }
 
 /* Remove all polaroid effects */
@@ -277,35 +326,50 @@
   display: none;
 }
 
-.feature-item {
+.feature-card {
   background: var(--neutral-100);
   border: 1px solid var(--neutral-300);
-  border-radius: 16px;
-  padding: 36px;
-  text-align: center;
+  border-radius: 12px;
+  padding: 24px;
   transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
-.feature-item:hover {
+.feature-card:hover {
   border-color: var(--neutral-400);
-  background: var(--neutral-100);
+  background: var(--neutral-200);
+}
+
+.feature-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
 }
 
 .feature-icon {
-  font-size: 48px;
-  margin-bottom: 16px;
-  display: inline-block;
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--neutral-200);
+  font-size: 24px;
+  flex-shrink: 0;
 }
 
-.feature-item h3 {
-  font-size: 24px;
-  font-weight: 600;
-  margin-bottom: 12px;
+.feature-card h3 {
+  font-size: 16px;
+  font-weight: 500;
+  margin: 0;
   color: var(--neutral-900);
 }
 
-.feature-item p {
-  font-size: 16px;
+.feature-card p {
+  font-size: 15px;
   color: var(--neutral-600);
   line-height: 1.6;
   margin: 0;
@@ -395,34 +459,6 @@
   color: var(--neutral-600);
 }
 
-/* Floating Pet Icons - Simplified, no complex animations */
-.floating-pet-icons-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  overflow: hidden;
-  opacity: 0.6;
-}
-
-.floating-pet-icon {
-  position: absolute;
-  font-size: 48px;
-  animation: gentleFloat 20s ease-in-out infinite;
-  opacity: 0.5;
-}
-
-@keyframes gentleFloat {
-  0%, 100% {
-    transform: translateY(0) scale(1);
-  }
-  50% {
-    transform: translateY(-20px) scale(1.1);
-  }
-}
-
 /* Mobile Responsiveness */
 @media (max-width: 968px) {
   .pet-types-wrapper {
@@ -447,8 +483,13 @@
     text-align: center !important;
   }
   
-  .pet-types-grid {
+  .pet-types-grid,
+  .why-grid {
     max-width: 100%;
+  }
+  
+  .why-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
@@ -458,12 +499,22 @@
     min-height: 500px;
   }
   
+  .hero-content {
+    text-align: center;
+  }
+  
   .hero h1 {
-    font-size: 42px;
+    font-size: 38px;
   }
   
   .hero p {
     font-size: 16px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .hero-buttons {
+    justify-content: center;
   }
   
   .pet-types,
@@ -473,7 +524,8 @@
     padding: 60px 20px;
   }
   
-  .pet-types-grid {
+  .pet-types-grid,
+  .why-grid {
     grid-template-columns: 1fr;
     gap: 12px;
   }
@@ -485,11 +537,11 @@
   
   .why-section .features-grid {
     grid-template-columns: 1fr;
-    gap: 24px;
+    gap: 12px;
   }
   
-  .floating-pet-icons-container {
-    display: none;
+  .why-section .section-header h2 {
+    font-size: 36px;
   }
   
   .pet-emoji-group {

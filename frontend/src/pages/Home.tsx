@@ -39,30 +39,11 @@ const Home: React.FC = () => {
     <div className="home-page">
       <section className="hero">
         <div className="hero-content">
-          <h1>Find purrfect<br />pet-friendly places</h1>
-          <p>Discover and share amazing spots for your furry, feathery, or scaly friends.</p>
+          <h1>Find places where your pets are welcome</h1>
+          <p>Discover and share pet-friendly venues. Browse by pet type, location, or venue category.</p>
           <div className="hero-buttons">
             <Link to={ROUTES.LISTINGS} className="btn btn-outline">Browse listings</Link>
           </div>
-        </div>
-        <div className="floating-pet-icons-container">
-          <div className="floating-pet-icon" style={{ top: '15%', left: '10%', '--scale': '1.35', '--start-opacity': '1', '--mid-opacity': '0.3', animationDelay: '0s', animationDuration: '18s' } as React.CSSProperties}>🐶</div>
-          <div className="floating-pet-icon" style={{ top: '65%', left: '15%', '--scale': '0.9', '--start-opacity': '0.4', '--mid-opacity': '1', animationDelay: '-3s', animationDuration: '22s' } as React.CSSProperties}>🐱</div>
-          <div className="floating-pet-icon" style={{ top: '30%', left: '85%', '--scale': '1.5', '--start-opacity': '0.7', '--mid-opacity': '0.2', animationDelay: '-7s', animationDuration: '25s' } as React.CSSProperties}>🐰</div>
-          <div className="floating-pet-icon" style={{ top: '70%', left: '80%', '--scale': '0.75', '--start-opacity': '0.3', '--mid-opacity': '0.9', animationDelay: '-12s', animationDuration: '20s' } as React.CSSProperties}>🐢</div>
-          <div className="floating-pet-icon" style={{ top: '20%', left: '45%', '--scale': '0.6', '--start-opacity': '0.2', '--mid-opacity': '1', animationDelay: '-15s', animationDuration: '23s' } as React.CSSProperties}>🐦</div>
-          <div className="floating-pet-icon" style={{ top: '75%', left: '50%', '--scale': '1.25', '--start-opacity': '0.9', '--mid-opacity': '0.4', animationDelay: '-8s', animationDuration: '19s' } as React.CSSProperties}>🦊</div>
-          <div className="floating-pet-icon" style={{ top: '40%', left: '20%', '--scale': '0.85', '--start-opacity': '0.5', '--mid-opacity': '1', animationDelay: '-14s', animationDuration: '21s' } as React.CSSProperties}>🐹</div>
-          <div className="floating-pet-icon" style={{ top: '55%', left: '30%', '--scale': '1.15', '--start-opacity': '0.8', '--mid-opacity': '0.3', animationDelay: '-6s', animationDuration: '24s' } as React.CSSProperties}>🦜</div>
-          <div className="floating-pet-icon" style={{ top: '25%', left: '70%', '--scale': '0.95', '--start-opacity': '0.3', '--mid-opacity': '0.8', animationDelay: '-11s', animationDuration: '17s' } as React.CSSProperties}>🦔</div>
-
-          {/* Additional icons that always start faded out and then appear */}
-          <div className="floating-pet-icon" style={{ top: '62%', left: '75%', '--scale': '1.4', '--start-opacity': '0', '--mid-opacity': '0.9', animationDelay: '-5s', animationDuration: '26s' } as React.CSSProperties}>🐠</div>
-          <div className="floating-pet-icon" style={{ top: '33%', left: '22%', '--scale': '1.6', '--start-opacity': '0', '--mid-opacity': '0.85', animationDelay: '-9s', animationDuration: '24s' } as React.CSSProperties}>🦁</div>
-          <div className="floating-pet-icon" style={{ top: '18%', left: '65%', '--scale': '0.7', '--start-opacity': '0', '--mid-opacity': '0.7', animationDelay: '-13s', animationDuration: '22s' } as React.CSSProperties}>🦎</div>
-        </div>
-        <div className="hero-decoration">
-          <div className="hero-circle hero-circle-yellow"></div>
         </div>
       </section>
 
@@ -81,9 +62,7 @@ const Home: React.FC = () => {
                     key={pet.id}
                     className="pet-type-card"
                   >
-                    <div className="pet-circle">
-                      <span className="pet-icon">{pet.icon}</span>
-                    </div>
+                    <span className="pet-icon">{pet.icon}</span>
                     <h3>{pet.name}</h3>
                   </Link>
                 ))}
@@ -100,113 +79,50 @@ const Home: React.FC = () => {
               </div>
             </div>
           </div>
-        </section>        <section className="why-section">
-          {/* Floating polaroid photos container */}
-          <div className="floating-polaroids-container">
-            {/* Polaroids arranged in a circular fashion around the "Why choose Octopets" section */}
-            {/* Top polaroids (12 o'clock position) */}
-            <div className="polaroid polaroid-1" style={{ top: '-15%', left: '50%', transform: 'translate(-50%, 0) rotate(-5deg)', animationDelay: '-15s', '--rotate': '-5deg' } as React.CSSProperties}>
-              <img src={`${process.env.PUBLIC_URL}/images/pets/bunny.jpg`} alt="Bunny" />
-              <p>Hoppy times!</p>
-            </div>
-            {/* Top-right polaroids (1-2 o'clock position) */}
-            <div className="polaroid polaroid-2" style={{ top: '-15%', right: '22%', transform: 'translate3d(0, 0, 0) rotate(7deg)', animationDelay: '-29s', '--rotate': '7deg' } as React.CSSProperties}>
-              <img src={`${process.env.PUBLIC_URL}/images/pets/dog7.jpg`} alt="Dog" />
-              <p>Paws & relax</p>
-            </div>
-            {/* Right-bottom polaroids (4-5 o'clock position) */}
-            <div className="polaroid polaroid-4" style={{ top: '48%', right: '13%', transform: 'translate3d(0, 0, 0) rotate(4deg)', animationDelay: '-33s', '--rotate': '4deg' } as React.CSSProperties}>
-              <img src={`${process.env.PUBLIC_URL}/images/pets/cat1.jpg`} alt="Cat" />
-              <p>Meow moments</p>
-            </div>
-            {/* Bottom-right polaroids (5-6 o'clock position) */}
-            <div className="polaroid polaroid-5" style={{ bottom: '-10%', right: '22%', transform: 'translate3d(0, 0, 0) rotate(-8deg)', animationDelay: '-21s', '--rotate': '-8deg' } as React.CSSProperties}>
-              <img src={`${process.env.PUBLIC_URL}/images/pets/hedgehog.jpg`} alt="Hedgehog" />
-              <p>Tiny explorer</p>
-            </div>
-
-            {/* Bottom polaroids (6 o'clock position) */}
-            <div className="polaroid polaroid-1" style={{ top: '-15%', left: '40%', transform: 'translate(-50%, 0) rotate(7deg)', animationDelay: '-37s', '--rotate': '6deg' } as React.CSSProperties}>
-              <img src={`${process.env.PUBLIC_URL}/images/pets/dog5.jpg`} alt="Dog" />
-              <p>Sunny strolls</p>
-            </div>
-            {/* Bottom-left polaroids (7-8 o'clock position) */}
-            <div className="polaroid polaroid-2" style={{ bottom: '-10%', left: '20%', transform: 'translate3d(0, 0, 0) rotate(-4deg)', animationDelay: '-25s', '--rotate': '-4deg' } as React.CSSProperties}>
-              <img src={`${process.env.PUBLIC_URL}/images/pets/dog3.jpg`} alt="Dog" />
-              <p>Buddies 4ever</p>
-            </div>
-            {/* Left-bottom polaroids (8-9 o'clock position) */}
-            <div className="polaroid polaroid-3" style={{ top: '48%', left: '13%', transform: 'translate3d(0, 0, 0) rotate(9deg)', animationDelay: '-51s', '--rotate': '9deg' } as React.CSSProperties}>
-              <img src={`${process.env.PUBLIC_URL}/images/pets/dog10.jpg`} alt="Dog" />
-              <p>Sleepy time!</p>
-            </div>
-            {/* Left polaroids (9 o'clock position) */}
-            <div className="polaroid polaroid-4" style={{ top: '8%', left: '12%', transform: 'translate3d(0, 0, 0) rotate(-7deg)', animationDelay: '-19s', '--rotate': '-7deg' } as React.CSSProperties}>
-              <img src={`${process.env.PUBLIC_URL}/images/pets/dog6.png`} alt="Dog" />
-              <p>Happy puppy day!</p>
-            </div>
-            {/* Top-left polaroids (10-11 o'clock position) */}
-            <div className="polaroid polaroid-5" style={{ top: '-15%', left: '22%', transform: 'translate3d(0, 0, 0) rotate(5deg)', animationDelay: '-39s', '--rotate': '5deg' } as React.CSSProperties}>
-              <img src={`${process.env.PUBLIC_URL}/images/pets/cat2.jpg`} alt="Cat" />
-              <p>Window watcher</p>
-            </div>
-            {/* Inner circle polaroids - offset but not too close to center to avoid feature cards */}
-            <div className="polaroid polaroid-1" style={{ top: '-15%', left: '30%', transform: 'translate3d(0, 0, 0) rotate(-3deg)', animationDelay: '-47s', '--rotate': '-3deg' } as React.CSSProperties}>
-              <img src={`${process.env.PUBLIC_URL}/images/pets/cat3.jpg`} alt="Cat" />
-              <p>Curious kitty</p>
-            </div>
-            <div className="polaroid polaroid-2" style={{ top: '-19%', right: '31%', transform: 'translate3d(0, 0, 0) rotate(2deg)', animationDelay: '-31s', '--rotate': '2deg' } as React.CSSProperties}>
-              <img src={`${process.env.PUBLIC_URL}/images/pets/dog8.jpg`} alt="Dog" />
-              <p>Backyard hangout!</p>
-            </div>
-            <div className="polaroid polaroid-3" style={{ bottom: '-12%', right: '30%', transform: 'translate3d(0, 0, 0) rotate(-2deg)', animationDelay: '-27s', '--rotate': '-2deg' } as React.CSSProperties}>
-              <img src={`${process.env.PUBLIC_URL}/images/pets/dog4.png`} alt="Dog" />
-              <p>Park adventures</p>
-            </div>            <div className="polaroid polaroid-4" style={{ bottom: '-14%', left: '40%', transform: 'translate3d(0, 0, 0) rotate(3deg)', animationDelay: '-23s', '--rotate': '3deg' } as React.CSSProperties}>
-              <img src={`${process.env.PUBLIC_URL}/images/pets/dog-9.jpg`} alt="Dog" />
-              <p>Fall in Seattle</p>
-            </div>
-            {/* New polaroids added with deeper positioning */}
-            <div className="polaroid polaroid-5" style={{ bottom: '-18%', right: '40%', transform: 'translate3d(0, 0, 0) rotate(-5deg)', animationDelay: '-18s', '--rotate': '-5deg' } as React.CSSProperties}>
-              <img src={`${process.env.PUBLIC_URL}/images/pets/dog11.png`} alt="Dog" />
-              <p>Cozy companion</p>
-            </div>
-            <div className="polaroid polaroid-1" style={{ bottom: '-22%', left: '30%', transform: 'translate3d(0, 0, 0) rotate(4deg)', animationDelay: '-42s', '--rotate': '4deg' } as React.CSSProperties}>
-              <img src={`${process.env.PUBLIC_URL}/images/pets/dog12.jpg`} alt="Dog" />
-              <p>Park explorer</p>
-            </div>
-          </div>
-
-          <div className="section-header">
+        </section>
+        <section className="why-section">
+          <div className="section-header" style={{ textAlign: 'left', marginBottom: '32px' }}>
             <h2>Why choose Octopets?</h2>
-            <p>We make finding pet-friendly places easy and fun</p>
+            <p>Purpose-built discovery for real outings with animals — not generic POI lists.</p>
           </div>
+          <div className="why-wrapper">
+            <div className="why-content">
+              <div className="why-grid">
+                <div className="why-card">
+                  <span className="why-icon">🔎</span>
+                  <h3>Discover</h3>
+                  <p>Curated listings filtered by the pets actually visiting them.</p>
+                </div>
+                <div className="why-card">
+                  <span className="why-icon">🤝</span>
+                  <h3>Connect</h3>
+                  <p>Lightweight sharing of what worked and what to prepare for.</p>
+                </div>
+                <div className="why-card">
+                  <span className="why-icon">⭐</span>
+                  <h3>Rate & Review</h3>
+                  <p>Structured feedback that helps the next owner make a faster decision.</p>
+                </div>
+                <div className="why-card">
+                  <span className="why-icon">💡</span>
+                  <h3>Get Context</h3>
+                  <p>Surface type, shade, water access, ambient noise and staff attitude details.</p>
+                </div>
+                <div className="why-card">
+                  <span className="why-icon">📍</span>
+                  <h3>Arrival Notes</h3>
+                  <p>Practical tips on parking, entrance access, and what to expect on arrival.</p>
+                </div>
+                <div className="why-card">
+                  <span className="why-icon">🛡️</span>
+                  <h3>Safety First</h3>
+                  <p>Comfort and safety indicators including noise levels and environment details.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
 
-          <div className="features-grid">
-            <div className="feature-card">
-              <div className="feature-title">
-                <span className="feature-icon">🔎</span>
-                <h3>Discover</h3>
-              </div>
-              <p>Find vetted pet-friendly venues recommended by other pet owners</p>
-            </div>
-            <div className="feature-card">
-              <div className="feature-title">
-                <span className="feature-icon">🤝</span>
-                <h3>Connect</h3>
-              </div>
-              <p>Share experiences and tips with a community of pet lovers</p>
-            </div>
-            <div className="feature-card">
-              <div className="feature-title">
-                <span className="feature-icon">⭐</span>
-                <h3>Rate & Review</h3>
-              </div>
-              <p>Help others by rating and reviewing pet-friendly places</p>
-            </div>          
-            </div>
-        </section>        
-        
         <section className="venue-types">
 
           <div className="section-header">
