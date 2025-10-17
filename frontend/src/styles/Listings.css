@@ -8,7 +8,7 @@
 
 /* Search and Filter Section - Consolidated at top */
 .search-filter-section {
-  background: var(--neutral-100);
+  background: var(--neutral-200);
   padding: 24px 0 24px;
   border-bottom: 1px solid var(--neutral-300);
   display: flex;
@@ -102,7 +102,7 @@
 
 /* Listings Container Section - Full width background to match Home page pattern */
 .listings-page .listings-container {
-  background: var(--neutral-200);
+  background: var(--neutral-100);
   border-bottom: 1px solid var(--neutral-300);
   padding: 60px 20px;
 }
@@ -112,7 +112,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: 24px;
-  max-width: 1400px;
+  max-width: 1360px;
   margin: 0 auto;
 }
 
@@ -144,79 +144,8 @@
   line-height: 1.6;
 }
 
-/* CTA Section in Listings page */
-.listings-page .cta-section-container {
-  background: var(--neutral-100);
-  padding: 60px 20px;
-  border-top: 1px solid var(--neutral-300);
-}
-
-.listings-page .cta-section {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 60px;
-  align-items: center;
-}
-
-.listings-page .cta-image {
-  width: 100%;
-  height: 400px;
-  overflow: hidden;
-  border-radius: 12px;
-  background: var(--neutral-300);
-}
-
-.listings-page .cta-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.listings-page .cta-content {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-
-.listings-page .cta-text h2 {
-  font-family: var(--font-family-heading);
-  font-size: clamp(28px, 3.5vw, 40px);
-  font-weight: 600;
-  margin-bottom: 12px;
-  color: var(--neutral-900);
-  line-height: 1.3;
-  letter-spacing: -0.02em;
-}
-
-.listings-page .cta-text p {
-  font-size: 16px;
-  color: var(--neutral-600);
-  line-height: 1.6;
-  margin: 0;
-}
-
-.listings-page .hero-buttons {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin-top: 24px;
-}
-
 /* Responsive adjustments */
 @media (max-width: 968px) {
-  .listings-page .cta-section {
-    grid-template-columns: 1fr;
-    gap: 40px;
-  }
-
-  .listings-page .cta-image {
-    height: 300px;
-  }
-}
-
-@media (max-width: 768px) {
   .hero-section {
     padding: 100px 20px 40px;
     min-height: 250px;
