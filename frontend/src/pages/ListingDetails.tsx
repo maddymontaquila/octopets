@@ -52,50 +52,52 @@ const ListingDetails: React.FC = () => {
           className="listing-header-background"
         />        
         <div className="listing-header-overlay"></div>
-        <div className="venue-type-tag">
-          <div className="venue-type-pill">
-            <span>{LISTING_TYPES.find((t: ListingType) => t.id === listing.type)?.icon}</span>
-            <span>{LISTING_TYPES.find((t: ListingType) => t.id === listing.type)?.name}</span>
+        <div className="listing-header-inner">
+          <div className="venue-type-tag">
+            <div className="venue-type-pill">
+              <span>{LISTING_TYPES.find((t: ListingType) => t.id === listing.type)?.icon}</span>
+              <span>{LISTING_TYPES.find((t: ListingType) => t.id === listing.type)?.name}</span>
+            </div>
           </div>
-        </div>
-        <div className="listing-title">
-          <h1>{listing.name}</h1>          
-          <div className="listing-location">
-            <span>📍</span> {listing.location}
+          <div className="listing-title">
+            <h1>{listing.name}</h1>          
+            <div className="listing-location">
+              <span>📍</span> {listing.location}
+            </div>
+            <div className="rating-container">
+              <span>★ {listing.rating.toFixed(1)} <span className="reviews-gray">({listing.reviews.length} reviews)</span></span>
+            </div>
+            <div className="hero-contact-info">
+              {listing.contactInfo?.phone && (
+                <div className="hero-contact-item">
+                  <span className="contact-icon">📞</span>
+                  <span>{listing.contactInfo.phone}</span>
+                </div>
+              )}
+              {listing.contactInfo?.email && (
+                <div className="hero-contact-item">
+                  <span className="contact-icon">📧</span>
+                  <span>{listing.contactInfo.email}</span>
+                </div>
+              )}
+              {listing.contactInfo?.website && (
+                <div className="hero-contact-item">
+                  <span className="contact-icon">🌐</span>
+                  <a href={listing.contactInfo.website} target="_blank" rel="noopener noreferrer">
+                    Visit Website
+                  </a>
+                </div>
+              )}
+            </div>
           </div>
-          <div className="rating-container">
-            <span>★ {listing.rating.toFixed(1)} <span className="reviews-gray">({listing.reviews.length} reviews)</span></span>
+          <div className="listing-actions">
+            <Link to={ROUTES.LISTINGS} className="btn btn-outline">Back to Listings</Link>
           </div>
-          
-          <div className="hero-contact-info">
-            {listing.contactInfo?.phone && (
-              <div className="hero-contact-item">
-                <span className="contact-icon">📞</span>
-                <span>{listing.contactInfo.phone}</span>
-              </div>
-            )}
-            {listing.contactInfo?.email && (
-              <div className="hero-contact-item">
-                <span className="contact-icon">📧</span>
-                <span>{listing.contactInfo.email}</span>
-              </div>
-            )}
-            {listing.contactInfo?.website && (
-              <div className="hero-contact-item">
-                <span className="contact-icon">🌐</span>
-                <a href={listing.contactInfo.website} target="_blank" rel="noopener noreferrer">
-                  Visit Website
-                </a>
-              </div>
-            )}
-          </div>
-        </div>
-        <div className="listing-actions">
-          <Link to={ROUTES.LISTINGS} className="btn btn-outline">Back to Listings</Link>
         </div>
       </div>
 
       <div className="listing-content">
+        <div className="listing-content-inner">
         <div className="listing-main">
           <div className="listing-main-content-row">
             <div className="listing-images-container">
@@ -159,9 +161,9 @@ const ListingDetails: React.FC = () => {
               <p>{listing.description}</p>
             </div>
           </div>
-        </div>
+  </div>
 
-        <div className="listing-sidebar">          <div className="allowed-pets-section">
+  <div className="listing-sidebar">          <div className="allowed-pets-section">
             <h3>Allowed Pets</h3>
             <div className="allowed-pets-pills">                {listing.allowedPets.map((petId, index) => {
                 const pet = PET_TYPES.find(p => p.id === petId);
@@ -195,6 +197,7 @@ const ListingDetails: React.FC = () => {
             </div>
           </div>
         </div>
+        </div>{/* end listing-content-inner */}
       </div>
     </div>
   );
