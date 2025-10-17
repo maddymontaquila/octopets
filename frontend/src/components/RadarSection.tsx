@@ -73,7 +73,7 @@ const RadarSection: React.FC = () => {
           y: Math.random() * rect.height,
           brightness: 0,
           maxBrightness: 0.6 + Math.random() * 0.4, // Random brightness between 0.6 and 1.0
-          fadeSpeed: 0.01 + Math.random() * 0.02, // Random fade speed
+          fadeSpeed: 0.003 + Math.random() * 0.005, // Slower fade speed (reduced from 0.01-0.03 to 0.003-0.008)
           hasLabel: hasLabel,
           label: hasLabel ? labels[i] : undefined,
           labelAngle: hasLabel ? Math.random() * Math.PI * 2 : undefined, // Random angle for label position
