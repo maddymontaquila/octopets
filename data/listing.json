@@ -602,5 +602,203 @@
         "listing": null
       }
     ]
+  },
+  {
+    "id": 17,
+    "name": "Mooch's Meow",
+    "description": "A trendy cat cafe with climbing structures, cozy nooks, and a special menu for feline friends. Humans welcome too!",
+    "price": 0,
+    "address": "777 Purr Street, Austin, TX",
+    "location": "777 Purr Street, Austin, TX",
+    "type": "cafe",
+    "allowedPets": [
+      "cats",
+      "small_mammals"
+    ],
+    "amenities": [
+      "Cat climbing walls",
+      "Cozy nooks",
+      "Cat treats menu",
+      "Free WiFi",
+      "Instagrammable spaces"
+    ],
+    "createdAt": "2025-09-10T00:00:00",
+    "updatedAt": null,
+    "reviews": [
+      {
+        "id": 1701,
+        "listingId": 17,
+        "reviewer": "Cat Parent Emma",
+        "rating": 5,
+        "comment": "My cats absolutely loved it! The banana-themed decor is so fun and unique.",
+        "createdAt": "2025-09-10T00:00:00",
+        "listing": null
+      }
+    ]
+  },
+  {
+    "id": 18,
+    "name": "The Gilded Paw Resort",
+    "description": "Ultra-luxury resort offering spa treatments, gourmet meals, and premium accommodations for pampered pets and their owners.",
+    "price": 0,
+    "address": "999 Diamond Drive, Beverly Hills, CA",
+    "location": "999 Diamond Drive, Beverly Hills, CA",
+    "type": "hotel",
+    "allowedPets": [
+      "dogs",
+      "cats"
+    ],
+    "amenities": [
+      "Pet spa & massage",
+      "Gourmet pet menu",
+      "24/7 concierge",
+      "Private suites",
+      "Rooftop garden"
+    ],
+    "createdAt": "2025-09-15T00:00:00",
+    "updatedAt": null,
+    "reviews": [
+      {
+        "id": 1801,
+        "listingId": 18,
+        "reviewer": "Luxury Traveler Michael",
+        "rating": 5,
+        "comment": "Five-star experience! My poodle got a massage while I relaxed by the pool.",
+        "createdAt": "2025-09-15T00:00:00",
+        "listing": null
+      }
+    ]
+  },
+  {
+    "id": 19,
+    "name": "Woodland Trails Park",
+    "description": "Natural forest park with miles of hiking trails, streams for dogs to splash in, and wildlife viewing opportunities.",
+    "price": 0,
+    "address": "333 Forest Road, Portland, OR",
+    "location": "333 Forest Road, Portland, OR",
+    "type": "park",
+    "allowedPets": [
+      "dogs"
+    ],
+    "amenities": [
+      "Hiking trails",
+      "Stream access",
+      "Wildlife viewing",
+      "Picnic areas",
+      "Parking"
+    ],
+    "createdAt": "2025-09-20T00:00:00",
+    "updatedAt": null,
+    "reviews": [
+      {
+        "id": 1901,
+        "listingId": 19,
+        "reviewer": "Outdoor Adventurer Lisa",
+        "rating": 5,
+        "comment": "Perfect for active dogs! Beautiful trails and my lab loves the streams.",
+        "createdAt": "2025-09-20T00:00:00",
+        "listing": null
+      }
+    ]
+  },
+  {
+    "id": 20,
+    "name": "Cozy Cottage Getaway",
+    "description": "Charming countryside cottage with a large fenced yard, perfect for a peaceful retreat with your pets.",
+    "price": 0,
+    "address": "555 Meadow Lane, Nashville, TN",
+    "location": "555 Meadow Lane, Nashville, TN",
+    "type": "home",
+    "allowedPets": [
+      "dogs",
+      "cats",
+      "small_mammals"
+    ],
+    "amenities": [
+      "Large fenced yard",
+      "Fireplace",
+      "Pet-friendly furniture",
+      "Rural setting",
+      "Full kitchen"
+    ],
+    "createdAt": "2025-09-25T00:00:00",
+    "updatedAt": null,
+    "reviews": [
+      {
+        "id": 2001,
+        "listingId": 20,
+        "reviewer": "Country Lover Dan",
+        "rating": 4,
+        "comment": "Peaceful and quiet. Our dogs loved running in the huge yard!",
+        "createdAt": "2025-09-25T00:00:00",
+        "listing": null
+      }
+    ]
+  },
+  {
+    "id": 21,
+    "name": "Bark & Brew Pub",
+    "description": "Dog-friendly pub with outdoor beer garden, dog menu, and weekly social events for pets and owners.",
+    "price": 0,
+    "address": "444 Tap Street, Denver, CO",
+    "location": "444 Tap Street, Denver, CO",
+    "type": "cafe",
+    "allowedPets": [
+      "dogs"
+    ],
+    "amenities": [
+      "Outdoor beer garden",
+      "Dog menu",
+      "Social events",
+      "Live music",
+      "Water bowls"
+    ],
+    "createdAt": "2025-10-01T00:00:00",
+    "updatedAt": null,
+    "reviews": [
+      {
+        "id": 2101,
+        "listingId": 21,
+        "reviewer": "Beer Enthusiast Jake",
+        "rating": 5,
+        "comment": "Great vibes! My dog made friends while I enjoyed local craft beer.",
+        "createdAt": "2025-10-01T00:00:00",
+        "listing": null
+      }
+    ]
+  },
+  {
+    "id": 22,
+    "name": "Exotic Pets Emporium",
+    "description": "Specialty store welcoming all types of exotic pets with expert staff and unique supplies for unusual companions.",
+    "price": 0,
+    "address": "222 Unique Boulevard, Miami, FL",
+    "location": "222 Unique Boulevard, Miami, FL",
+    "type": "custom",
+    "allowedPets": [
+      "birds",
+      "small_mammals",
+      "other"
+    ],
+    "amenities": [
+      "Expert staff",
+      "Exotic supplies",
+      "Educational workshops",
+      "Species-specific areas",
+      "Consultation services"
+    ],
+    "createdAt": "2025-10-05T00:00:00",
+    "updatedAt": null,
+    "reviews": [
+      {
+        "id": 2201,
+        "listingId": 22,
+        "reviewer": "Reptile Owner Chris",
+        "rating": 5,
+        "comment": "Finally a place that understands exotic pets! The staff is incredibly knowledgeable.",
+        "createdAt": "2025-10-05T00:00:00",
+        "listing": null
+      }
+    ]
   }
 ]

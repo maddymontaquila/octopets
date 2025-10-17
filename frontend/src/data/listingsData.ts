@@ -212,6 +212,108 @@ const listingsData: Listing[] = [
       email: "hello@moochsmeow.com",
       website: "https://moochsmeow.com"
     }
+  },
+  {
+    id: "17",
+    name: "The Gilded Paw Resort",
+    type: "hotel",
+    location: "123 Luxury Lane, Beverly Hills, CA",
+    description: "An upscale pet-friendly resort offering world-class accommodations for you and your furry companions. Spa services, gourmet pet dining, and concierge services available.",
+    allowedPets: ["dogs", "cats"],
+    amenities: ["Pet spa", "Gourmet pet dining", "24/7 concierge", "Luxury suites", "Pet sitting services"],
+    photos: ["hotel1.jpg", "hotel2.jpg"],
+    rating: 4.9,
+    reviews: [],
+    contactInfo: {
+      phone: "555-777-8888",
+      email: "concierge@gildedpaw.com",
+      website: "https://gildedpawresort.com"
+    }
+  },
+  {
+    id: "18",
+    name: "Woodland Trails",
+    type: "park",
+    location: "456 Forest Road, Portland, OR",
+    description: "Miles of scenic hiking trails through lush forests. Perfect for adventurous dogs and nature-loving cats on leashes.",
+    allowedPets: ["dogs", "cats"],
+    amenities: ["Hiking trails", "Water stations", "Waste stations", "Picnic areas", "Off-leash zones"],
+    photos: ["park1.jpg", "park2.jpg"],
+    rating: 4.7,
+    reviews: [],
+    contactInfo: {
+      phone: "555-333-4444",
+      email: "info@woodlandtrails.com",
+      website: "https://woodlandtrails.com"
+    }
+  },
+  {
+    id: "19",
+    name: "Cozy Cottage",
+    type: "restaurant",
+    location: "789 Maple Street, Nashville, TN",
+    description: "A charming cottage-style restaurant with a pet-friendly patio serving comfort food classics. Dogs and cats welcome!",
+    allowedPets: ["dogs", "cats"],
+    amenities: ["Outdoor patio", "Pet menu", "Water bowls", "Treats", "Heaters in winter"],
+    photos: ["cafe1.jpg", "cafe2.jpg"],
+    rating: 4.5,
+    reviews: [],
+    contactInfo: {
+      phone: "555-222-3333",
+      email: "reservations@cozycottage.com",
+      website: "https://cozycottage.com"
+    }
+  },
+  {
+    id: "20",
+    name: "Bark & Brew",
+    type: "cafe",
+    location: "321 Coffee Street, Seattle, WA",
+    description: "A dog-friendly coffee shop with treats for both humans and pups. Great wifi, cozy atmosphere, and a small indoor play area for dogs.",
+    allowedPets: ["dogs"],
+    amenities: ["Puppuccinos", "Dog play area", "Free wifi", "Outdoor seating", "Dog treats"],
+    photos: ["moochs1.jpg", "moochs2.jpg"],
+    rating: 4.8,
+    reviews: [],
+    contactInfo: {
+      phone: "555-999-0000",
+      email: "hello@barkandbrew.com",
+      website: "https://barkandbrew.com"
+    }
+  },
+  {
+    id: "21",
+    name: "Exotic Pets Emporium",
+    type: "shop",
+    location: "654 Reptile Road, Austin, TX",
+    description: "Specialty shop catering to exotic pet owners. Supplies for reptiles, birds, small mammals, and more. Knowledgeable staff and adoption services.",
+    allowedPets: ["birds", "reptiles", "small_mammals", "other"],
+    amenities: ["Expert staff", "Adoption services", "Specialty supplies", "Educational workshops", "Pet grooming"],
+    photos: ["store1.jpg", "store2.jpg"],
+    rating: 4.6,
+    reviews: [],
+    contactInfo: {
+      phone: "555-444-5555",
+      email: "info@exoticpets.com",
+      website: "https://exoticpetsemporium.com"
+    }
+  },
+  {
+    id: "22",
+    name: "Fins & Friends Aquatic Center",
+    type: "shop",
+    location: "987 Ocean Boulevard, San Diego, CA",
+    description: "Premium aquarium shop specializing in fish, aquatic plants, and supplies. Also welcomes small aquatic pets and reptiles. Expert advice for saltwater and freshwater enthusiasts.",
+    allowedPets: ["fish", "reptiles", "small_mammals"],
+    amenities: ["Expert consultations", "Custom aquarium design", "Live plants", "Rare fish species", "Maintenance services"],
+    photos: ["home1.jpg", "home2.jpg"],
+    rating: 4.9,
+    reviews: [],
+    contactInfo: {
+      phone: "555-666-7777",
+      email: "info@finsandfriends.com",
+      website: "https://finsandfriends.com"
+    }
   }
 ];
 

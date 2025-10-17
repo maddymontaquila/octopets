@@ -11,7 +11,7 @@ interface ListingCardProps {
 
 const ListingCard: React.FC<ListingCardProps> = ({ listing }) => {
   return (
-    <div className="listing-card">
+    <Link to={`/listing/${listing.id}`} className="listing-card">
       <div className="listing-image">
         {listing.photos && listing.photos.length > 0 ? (
           <img src={`/images/venues/${listing.photos[0]}`} alt={listing.name} />
@@ -35,11 +35,6 @@ const ListingCard: React.FC<ListingCardProps> = ({ listing }) => {
       <div className="listing-details-under-name">
         <h3>{listing.name}</h3>
         <div className="listing-address">{listing.location}</div>
-        <div className="listing-buttons">
-          <Link to={`/listing/${listing.id}`} className="btn btn-small btn-outline">
-            View details
-          </Link>
-        </div>
       </div>
 
       <div className="listing-card-footer">
@@ -54,7 +49,7 @@ const ListingCard: React.FC<ListingCardProps> = ({ listing }) => {
           })}
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 

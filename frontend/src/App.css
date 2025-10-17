@@ -4,7 +4,7 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: var(--gradient-background);
+  background: var(--neutral-100);
   color: var(--neutral-900);
   position: relative;
   overflow-x: hidden;
@@ -207,9 +207,9 @@ p {
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .main-content {
-    padding-top: 60px; /* Adjust if header height changes */
-    padding-left: var(--space-3);
-    padding-right: var(--space-3);
+    padding-top: 0;
+    padding-left: 0;
+    padding-right: 0;
   }
 
   h1 {
