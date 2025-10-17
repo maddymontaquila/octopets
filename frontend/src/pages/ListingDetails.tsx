@@ -1,10 +1,153 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { 
+  faWifi, 
+  faSquareParking, 
+  faUtensils, 
+  faWater, 
+  faTree,
+  faShower,
+  faUmbrellaBeach,
+  faDog,
+  faMugSaucer,
+  faCouch,
+  faTv,
+  faSnowflake,
+  faFire,
+  faShieldDog,
+  faCheck,
+  faTrash,
+  faChair,
+  faSeedling,
+  faPersonWalking,
+  faPaw,
+  faHouseChimney,
+  faBowlFood,
+  faBed,
+  faKey,
+  faWind,
+  faBroom,
+  faCar,
+  faKitchenSet,
+  faPhone,
+  faEnvelope,
+  faGlobe,
+  faLocationDot,
+  faStar,
+  faCat,
+  faHorse,
+  faDove,
+  faFish,
+  faOtter,
+  faHouse,
+  faHotel,
+  faCartShopping,
+  faBuilding
+} from '@fortawesome/free-solid-svg-icons';
 import { LISTING_TYPES, ROUTES } from '../data/constants';
 import { PET_TYPES } from '../data/constantsJsx';
 import { DataService } from '../data/dataService';
 import { Listing, ListingType } from '../types/types';
 import '../styles/ListingDetails.css';
+
+// Map amenities to FontAwesome icons
+const getAmenityIcon = (amenity: string) => {
+  const amenityLower = amenity.toLowerCase();
+  
+  // Connectivity & Tech
+  if (amenityLower.includes('wifi') || amenityLower.includes('wi-fi') || amenityLower.includes('internet')) return faWifi;
+  if (amenityLower.includes('tv') || amenityLower.includes('entertainment')) return faTv;
+  
+  // Parking & Transportation
+  if (amenityLower.includes('parking')) return faSquareParking;
+  if (amenityLower.includes('car') || amenityLower.includes('vehicle')) return faCar;
+  
+  // Food & Dining
+  if (amenityLower.includes('food') || amenityLower.includes('dining') || amenityLower.includes('restaurant')) return faUtensils;
+  if (amenityLower.includes('kitchen')) return faKitchenSet;
+  if (amenityLower.includes('coffee') || amenityLower.includes('cafe')) return faMugSaucer;
+  if (amenityLower.includes('bowl') || amenityLower.includes('feeding')) return faBowlFood;
+  
+  // Water & Outdoor
+  if (amenityLower.includes('water') || amenityLower.includes('fountain')) return faWater;
+  if (amenityLower.includes('beach') || amenityLower.includes('pool')) return faUmbrellaBeach;
+  if (amenityLower.includes('outdoor') || amenityLower.includes('yard')) return faTree;
+  if (amenityLower.includes('garden') || amenityLower.includes('plant')) return faSeedling;
+  
+  // Comfort & Furniture
+  if (amenityLower.includes('seating') || amenityLower.includes('lounge') || amenityLower.includes('chair')) return faChair;
+  if (amenityLower.includes('couch') || amenityLower.includes('sofa')) return faCouch;
+  if (amenityLower.includes('bench')) return faChair;
+  if (amenityLower.includes('bed') || amenityLower.includes('sleep')) return faBed;
+  if (amenityLower.includes('shade') || amenityLower.includes('shelter')) return faTree;
+  
+  // Climate Control
+  if (amenityLower.includes('air') || amenityLower.includes('ac') || amenityLower.includes('cooling') || amenityLower.includes('climate')) return faSnowflake;
+  if (amenityLower.includes('heat') || amenityLower.includes('fireplace') || amenityLower.includes('warm')) return faFire;
+  if (amenityLower.includes('ventilat')) return faWind;
+  
+  // Bathroom & Cleaning
+  if (amenityLower.includes('shower') || amenityLower.includes('bath')) return faShower;
+  if (amenityLower.includes('waste') || amenityLower.includes('trash') || amenityLower.includes('disposal')) return faTrash;
+  if (amenityLower.includes('clean') || amenityLower.includes('housekeep')) return faBroom;
+  
+  // Pet Specific
+  if (amenityLower.includes('pet') || amenityLower.includes('dog') || amenityLower.includes('cat')) return faDog;
+  if (amenityLower.includes('fenced') || amenityLower.includes('secure') || amenityLower.includes('enclosed')) return faShieldDog;
+  if (amenityLower.includes('paw') || amenityLower.includes('animal')) return faPaw;
+  if (amenityLower.includes('walk') || amenityLower.includes('trail') || amenityLower.includes('path')) return faPersonWalking;
+  
+  // Access & Entry
+  if (amenityLower.includes('access') || amenityLower.includes('entry') || amenityLower.includes('key')) return faKey;
+  if (amenityLower.includes('door')) return faHouseChimney;
+  
+  // Default
+  return faCheck;
+};
+
+// Map pet types to FontAwesome icons
+const getPetIcon = (petId: string) => {
+  switch (petId.toLowerCase()) {
+    case 'dogs':
+      return faDog;
+    case 'cats':
+      return faCat;
+    case 'birds':
+      return faDove;
+    case 'fish':
+      return faFish;
+    case 'rabbits':
+    case 'other':
+      return faOtter;
+    case 'horses':
+      return faHorse;
+    default:
+      return faPaw;
+  }
+};
+
+// Map venue types to FontAwesome icons
+const getVenueIcon = (venueType: string) => {
+  switch (venueType.toLowerCase()) {
+    case 'park':
+      return faTree;
+    case 'cafe':
+      return faMugSaucer;
+    case 'restaurant':
+      return faUtensils;
+    case 'home':
+      return faHouse;
+    case 'hotel':
+      return faHotel;
+    case 'shop':
+      return faCartShopping;
+    case 'custom':
+      return faBuilding;
+    default:
+      return faBuilding;
+  }
+};
 
 const ListingDetails: React.FC = () => {
   const { id } = useParams();
@@ -45,164 +188,139 @@ const ListingDetails: React.FC = () => {
 
   return (
     <div className="listing-details">
-      <div className="listing-header">
-        <img 
-          src={`${process.env.PUBLIC_URL}/images/generic/cat.jpg`} 
-          alt="Cat in a pet-friendly place" 
-          className="listing-header-background"
-        />        
-        <div className="listing-header-overlay"></div>
-        <div className="listing-header-inner">
-          <div className="venue-type-tag">
-            <div className="venue-type-pill">
-              <span>{LISTING_TYPES.find((t: ListingType) => t.id === listing.type)?.icon}</span>
-              <span>{LISTING_TYPES.find((t: ListingType) => t.id === listing.type)?.name}</span>
+      {/* Photo Gallery */}
+      <div className="listing-gallery">
+        {listing.photos && listing.photos.length > 0 ? (
+          <div className="gallery-grid">
+            <div className="gallery-main">
+              <img 
+                src={`/images/venues/${listing.photos[currentPhotoIndex]}`} 
+                alt={`${listing.name}`}
+                onClick={() => setCurrentPhotoIndex((currentPhotoIndex + 1) % listing.photos.length)}
+              />
             </div>
-          </div>
-          <div className="listing-title">
-            <h1>{listing.name}</h1>          
-            <div className="rating-container">
-              <span>★ {listing.rating.toFixed(1)} <span className="reviews-gray">({listing.reviews.length} reviews)</span></span>
-            </div>
-            <div className="hero-contact-bar">
-              <div className="contact-item">
-                <span className="contact-icon">📍</span>
-                <span>{listing.location}</span>
+            {listing.photos.length > 1 && (
+              <div className="gallery-thumbnails">
+                {listing.photos.slice(0, 4).map((photo, idx) => (
+                  <div 
+                    key={idx}
+                    className={`gallery-thumb ${idx === currentPhotoIndex ? 'active' : ''}`}
+                    onClick={() => setCurrentPhotoIndex(idx)}
+                  >
+                    <img src={`/images/venues/${photo}`} alt={`${listing.name} ${idx + 1}`} />
+                  </div>
+                ))}
               </div>
-              {listing.contactInfo?.phone && (
-                <>
-                  <span className="hero-contact-separator" />
-                  <div className="contact-item">
-                    <span className="contact-icon">📞</span>
-                    <span>{listing.contactInfo.phone}</span>
-                  </div>
-                </>
-              )}
-              {listing.contactInfo?.email && (
-                <>
-                  <span className="hero-contact-separator" />
-                  <div className="contact-item">
-                    <span className="contact-icon">📧</span>
-                    <span>{listing.contactInfo.email}</span>
-                  </div>
-                </>
-              )}
-              {listing.contactInfo?.website && (
-                <>
-                  <span className="hero-contact-separator" />
-                  <div className="contact-item">
-                    <span className="contact-icon">🌐</span>
-                    <a href={listing.contactInfo.website} target="_blank" rel="noopener noreferrer">Visit Website</a>
-                  </div>
-                </>
-              )}
-            </div>
+            )}
           </div>
-        </div>
+        ) : (
+          <div className="gallery-placeholder">
+            <div className="placeholder-icon">
+              {LISTING_TYPES.find((t: ListingType) => t.id === listing.type)?.icon || '🏠'}
+            </div>
+            <p>Photo gallery</p>
+          </div>
+        )}
       </div>
 
+      {/* Main Content */}
       <div className="listing-content">
-        <div className="listing-content-inner">
-        <div className="listing-main">
-          <div className="listing-main-content-row">
-            <div className="listing-images-container">
-              {listing.photos && listing.photos.length > 0 ? (
-                <div className="listing-images">
-                  <div className="images-carousel">
-                    {listing.photos.map((photo, idx) => (
-                      <div 
-                        key={idx} 
-                        className={`carousel-item ${idx === currentPhotoIndex ? 'active' : ''}`}
-                      >
-                        <img 
-                          src={`/images/venues/${photo}`} 
-                          alt={`${listing.name} ${idx + 1}`} 
-                        />
-                      </div>
-                    ))}
-                  </div>
-                  {listing.photos.length > 1 && (
-                    <div className="carousel-controls">
-                      <button 
-                        className="carousel-control prev" 
-                        onClick={() => setCurrentPhotoIndex((currentPhotoIndex - 1 + listing.photos.length) % listing.photos.length)}
-                        aria-label="Previous photo"
-                      >
-                        &#8592;
-                      </button>
-                      <div className="carousel-dots">
-                        {listing.photos.map((_, idx) => (
-                          <span 
-                            key={idx} 
-                            className={`carousel-dot ${idx === currentPhotoIndex ? 'active' : ''}`}
-                            onClick={() => setCurrentPhotoIndex(idx)}
-                            role="button"
-                            aria-label={`Go to photo ${idx + 1}`}
-                          />
-                        ))}
-                      </div>
-                      <button 
-                        className="carousel-control next" 
-                        onClick={() => setCurrentPhotoIndex((currentPhotoIndex + 1) % listing.photos.length)}
-                        aria-label="Next photo"
-                      >
-                        &#8594;
-                      </button>
-                    </div>
-                  )}
+        <div className="listing-content-wrapper">
+          <div className="listing-main">
+            {/* Title and basic info */}
+            <div className="listing-header-info">
+              <div className="listing-title-row">
+                <h1>{listing.name}</h1>
+                <div className="venue-type-badge">
+                  <FontAwesomeIcon icon={getVenueIcon(listing.type)} className="venue-icon" />
+                  <span>{LISTING_TYPES.find((t: ListingType) => t.id === listing.type)?.name}</span>
                 </div>
-              ) : (
-                <div className="image-placeholder">
-                  <div className="placeholder-icon">
-                    {LISTING_TYPES.find((t: ListingType) => t.id === listing.type)?.icon || '🏠'}
+              </div>
+              <div className="listing-meta">
+                <div className="meta-item">
+                  <FontAwesomeIcon icon={faStar} className="star-icon" />
+                  <span>{listing.rating.toFixed(1)}</span>
+                  <span className="meta-separator">·</span>
+                  <span>{listing.reviews.length} reviews</span>
+                </div>
+                <span className="meta-separator">·</span>
+                <div className="meta-item">
+                  <FontAwesomeIcon icon={faLocationDot} className="location-icon" />
+                  <span>{listing.location}</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Description */}
+            <div className="listing-section">
+              <h2>About this place</h2>
+              <p>{listing.description}</p>
+            </div>
+
+            {/* Amenities */}
+            <div className="listing-section">
+              <h2>What this place offers</h2>
+              <div className="amenities-list">
+                {listing.amenities.map((amenity, index) => (
+                  <div key={index} className="amenity-item">
+                    <FontAwesomeIcon icon={getAmenityIcon(amenity)} className="amenity-icon" />
+                    <span>{amenity}</span>
                   </div>
-                  <p>Photo gallery would appear here</p>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Sidebar */}
+          <div className="listing-sidebar">
+            <div className="sidebar-card">
+              {/* Allowed Pets */}
+              <div className="card-section">
+                <h3>Allowed Pets</h3>
+                <div className="pets-list">
+                  {listing.allowedPets.map((petId) => {
+                    const pet = PET_TYPES.find(p => p.id === petId);
+                    return pet ? (
+                      <div key={petId} className="pet-item">
+                        <FontAwesomeIcon icon={getPetIcon(petId)} className="pet-icon-fa" />
+                        <span>{pet.name}</span>
+                      </div>
+                    ) : null;
+                  })}
+                </div>
+              </div>
+
+              {/* Contact Info */}
+              {(listing.contactInfo?.phone || listing.contactInfo?.email || listing.contactInfo?.website) && (
+                <div className="card-section">
+                  <h3>Contact</h3>
+                  <div className="contact-list">
+                    {listing.contactInfo?.phone && (
+                      <div className="contact-item">
+                        <FontAwesomeIcon icon={faPhone} className="contact-icon" />
+                        <span>{listing.contactInfo.phone}</span>
+                      </div>
+                    )}
+                    {listing.contactInfo?.email && (
+                      <div className="contact-item">
+                        <FontAwesomeIcon icon={faEnvelope} className="contact-icon" />
+                        <span>{listing.contactInfo.email}</span>
+                      </div>
+                    )}
+                    {listing.contactInfo?.website && (
+                      <div className="contact-item">
+                        <FontAwesomeIcon icon={faGlobe} className="contact-icon" />
+                        <a href={listing.contactInfo.website} target="_blank" rel="noopener noreferrer">
+                          Visit Website
+                        </a>
+                      </div>
+                    )}
+                  </div>
                 </div>
               )}
             </div>
-            
-            <div className="listing-description">
-              <h2>About This Place</h2>
-              <p>{listing.description}</p>
-            </div>
-          </div>
-  </div>
-
-  <div className="listing-sidebar">          <div className="allowed-pets-section">
-            <h3>Allowed Pets</h3>
-            <div className="allowed-pets-pills">                {listing.allowedPets.map((petId, index) => {
-                const pet = PET_TYPES.find(p => p.id === petId);
-                return pet ? (                  <div 
-                    key={petId} 
-                    className="pet-pill"
-                  >
-                    <span className="pet-icon">{pet.icon}</span>
-                    <span className="pet-name">{pet.name}</span>
-                  </div>
-                ) : null;
-              })}
-            </div>
-          </div><div className="amenities-sidebar-section">
-            <h3>Amenities</h3>
-            <div className="amenities-pills">              {listing.amenities.map((amenity, index) => (                <div 
-                  key={amenity} 
-                  className="amenity-pill"
-                >
-                  {amenity}
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="review-summary-section">
-            <h3>Reviews</h3>
-            <div className="rating-summary">
-              <div className="rating-stars">★ {listing.rating.toFixed(1)}</div>
-              <div className="review-count">({listing.reviews.length} reviews)</div>
-            </div>
           </div>
         </div>
-        </div>{/* end listing-content-inner */}
       </div>
     </div>
   );

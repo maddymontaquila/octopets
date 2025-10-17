@@ -4,6 +4,20 @@ import { LISTING_TYPES, ROUTES } from '../data/constants';
 import { PET_TYPES } from '../data/constantsJsx';
 import RadarSection from '../components/RadarSection';
 import PetPolaroid from '../components/PetPolaroid';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { 
+  faDog, 
+  faCat, 
+  faDove, 
+  faFish, 
+  faOtter, 
+  faHorse, 
+  faPaw,
+  faListCheck,
+  faComments,
+  faLocationDot,
+  faShieldHalved
+} from '@fortawesome/free-solid-svg-icons';
 import '../styles/Home.css';
 
 const testimonials = [
@@ -61,6 +75,20 @@ const Home: React.FC = () => {
   const [randomPetImage, setRandomPetImage] = useState<string>('/images/generic/doggo.jpg');
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const [selectedPet, setSelectedPet] = useState<PetInfo | null>(null);
+
+  // Helper function to get pet icon
+  const getPetIcon = (petId: string) => {
+    const iconMap: { [key: string]: any } = {
+      'dogs': faDog,
+      'cats': faCat,
+      'birds': faDove,
+      'fish': faFish,
+      'rabbits': faOtter,
+      'horses': faHorse,
+      'other': faPaw
+    };
+    return iconMap[petId] || faPaw;
+  };
   
   useEffect(() => {
     // List of pet images available in the public/images/pets directory
@@ -257,7 +285,9 @@ const Home: React.FC = () => {
                     key={pet.id}
                     className="pet-type-card"
                   >
-                    <span className="pet-icon">{pet.icon}</span>
+                    <span className="pet-icon">
+                      <FontAwesomeIcon icon={getPetIcon(pet.id)} />
+                    </span>
                     <h3>{pet.name}</h3>
                   </Link>
                 ))}
@@ -275,28 +305,36 @@ const Home: React.FC = () => {
               <div className="why-image-overlay">
                 <div className="benefits-card">
                   <div className="benefit-item">
-                    <div className="benefit-icon">🐾</div>
+                    <div className="benefit-icon">
+                      <FontAwesomeIcon icon={faListCheck} />
+                    </div>
                     <div className="benefit-text">
                       <h4>Curated Listings</h4>
                       <p>Filtered by pets</p>
                     </div>
                   </div>
                   <div className="benefit-item">
-                    <div className="benefit-icon">💬</div>
+                    <div className="benefit-icon">
+                      <FontAwesomeIcon icon={faComments} />
+                    </div>
                     <div className="benefit-text">
                       <h4>Real Reviews</h4>
                       <p>From pet owners</p>
                     </div>
                   </div>
                   <div className="benefit-item">
-                    <div className="benefit-icon">📍</div>
+                    <div className="benefit-icon">
+                      <FontAwesomeIcon icon={faLocationDot} />
+                    </div>
                     <div className="benefit-text">
                       <h4>Detailed Context</h4>
                       <p>Surface, noise, access</p>
                     </div>
                   </div>
                   <div className="benefit-item">
-                    <div className="benefit-icon">🛡️</div>
+                    <div className="benefit-icon">
+                      <FontAwesomeIcon icon={faShieldHalved} />
+                    </div>
                     <div className="benefit-text">
                       <h4>Safety First</h4>
                       <p>Environment details</p>

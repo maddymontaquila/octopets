@@ -131,6 +131,9 @@
   border-radius: 8px;
   backdrop-filter: blur(8px);
   border: 2px solid var(--neutral-400);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .overlay-rating {
@@ -144,8 +147,8 @@
   border: 2px solid var(--neutral-400);
 }
 
-.overlay-rating .stars {
-  color: #fbbf24;
+.overlay-rating .star-icon {
+  color: #FFC107;
   font-size: 14px;
 }
 
@@ -222,4 +225,23 @@
   transform: none;
   background: transparent;
   color: var(--neutral-600);
+}
+
+.pet-icon-fa {
+  background: transparent;
+  color: var(--neutral-700);
+  padding: 0;
+  font-size: 16px;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: none;
+  border: none;
+}
+
+.pet-icon-fa:hover {
+  transform: none;
+  background: transparent;
+  color: var(--neutral-700);
 }
