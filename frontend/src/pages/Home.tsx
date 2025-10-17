@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { LISTING_TYPES, ROUTES } from '../data/constants';
 import { PET_TYPES } from '../data/constantsJsx';
+import RadarSection from '../components/RadarSection';
 import '../styles/Home.css';
 
 const Home: React.FC = () => {
@@ -162,6 +163,7 @@ const Home: React.FC = () => {
             </div>
           </div>
         </section>
+        <RadarSection />
         <section className="why-section">
           <div className="section-header" style={{ textAlign: 'left', marginBottom: '32px' }}>
             <h2>Why choose Octopets?</h2>

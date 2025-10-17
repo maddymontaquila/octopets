@@ -7,6 +7,7 @@ export { default as FeatureIcon } from './components/FeatureIcon';
 export { default as AgentChat } from './components/AgentChat';
 export { default as FloatingChatWidget } from './components/FloatingChatWidget';
 export { default as MarkdownMessage } from './components/MarkdownMessage';
+export { default as RadarSection } from './components/RadarSection';
 
 // Export all pages
 export { default as Home } from './pages/Home';
