@@ -231,11 +231,22 @@ const Home: React.FC = () => {
         </div>
       </section>
 
+      <div className="pet-emoji-peek">
+        <div className="pet-emoji-group">
+          <span>🐶</span>
+          <span>🐱</span>
+          <span>🐰</span>
+          <span>🐦</span>
+          <span>🐢</span>
+          <span>🐹</span>
+        </div>
+      </div>
+
       <section className="content">
         <section className="pet-types">
           <div className="pet-types-wrapper">
             <div className="pet-types-content">
-              <div className="section-header" style={{ textAlign: 'left', marginBottom: '32px' }}>
+              <div className="section-header">
                 <h2>Find places for your pets</h2>
                 <p>Browse venues by the type of companion you're bringing along.</p>
               </div>
@@ -250,16 +261,6 @@ const Home: React.FC = () => {
                     <h3>{pet.name}</h3>
                   </Link>
                 ))}
-              </div>
-            </div>
-            <div className="pet-types-illustration">
-              <div className="pet-emoji-group">
-                <span>🐶</span>
-                <span>🐱</span>
-                <span>🐰</span>
-                <span>🐦</span>
-                <span>🐢</span>
-                <span>🐹</span>
               </div>
             </div>
           </div>

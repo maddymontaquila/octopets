@@ -303,33 +303,122 @@
 }
 
 /* Pet Types Section - Notion-style with illustration */
+/* Pet emoji peeking from behind */
+.pet-emoji-peek {
+  position: relative;
+  height: 120px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  z-index: 1;
+}
+
+.pet-emoji-peek .pet-emoji-group {
+  display: flex;
+  gap: 40px;
+  font-size: 100px;
+  position: absolute;
+  bottom: -40px;
+}
+
+.pet-emoji-peek .pet-emoji-group span {
+  display: inline-block;
+  animation: floatEmoji 3s ease-in-out infinite;
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.08));
+}
+
+.pet-emoji-peek .pet-emoji-group span:nth-child(1) {
+  animation-delay: 0s;
+  z-index: 1;
+}
+
+.pet-emoji-peek .pet-emoji-group span:nth-child(2) {
+  animation-delay: -0.5s;
+  z-index: 2;
+}
+
+.pet-emoji-peek .pet-emoji-group span:nth-child(3) {
+  animation-delay: -1s;
+  z-index: 3;
+}
+
+.pet-emoji-peek .pet-emoji-group span:nth-child(4) {
+  animation-delay: -1.5s;
+  z-index: 4;
+}
+
+.pet-emoji-peek .pet-emoji-group span:nth-child(5) {
+  animation-delay: -2s;
+  z-index: 5;
+}
+
+.pet-emoji-peek .pet-emoji-group span:nth-child(6) {
+  animation-delay: -2.5s;
+  z-index: 6;
+}
+
 .pet-types {
   background: var(--neutral-100);
   padding: 60px 20px;
   border-bottom: 1px solid var(--neutral-300);
   position: relative;
+  margin-top: -1px;
+}
+
+.pet-types::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(0, 0, 0, 0.05) 10%,
+    rgba(0, 0, 0, 0.15) 25%,
+    rgba(0, 0, 0, 0.15) 75%,
+    rgba(0, 0, 0, 0.05) 90%,
+    transparent 100%
+  );
+  box-shadow: 
+    0 -2px 8px rgba(0, 0, 0, 0.12),
+    0 -4px 16px rgba(0, 0, 0, 0.08),
+    0 -8px 24px rgba(0, 0, 0, 0.04);
 }
 
 .pet-types-wrapper {
   max-width: 1400px;
   margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 80px;
-  align-items: center;
+  display: flex;
+  justify-content: center;
+  padding: 0 20px;
 }
 
 .pet-types-content {
   display: flex;
   flex-direction: column;
   gap: 24px;
+  max-width: 100%;
+  width: 100%;
+}
+
+.pet-types .section-header {
+  text-align: left;
+  margin-bottom: 32px;
+  padding: 0;
+}
+
+.pet-types .section-header p {
+  margin: 0;
+  max-width: none;
 }
 
 .pet-types-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: 16px;
-  max-width: 600px;
+  width: 100%;
 }
 
 .pet-type-card {
@@ -377,63 +466,6 @@
 
 .pet-type-card:hover h3::after {
   transform: translateX(4px);
-}
-
-/* Pet illustration area */
-.pet-types-illustration {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 400px;
-  position: relative;
-}
-
-.pet-emoji-group {
-  display: flex;
-  gap: -20px;
-  font-size: 120px;
-  position: relative;
-}
-
-.pet-emoji-group span {
-  display: inline-block;
-  animation: floatEmoji 3s ease-in-out infinite;
-  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.08));
-}
-
-.pet-emoji-group span:nth-child(1) {
-  animation-delay: 0s;
-  z-index: 1;
-}
-
-.pet-emoji-group span:nth-child(2) {
-  animation-delay: -0.5s;
-  z-index: 2;
-  margin-left: -30px;
-}
-
-.pet-emoji-group span:nth-child(3) {
-  animation-delay: -1s;
-  z-index: 3;
-  margin-left: -30px;
-}
-
-.pet-emoji-group span:nth-child(4) {
-  animation-delay: -1.5s;
-  z-index: 4;
-  margin-left: -30px;
-}
-
-.pet-emoji-group span:nth-child(5) {
-  animation-delay: -2s;
-  z-index: 5;
-  margin-left: -30px;
-}
-
-.pet-emoji-group span:nth-child(6) {
-  animation-delay: -2.5s;
-  z-index: 6;
-  margin-left: -30px;
 }
 
 @keyframes floatEmoji {
