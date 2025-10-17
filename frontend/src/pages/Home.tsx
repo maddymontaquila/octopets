@@ -36,10 +36,10 @@ interface PetInfo {
 const heroPets: { [key: string]: PetInfo } = {
   park: {
     image: '/images/venues/_park.jpg',
-    name: 'Max',
-    type: 'Golden Retriever',
-    description: 'Max is an energetic and friendly golden retriever who loves exploring new pet-friendly venues. He\'s always ready for an adventure and makes friends wherever he goes.',
-    funFact: 'Max knows over 20 different commands and loves swimming!'
+    name: 'Milli',
+    type: 'Australian Cattle Dog',
+    description: 'Milli is an energetic and intelligent Australian Cattle Dog who loves exploring new pet-friendly venues. She\'s always ready for an adventure and makes friends wherever she goes.',
+    funFact: 'Milli is incredibly athletic and can jump over 4 feet high!'
   },
   bunny: {
     image: '/images/pets/bunny.jpg',
@@ -50,10 +50,10 @@ const heroPets: { [key: string]: PetInfo } = {
   },
   venue: {
     image: '/images/venues/_custom.jpg',
-    name: 'Luna',
-    type: 'Tabby Cat',
-    description: 'Luna is a curious and adventurous tabby who enjoys visiting cat-friendly cafes. She\'s calm, well-behaved, and loves meeting new people and pets.',
-    funFact: 'Luna purrs so loudly she sounds like a tiny motor!'
+    name: 'Chloe',
+    type: 'Miniature Schnauzer',
+    description: 'Chloe is a spirited and intelligent miniature schnauzer who loves discovering new pet-friendly spots. She\'s always curious and ready to explore with her favorite humans.',
+    funFact: 'Chloe has a distinctive beard and loves to pose for photos!'
   }
 };
 
