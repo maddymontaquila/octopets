@@ -3,12 +3,23 @@
 #:package Aspire.Hosting.Azure.ApplicationInsights@9.6.0-preview.1.25468.31
 #:package Aspire.Hosting.Azure.AIFoundry@9.6.0-preview.1.25474.8
 #:package Aspire.Hosting.Redis@9.6.0-preview.1.25468.31
+#:package Aspire.Hosting.Azure.AppContainers@9.5.1
+#:package Aspire.Hosting.Docker@9.5.1-preview.1.25502.11
+#:package Aspire.Hosting.Azure.ContainerRegistry@9.5.1-preview.1.25502.11
 #:project ../backend/Octopets.Backend.csproj
 #:sdk Aspire.AppHost.Sdk@9.6.0-preview.1.25468.31
 #:property UserSecretsId=octopets
 #pragma warning disable
 
+using Azure.Provisioning.AppContainers;
+using Azure.Provisioning.ContainerRegistry;
+
+
 var builder = DistributedApplication.CreateBuilder(args);
+var acr = builder.AddAzureContainerRegistry("octopetsacr");
+
+var cae = builder.AddAzureContainerAppEnvironment("octopets-aca")
+    .WithAzureContainerRegistry(acr);
 
 var foundryProject = builder.AddParameter("FoundryProjectUrl");
 var foundryAgentId = builder.AddParameter("FoundryAgentId");
@@ -25,7 +36,8 @@ var foundryAgentId = builder.AddParameter("FoundryAgentId");
 
 var api = builder.AddProject<Projects.Octopets_Backend>("api")
     .WithEnvironment("ERRORS", builder.ExecutionContext.IsPublishMode ? "true" : "false")
-    .WithEnvironment("ENABLE_CRUD", builder.ExecutionContext.IsPublishMode ? "false" : "true");
+    .WithEnvironment("ENABLE_CRUD", builder.ExecutionContext.IsPublishMode ? "false" : "true")
+    .PublishAsAzureContainerApp((module, containerApp) => { });
 
 var agent = builder.AddUvApp("python-agent-chat", "../agent", "agent.py")
     .WithHttpEndpoint(env: "PORT")
@@ -33,6 +45,8 @@ var agent = builder.AddUvApp("python-agent-chat", "../agent", "agent.py")
     .WithEnvironment("AGENT_ID", foundryAgentId)
      //.WithReference(foundry)
     .WithIconName("ChatEmpty")
+    .PublishAsDockerFile()
+    .PublishAsAzureContainerApp((module, containerApp) => { })
     .WithOtlpExporter();
 
 var sitter_agent = builder.AddUvApp("python-agent-sitter", "../sitter-agent", "app.py")
@@ -40,6 +54,8 @@ var sitter_agent = builder.AddUvApp("python-agent-sitter", "../sitter-agent", "a
     .WithEnvironment("AZURE_OPENAI_ENDPOINT", foundryProject)
     //.WithReference(foundry)
     .WithIconName("ChatEmpty")
+    .PublishAsDockerFile()
+    .PublishAsAzureContainerApp((module, containerApp) => { })
     .WithOtlpExporter();
 
 var orchestrator = builder.AddUvApp("orchestrator-agent", "../orchestrator-agent", "app.py")
@@ -49,6 +65,8 @@ var orchestrator = builder.AddUvApp("orchestrator-agent", "../orchestrator-agent
     .WithEnvironment("SITTER_AGENT_URL", sitter_agent.GetEndpoint("http"))
     //.WithReference(foundry)
     .WithIconName("BranchFork")
+    .PublishAsDockerFile()
+    .PublishAsAzureContainerApp((module, containerApp) => { })
     .WithOtlpExporter();
 
 var frontend = builder.AddNpmApp("frontend", "../frontend")
@@ -64,6 +82,8 @@ var frontend = builder.AddNpmApp("frontend", "../frontend")
     .WithEnvironment("REACT_APP_AGENT_API_URL", agent.GetEndpoint("http"))
     .WithEnvironment("REACT_APP_SITTER_AGENT_API_URL", sitter_agent.GetEndpoint("http"))
     .WithEnvironment("REACT_APP_ORCHESTRATOR_API_URL", orchestrator.GetEndpoint("http"))
+    .PublishAsDockerFile()
+    .PublishAsAzureContainerApp((module, containerApp) => { })
     .WithOtlpExporter();
 
 // Configure CORS for agent services with frontend URL
