@@ -103,6 +103,104 @@
   flex-wrap: wrap;
 }
 
+/* Partners Section - Horizontal scrolling with fade */
+.partners-section {
+  background: var(--neutral-200);
+  padding: 24px 0;
+  border-bottom: 1px solid var(--neutral-300);
+  overflow: hidden;
+}
+
+.partners-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  padding: 0 20px;
+}
+
+.partners-label {
+  font-family: var(--font-family-heading);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--neutral-600);
+  white-space: nowrap;
+  flex-shrink: 0;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.partners-scroll-wrapper {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+.partners-scroll-wrapper::before,
+.partners-scroll-wrapper::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 80px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.partners-scroll-wrapper::before {
+  left: 0;
+  background: linear-gradient(to right, var(--neutral-200), transparent);
+}
+
+.partners-scroll-wrapper::after {
+  right: 0;
+  background: linear-gradient(to left, var(--neutral-200), transparent);
+}
+
+.partners-scroll {
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.partners-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.partners-track {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 4px 0;
+  animation: scroll 30s linear infinite;
+}
+
+.partner-logo {
+  flex-shrink: 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--neutral-700);
+  white-space: nowrap;
+}
+
+.partner-separator {
+  flex-shrink: 0;
+  color: var(--neutral-400);
+  font-size: 16px;
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
 /* Content Section - Remove default padding, let each section define its own */
 .content {
   display: flex;
@@ -647,6 +745,25 @@
   .hero-content {
     text-align: center;
     padding: 0 20px 40px;
+  }
+  
+  .partners-section {
+    padding: 24px 0;
+  }
+  
+  .partners-container {
+    flex-direction: column;
+    gap: 16px;
+    align-items: flex-start;
+  }
+  
+  .partners-label {
+    padding: 0 20px;
+  }
+  
+  .partners-scroll-wrapper::before,
+  .partners-scroll-wrapper::after {
+    width: 40px;
   }
   
   .hero-images {

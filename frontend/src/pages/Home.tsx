@@ -57,6 +57,78 @@ const Home: React.FC = () => {
         </div>
       </section>
 
+      <section className="partners-section">
+        <div className="partners-container">
+          <div className="partners-label">Supported by</div>
+          <div className="partners-scroll-wrapper">
+            <div className="partners-scroll">
+              <div className="partners-track">
+                <div className="partner-logo">Green Paws Park</div>
+                <div className="partner-separator">·</div>
+                <div className="partner-logo">Happy Tails Shelter</div>
+                <div className="partner-separator">·</div>
+                <div className="partner-logo">Adopt-a-Friend</div>
+                <div className="partner-separator">·</div>
+                <div className="partner-logo">Riverside Dog Park</div>
+                <div className="partner-separator">·</div>
+                <div className="partner-logo">Pet Haven Rescue</div>
+                <div className="partner-separator">·</div>
+                <div className="partner-logo">Furry Friends Adoption</div>
+                <div className="partner-separator">·</div>
+                <div className="partner-logo">Meadow Park</div>
+                <div className="partner-separator">·</div>
+                <div className="partner-logo">Pawsitive Shelter</div>
+                <div className="partner-separator">·</div>
+                <div className="partner-logo">Whiskers & Wags</div>
+                <div className="partner-separator">·</div>
+                <div className="partner-logo">Oakwood Pet Park</div>
+                <div className="partner-separator">·</div>
+                <div className="partner-logo">Second Chance Pets</div>
+                <div className="partner-separator">·</div>
+                <div className="partner-logo">Bark & Play Park</div>
+                <div className="partner-separator">·</div>
+                <div className="partner-logo">Safe Haven Shelter</div>
+                <div className="partner-separator">·</div>
+                <div className="partner-logo">Forever Home Adoption</div>
+                <div className="partner-separator">·</div>
+                <div className="partner-logo">Sunset Dog Park</div>
+                <div className="partner-separator">·</div>
+                {/* Duplicate for seamless scroll */}
+                <div className="partner-logo">Green Paws Park</div>
+                <div className="partner-separator">·</div>
+                <div className="partner-logo">Happy Tails Shelter</div>
+                <div className="partner-separator">·</div>
+                <div className="partner-logo">Adopt-a-Friend</div>
+                <div className="partner-separator">·</div>
+                <div className="partner-logo">Riverside Dog Park</div>
+                <div className="partner-separator">·</div>
+                <div className="partner-logo">Pet Haven Rescue</div>
+                <div className="partner-separator">·</div>
+                <div className="partner-logo">Furry Friends Adoption</div>
+                <div className="partner-separator">·</div>
+                <div className="partner-logo">Meadow Park</div>
+                <div className="partner-separator">·</div>
+                <div className="partner-logo">Pawsitive Shelter</div>
+                <div className="partner-separator">·</div>
+                <div className="partner-logo">Whiskers & Wags</div>
+                <div className="partner-separator">·</div>
+                <div className="partner-logo">Oakwood Pet Park</div>
+                <div className="partner-separator">·</div>
+                <div className="partner-logo">Second Chance Pets</div>
+                <div className="partner-separator">·</div>
+                <div className="partner-logo">Bark & Play Park</div>
+                <div className="partner-separator">·</div>
+                <div className="partner-logo">Safe Haven Shelter</div>
+                <div className="partner-separator">·</div>
+                <div className="partner-logo">Forever Home Adoption</div>
+                <div className="partner-separator">·</div>
+                <div className="partner-logo">Sunset Dog Park</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section className="content">
         <section className="pet-types">
           <div className="pet-types-wrapper">
