@@ -35,6 +35,7 @@ var foundryAgentId = builder.AddParameter("FoundryAgentId");
 //foundryRG.WithParentRelationship(foundry);
 
 var api = builder.AddProject<Projects.Octopets_Backend>("api")
+    .WithExternalHttpEndpoints()
     .WithEnvironment("ERRORS", builder.ExecutionContext.IsPublishMode ? "true" : "false")
     .WithEnvironment("ENABLE_CRUD", builder.ExecutionContext.IsPublishMode ? "false" : "true")
     .PublishAsAzureContainerApp((module, containerApp) => { });
@@ -81,11 +82,10 @@ var frontend = builder.AddNpmApp("frontend", "../frontend")
     .WithExternalHttpEndpoints()
     .WithEnvironment("BROWSER", "none")
     .WithUrlForEndpoint("http", c => c.DisplayText="Frontend")
-    .WithEnvironment("REACT_APP_USE_MOCK_DATA", builder.ExecutionContext.IsPublishMode ? "false" : "true")
     .WithEnvironment("REACT_APP_AGENT_API_URL", agent.GetEndpoint("http"))
     .WithEnvironment("REACT_APP_SITTER_AGENT_API_URL", sitter_agent.GetEndpoint("http"))
     .WithEnvironment("REACT_APP_ORCHESTRATOR_API_URL", orchestrator.GetEndpoint("http"))
-    .PublishAsDockerFile()
+    .PublishAsDockerFile(df => df.WithBuildArg("REACT_APP_USE_MOCK_DATA", builder.ExecutionContext.IsPublishMode ? "false" : "true"))
     .PublishAsAzureContainerApp((module, containerApp) => { })
     .WithOtlpExporter();
 
