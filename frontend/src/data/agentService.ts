@@ -47,6 +47,7 @@ class AgentService {
     context?: Record<string, any>
   ): Promise<AgentChatResponse> {
     const baseUrl = this.getAgentUrl(agentType);
+    console.log(`Sending message to ${agentType} at ${baseUrl}`);
     const request: AgentChatRequest = {
       message,
       context

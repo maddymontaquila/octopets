@@ -8,8 +8,8 @@ export interface AppConfig {
 
 export const appConfig: AppConfig = {
     apiUrl: '/api', // Use relative path for nginx proxy
-    agentApiUrl: process.env.REACT_APP_AGENT_API_URL || 'http://localhost:8001',
-    sitterAgentApiUrl: process.env.REACT_APP_SITTER_AGENT_API_URL || 'http://localhost:8002',
-    orchestratorApiUrl: process.env.REACT_APP_ORCHESTRATOR_API_URL || 'http://localhost:8003',
+    agentApiUrl: '/agent',
+    sitterAgentApiUrl: '/sitter',
+    orchestratorApiUrl: '/orchestrator',
     useMockData: process.env.REACT_APP_USE_MOCK_DATA === undefined ? false : process.env.REACT_APP_USE_MOCK_DATA.toLowerCase() === 'true'
 };

@@ -35,7 +35,7 @@ logger = logging.getLogger(__name__)
 AZURE_OPENAI_ENDPOINT = os.getenv("AZURE_OPENAI_ENDPOINT")
 LISTINGS_AGENT_URL = os.getenv("LISTINGS_AGENT_URL", "http://localhost:8001")
 SITTER_AGENT_URL = os.getenv("SITTER_AGENT_URL", "http://localhost:8002")
-MODEL_DEPLOYMENT_NAME = os.getenv("AZURE_MODEL_DEPLOYMENT_NAME", "gpt-4o")
+MODEL_DEPLOYMENT_NAME = os.getenv("AZURE_MODEL_DEPLOYMENT_NAME", "gpt-4.1")
 
 
 async def query_listings_agent(

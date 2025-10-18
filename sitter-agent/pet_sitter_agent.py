@@ -124,7 +124,7 @@ async def run_pet_sitter_agent(user_query: str) -> str:
         "AZURE_OPENAI_ENDPOINT",
         "https://opinion-stacks-pets-resource.services.ai.azure.com/api/projects/opinion-stacks-pets"
     )
-    model_deployment_name = os.getenv("AZURE_MODEL_DEPLOYMENT_NAME", "gpt-4o")
+    model_deployment_name = os.getenv("AZURE_MODEL_DEPLOYMENT_NAME", "gpt-4.1")
     agent_name = "PetSitterRecommendationAgent"
     
     # System instructions for the agent
