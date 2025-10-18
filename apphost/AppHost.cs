@@ -39,7 +39,7 @@ var api = builder.AddProject<Projects.Octopets_Backend>("api")
     .WithEnvironment("ENABLE_CRUD", builder.ExecutionContext.IsPublishMode ? "false" : "true")
     .PublishAsAzureContainerApp((module, containerApp) => { });
 
-var agent = builder.AddPythonScript("python-agent-chat", "../agent", "agent.py")
+var agent = builder.AddPythonScript("chat", "../agent", "agent.py")
     .WithUvEnvironment()
     .WithHttpEndpoint(env: "PORT")
     .WithEnvironment("AZURE_OPENAI_ENDPOINT", foundryProject)
@@ -50,7 +50,7 @@ var agent = builder.AddPythonScript("python-agent-chat", "../agent", "agent.py")
     .PublishAsAzureContainerApp((module, containerApp) => { })
     .WithOtlpExporter();
 
-var sitter_agent = builder.AddPythonScript("python-agent-sitter", "../sitter-agent", "app.py")
+var sitter_agent = builder.AddPythonScript("sitter", "../sitter-agent", "app.py")
     .WithUvEnvironment()
     .WithHttpEndpoint(env: "PORT")
     .WithEnvironment("AZURE_OPENAI_ENDPOINT", foundryProject)
@@ -60,7 +60,7 @@ var sitter_agent = builder.AddPythonScript("python-agent-sitter", "../sitter-age
     .PublishAsAzureContainerApp((module, containerApp) => { })
     .WithOtlpExporter();
 
-var orchestrator = builder.AddPythonScript("orchestrator-agent", "../orchestrator-agent", "app.py")
+var orchestrator = builder.AddPythonScript("orchestrator", "../orchestrator-agent", "app.py")
     .WithUvEnvironment()
     .WithHttpEndpoint(env: "PORT")
     .WithEnvironment("AZURE_OPENAI_ENDPOINT", foundryProject)
@@ -77,7 +77,7 @@ var frontend = builder.AddNpmApp("frontend", "../frontend")
     .WithReference(agent).WaitFor(agent)
     .WithReference(sitter_agent).WaitFor(sitter_agent)
     .WithReference(orchestrator).WaitFor(orchestrator)
-    .WithHttpEndpoint(env: "PORT")
+    .WithHttpEndpoint(80, 80)
     .WithExternalHttpEndpoints()
     .WithEnvironment("BROWSER", "none")
     .WithUrlForEndpoint("http", c => c.DisplayText="Frontend")
