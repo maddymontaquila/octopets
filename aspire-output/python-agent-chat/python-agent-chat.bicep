@@ -43,10 +43,6 @@ resource python_agent_chat 'Microsoft.App/containerApps@2025-01-01' = {
           name: 'python-agent-chat'
           env: [
             {
-              name: 'OTEL_PYTHON_LOGGING_AUTO_INSTRUMENTATION_ENABLED'
-              value: 'true'
-            }
-            {
               name: 'PORT'
               value: '8000'
             }

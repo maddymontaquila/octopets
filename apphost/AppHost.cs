@@ -1,4 +1,4 @@
-﻿#:package Aspire.Hosting.Python@13.0.0-preview.1.25517.6
+#:package Aspire.Hosting.Python@13.0.0-preview.1.25517.6
 #:package Aspire.Hosting.NodeJs@13.0.0-preview.1.25517.6
 #:package Aspire.Hosting.Azure.ApplicationInsights@13.0.0-preview.1.25517.6
 #:package Aspire.Hosting.Azure.AIFoundry@13.0.0-preview.1.25517.6
@@ -76,7 +76,6 @@ var frontend = builder.AddNpmApp("frontend", "../frontend")
     .WithExternalHttpEndpoints()
     .WithEnvironment("BROWSER", "none")
     .WithUrlForEndpoint("http", c => c.DisplayText="Frontend")
-    .WithEnvironment("REACT_APP_USE_MOCK_DATA", builder.ExecutionContext.IsPublishMode ? "false" : "true")
     .WithEnvironment("REACT_APP_AGENT_API_URL", agent.GetEndpoint("http"))
     .WithEnvironment("REACT_APP_SITTER_AGENT_API_URL", sitter_agent.GetEndpoint("http"))
     .WithEnvironment("REACT_APP_ORCHESTRATOR_API_URL", orchestrator.GetEndpoint("http"))
