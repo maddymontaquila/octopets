@@ -1,16 +1,18 @@
-﻿#:package CommunityToolkit.Aspire.Hosting.Python.Extensions@9.8.0-beta.394
-#:package Aspire.Hosting.NodeJs@9.6.0-preview.1.25468.31
-#:package Aspire.Hosting.Azure.ApplicationInsights@9.6.0-preview.1.25468.31
-#:package Aspire.Hosting.Azure.AIFoundry@9.6.0-preview.1.25474.8
-#:package Aspire.Hosting.Redis@9.6.0-preview.1.25468.31
-#:package Aspire.Hosting.Azure.AppContainers@9.5.1
-#:package Aspire.Hosting.Docker@9.5.1-preview.1.25502.11
-#:package Aspire.Hosting.Azure.ContainerRegistry@9.5.1-preview.1.25502.11
+﻿#:package Aspire.Hosting.Python@13.0.0-preview.1.25517.6
+#:package Aspire.Hosting.NodeJs@13.0.0-preview.1.25517.6
+#:package Aspire.Hosting.Azure.ApplicationInsights@13.0.0-preview.1.25517.6
+#:package Aspire.Hosting.Azure.AIFoundry@13.0.0-preview.1.25517.6
+#:package Aspire.Hosting.Redis@13.0.0-preview.1.25517.6
+#:package Aspire.Hosting.Azure.AppContainers@13.0.0-preview.1.25517.6
+#:package Aspire.Hosting.Docker@13.0.0-preview.1.25517.6
+#:package Aspire.Hosting.Azure.ContainerRegistry@13.0.0-preview.1.25517.6
+#:package CommunityToolkit.Aspire.Hosting.NodeJS.Extensions@9.8.1-beta.410
 #:project ../backend/Octopets.Backend.csproj
-#:sdk Aspire.AppHost.Sdk@9.6.0-preview.1.25468.31
+#:sdk Aspire.AppHost.Sdk@13.0.0-preview.1.25517.6
 #:property UserSecretsId=octopets
 #pragma warning disable
 
+using Aspire.Hosting.Azure;
 using Azure.Provisioning.AppContainers;
 using Azure.Provisioning.ContainerRegistry;
 
@@ -18,63 +20,59 @@ using Azure.Provisioning.ContainerRegistry;
 var builder = DistributedApplication.CreateBuilder(args);
 var acr = builder.AddAzureContainerRegistry("octopetsacr");
 
+var identity = builder.AddAzureUserAssignedIdentity("octopets-identity");
+
 var cae = builder.AddAzureContainerAppEnvironment("octopets-aca")
     .WithAzureContainerRegistry(acr);
 
 var foundryProject = builder.AddParameter("FoundryProjectUrl");
 var foundryAgentId = builder.AddParameter("FoundryAgentId");
 
-//var foundryResource = builder.AddParameter("FoundryResource", value: "octopets-foundry");
-//var foundryRG = builder.AddParameter("FoundryRG", value: "rg-octopets-demo");
-
-//var foundry = builder.AddAzureAIFoundry("foundry-agent")
-//    .AsExisting(foundryResource, foundryRG)
-//    .WithIconName("Sparkle");
-
-//foundryResource.WithParentRelationship(foundry);
-//foundryRG.WithParentRelationship(foundry);
-
 var api = builder.AddProject<Projects.Octopets_Backend>("api")
     .WithEnvironment("ERRORS", builder.ExecutionContext.IsPublishMode ? "true" : "false")
     .WithEnvironment("ENABLE_CRUD", builder.ExecutionContext.IsPublishMode ? "false" : "true")
     .PublishAsAzureContainerApp((module, containerApp) => { });
 
-var agent = builder.AddUvApp("python-agent-chat", "../agent", "agent.py")
+var agent = builder.AddPythonScript("chat", "../agent", "agent.py")
+    .WithUvEnvironment()
     .WithHttpEndpoint(env: "PORT")
     .WithEnvironment("AZURE_OPENAI_ENDPOINT", foundryProject)
     .WithEnvironment("AGENT_ID", foundryAgentId)
-     //.WithReference(foundry)
+    .WithAzureUserAssignedIdentity(identity)
     .WithIconName("ChatEmpty")
     .PublishAsDockerFile()
     .PublishAsAzureContainerApp((module, containerApp) => { })
     .WithOtlpExporter();
 
-var sitter_agent = builder.AddUvApp("python-agent-sitter", "../sitter-agent", "app.py")
+var sitter_agent = builder.AddPythonScript("sitter", "../sitter-agent", "app.py")
+    .WithUvEnvironment()
     .WithHttpEndpoint(env: "PORT")
     .WithEnvironment("AZURE_OPENAI_ENDPOINT", foundryProject)
-    //.WithReference(foundry)
+    .WithAzureUserAssignedIdentity(identity)
     .WithIconName("ChatEmpty")
     .PublishAsDockerFile()
     .PublishAsAzureContainerApp((module, containerApp) => { })
     .WithOtlpExporter();
 
-var orchestrator = builder.AddUvApp("orchestrator-agent", "../orchestrator-agent", "app.py")
+var orchestrator = builder.AddPythonScript("orchestrator", "../orchestrator-agent", "app.py")
+    .WithUvEnvironment()
     .WithHttpEndpoint(env: "PORT")
     .WithEnvironment("AZURE_OPENAI_ENDPOINT", foundryProject)
     .WithEnvironment("LISTINGS_AGENT_URL", agent.GetEndpoint("http"))
+    .WithAzureUserAssignedIdentity(identity)
     .WithEnvironment("SITTER_AGENT_URL", sitter_agent.GetEndpoint("http"))
-    //.WithReference(foundry)
     .WithIconName("BranchFork")
     .PublishAsDockerFile()
     .PublishAsAzureContainerApp((module, containerApp) => { })
     .WithOtlpExporter();
 
 var frontend = builder.AddNpmApp("frontend", "../frontend")
+    .WithNpmPackageInstallation()
     .WithReference(api).WaitFor(api)
     .WithReference(agent).WaitFor(agent)
     .WithReference(sitter_agent).WaitFor(sitter_agent)
     .WithReference(orchestrator).WaitFor(orchestrator)
-    .WithHttpEndpoint(env: "PORT")
+    .WithHttpEndpoint(80, 80)
     .WithExternalHttpEndpoints()
     .WithEnvironment("BROWSER", "none")
     .WithUrlForEndpoint("http", c => c.DisplayText="Frontend")
@@ -82,8 +80,7 @@ var frontend = builder.AddNpmApp("frontend", "../frontend")
     .WithEnvironment("REACT_APP_AGENT_API_URL", agent.GetEndpoint("http"))
     .WithEnvironment("REACT_APP_SITTER_AGENT_API_URL", sitter_agent.GetEndpoint("http"))
     .WithEnvironment("REACT_APP_ORCHESTRATOR_API_URL", orchestrator.GetEndpoint("http"))
-    .PublishAsDockerFile()
-    .PublishAsAzureContainerApp((module, containerApp) => { })
+    .PublishAsDockerFile(c => c.WithBuildArg("REACT_APP_USE_MOCK_DATA", builder.ExecutionContext.IsPublishMode ? "false" : "true"))
     .WithOtlpExporter();
 
 // Configure CORS for agent services with frontend URL
