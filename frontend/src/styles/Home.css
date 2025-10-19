@@ -628,25 +628,49 @@
 
   .why-content {
     padding-left: 0;
-    text-align: center;
-    align-items: center;
+    order: 1; /* Content goes first */
   }
 
   .why-images {
     height: 400px;
+    order: 2; /* Images go second */
+    width: 100%; /* Fill full width */
+    max-width: 100%;
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  .why-image-main {
+    width: 60%; /* Image takes 60% */
+    flex-shrink: 0;
   }
 
   .why-image-overlay {
-    right: 20px;
-    left: 20px;
+    position: relative; /* Change from absolute */
+    right: auto;
+    left: -30px; /* Overlap the image */
     top: auto;
-    bottom: -60px;
     transform: none;
+    display: flex;
+    align-items: center;
+    flex: 1; /* Take remaining space */
   }
 
   .benefits-card {
-    min-width: auto;
     width: 100%;
+    max-width: 340px;
+    padding: 16px; /* Reduce padding to make it less tall */
+    gap: 12px; /* Reduce gap between items */
+  }
+
+  .benefit-item {
+    padding: 8px; /* Reduce item padding */
+  }
+
+  .benefit-icon {
+    width: 40px; /* Smaller icons */
+    height: 40px;
+    font-size: 20px;
   }
 }
 
