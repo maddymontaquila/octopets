@@ -277,8 +277,26 @@ async def generate_agent_response(user_message: str) -> str:
     try:
         print(f"🔍 Sending message to agent: {user_message[:100]}...")
         
-        # Create a thread for this conversation
-        thread = await ai_client.agents.threads.create()
+        # Get agent definition to extract tool_resources
+        agent_def = await ai_client.agents.get_agent(AGENT_ID)
+        
+        # Create thread with the agent's vector store for file_search
+        # This is CRITICAL - thread must have tool_resources attached for file search to work
+        thread_tool_resources = None
+        if hasattr(agent_def, 'tool_resources') and agent_def.tool_resources:
+            if hasattr(agent_def.tool_resources, 'file_search') and agent_def.tool_resources.file_search:
+                vector_store_ids = agent_def.tool_resources.file_search.vector_store_ids
+                if vector_store_ids:
+                    print(f"🔍 Creating thread with vector stores: {vector_store_ids}")
+                    from azure.ai.agents.models import ToolResources, FileSearchToolResource
+                    thread_tool_resources = ToolResources(
+                        file_search=FileSearchToolResource(
+                            vector_store_ids=vector_store_ids
+                        )
+                    )
+        
+        # Create thread with tool_resources attached
+        thread = await ai_client.agents.threads.create(tool_resources=thread_tool_resources)
         print(f"✓ Created thread: {thread.id}")
         
         # Create a message in the thread
@@ -289,12 +307,53 @@ async def generate_agent_response(user_message: str) -> str:
         )
         print(f"✓ Created message: {message.id}")
         
-        # Run the agent - this will invoke file search automatically
+        # Run the agent with additional instructions to force file search usage
+        print(f"🔍 Creating run with agent_id: {AGENT_ID}")
         run = await ai_client.agents.runs.create_and_process(
             thread_id=thread.id,
-            agent_id=AGENT_ID
+            agent_id=AGENT_ID,
+            additional_instructions="Always search the knowledge base first before providing information. Use the file_search tool to find specific venues and locations from the uploaded documents."
         )
+        
         print(f"✓ Run completed with status: {run.status}")
+        print(f"🔍 Run ID: {run.id}")
+        
+        # Try to get run steps to see if file search was invoked
+        print(f"🔍 Attempting to retrieve run steps...")
+        try:
+            # list() returns an AsyncItemPaged directly - don't await it
+            run_steps = ai_client.agents.run_steps.list(
+                thread_id=thread.id,
+                run_id=run.id
+            )
+            
+            steps = []
+            async for step in run_steps:
+                steps.append(step)
+            
+            print(f"✓ Found {len(steps)} run steps")
+            for i, step in enumerate(steps):
+                print(f"  Step {i+1}: type={step.type}, status={step.status}")
+                if hasattr(step, 'step_details'):
+                    details = step.step_details
+                    print(f"    Details type: {type(details).__name__}")
+                    if hasattr(details, 'tool_calls') and details.tool_calls:
+                        print(f"    ✓ Tool calls found: {len(details.tool_calls)}")
+                        for j, tc in enumerate(details.tool_calls):
+                            tool_type = type(tc).__name__
+                            print(f"      Tool {j+1}: {tool_type}")
+                            # Check if it's file search
+                            if 'FileSearch' in tool_type or 'file_search' in tool_type.lower():
+                                print(f"        ✓ FILE SEARCH WAS INVOKED!")
+                    else:
+                        print(f"    ⚠️ No tool calls in this step - FILE SEARCH NOT INVOKED")
+                        
+            if len(steps) == 0:
+                print(f"  ⚠️ No steps found - agent may have skipped tool usage")
+        except Exception as step_error:
+            print(f"⚠️ Could not retrieve run steps: {step_error}")
+            import traceback
+            traceback.print_exc()
         
         if run.status == "failed":
             print(f"❌ Run failed: {run.last_error}")
@@ -310,6 +369,20 @@ async def generate_agent_response(user_message: str) -> str:
             if msg.role == "assistant" and msg.text_messages:
                 response_content = msg.text_messages[-1].text.value
                 print(f"✓ Agent response received ({len(response_content)} chars)")
+                
+                # Log first 200 chars to see if citations are present
+                print(f"🔍 Response preview: {response_content[:200]}...")
+                
+                # Check for annotations (file citations)
+                if hasattr(msg, 'text_messages') and msg.text_messages:
+                    text_msg = msg.text_messages[-1]
+                    if hasattr(text_msg, 'annotations') and text_msg.annotations:
+                        print(f"✓ Response has {len(text_msg.annotations)} annotations (file citations)")
+                        for i, annotation in enumerate(text_msg.annotations):
+                            print(f"  Annotation {i+1}: {type(annotation).__name__}")
+                    else:
+                        print(f"⚠️ No annotations found - agent may not be using file search!")
+                
                 return response_content
         
         return "I couldn't generate a response. Please try again."
