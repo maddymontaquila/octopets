@@ -1,23 +1,23 @@
-/* Button styles based on Figma design - Consolidated from all CSS files */
+/* Button styles - Modern flat design, no shadows */
 .btn {
   display: inline-block;
   font-family: var(--font-family-button);
-  font-weight: 700;
+  font-weight: 600;
   font-size: 14px;
   line-height: 1.2;
   text-align: center;
-  padding: 8px 20px;
-  border-radius: 999px; /* Makes buttons have a half-circle on each side (pill shape) */
+  padding: 10px 20px;
+  border-radius: 8px; /* Reduced from pill shape for more modern look */
   text-decoration: none;
   cursor: pointer;
-  transition: all 0.3s ease;
-  border: 2px solid transparent; /* Add default border for consistency */
-  box-shadow: var(--shadow-sm);
+  transition: all 0.15s ease;
+  border: 2px solid transparent;
+  box-shadow: none;
 }
 
 .btn:hover {
-  /* No transform or movement on hover */
-  box-shadow: var(--shadow-md);
+  /* No transform or movement on hover, no shadows */
+  transform: none;
 }
 
 /* Buttons inside cards - white background, black text, black border, reverse on hover */
@@ -38,9 +38,9 @@
 .venue-card .btn:hover,
 .coming-soon-content .btn:hover,
 .listing-buttons .btn:hover {
-  background-color: var(--neutral-900);
-  color: var(--neutral-100);
-  border-color: var(--neutral-100);
+  background-color: var(--neutral-200);
+  color: var(--neutral-900);
+  border-color: var(--neutral-400);
 }
 
 /* Disabled state */
@@ -98,6 +98,22 @@
   border-color: var(--neutral-900);
 }
 
+/* CTA section buttons - black background, no color change on hover */
+.cta-section .btn,
+.cta-section .btn-secondary {
+  background-color: var(--neutral-900);
+  color: var(--neutral-100);
+  border: 2px solid var(--neutral-900);
+}
+
+.cta-section .btn:hover,
+.cta-section .btn-secondary:hover {
+  background-color: var(--neutral-900);
+  color: var(--neutral-100);
+  border-color: var(--neutral-900);
+  opacity: 0.9; /* Subtle opacity change instead of color swap */
+}
+
 /* Apply card button styles to secondary buttons in cards */
 .review-card .btn-secondary,
 .form-actions .btn-secondary,
@@ -119,17 +135,33 @@
   border-color: var(--neutral-100);
 }
 
-/* Outline button - black background with white text and white border */
+/* Outline button - transparent with white border (for colored backgrounds) */
 .btn-outline {
-  background-color: var(--neutral-900);
+  background-color: transparent;
   color: var(--neutral-100);
-  border: 2px solid var(--neutral-100);
+  border: 3px solid var(--neutral-100);
 }
 
 .btn-outline:hover {
   background-color: var(--neutral-100);
-  color: var(--neutral-900);
-  border-color: var(--neutral-900);
+  color: var(--primary-600);
+  border-color: var(--neutral-100);
+}
+
+/* Hero section buttons - light button on dark background */
+.hero-buttons .btn-outline {
+  background-color: var(--neutral-100);
+  color: #1a1a1a;
+  border: 1px solid var(--neutral-100);
+  padding: 13px 28px;
+  font-size: 15px;
+  font-weight: 500;
+  border-radius: 10px;
+}
+
+.hero-buttons .btn-outline:hover {
+  background-color: var(--neutral-200);
+  border-color: var(--neutral-200);
 }
 
 /* Make sure card-specific buttons use card button styles, even if they have other classes */

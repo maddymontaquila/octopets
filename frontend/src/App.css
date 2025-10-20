@@ -4,7 +4,7 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: var(--gradient-background);
+  background: var(--neutral-100);
   color: var(--neutral-900);
   position: relative;
   overflow-x: hidden;
@@ -48,18 +48,17 @@
   animation: slideUp var(--transition-normal, 0.3s) ease;
 }
 
-/* Cards */
+/* Cards - Flat design, no shadows or transforms */
 .card {
-  background: var(--gradient-card-radial);
-  border-radius: 20px;
-  border: 1px solid var(--neutral-900);
+  background: var(--neutral-100);
+  border-radius: 12px;
+  border: 2px solid var(--neutral-900);
   overflow: hidden;
-  transition: transform 0.3s, box-shadow 0.3s;
+  transition: border-color 0.2s ease;
 }
 
 .card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+  border-color: var(--primary-600);
 }
 
 .card-header {
@@ -208,9 +207,9 @@ p {
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .main-content {
-    padding-top: 60px; /* Adjust if header height changes */
-    padding-left: var(--space-3);
-    padding-right: var(--space-3);
+    padding-top: 0;
+    padding-left: 0;
+    padding-right: 0;
   }
 
   h1 {

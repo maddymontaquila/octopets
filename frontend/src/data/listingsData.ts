@@ -212,6 +212,210 @@ const listingsData: Listing[] = [
       email: "hello@moochsmeow.com",
       website: "https://moochsmeow.com"
     }
+  },
+  {
+    id: "17",
+    name: "The Gilded Paw Resort",
+    type: "hotel",
+    location: "123 Luxury Lane, Beverly Hills, CA",
+    description: "An upscale pet-friendly resort offering world-class accommodations for you and your furry companions. Spa services, gourmet pet dining, and concierge services available.",
+    allowedPets: ["dogs", "cats"],
+    amenities: ["Pet spa", "Gourmet pet dining", "24/7 concierge", "Luxury suites", "Pet sitting services"],
+    photos: ["hotel1.jpg", "hotel2.jpg"],
+    rating: 4.9,
+    reviews: [
+      {
+        id: "1701",
+        userId: "user17",
+        userName: "Luxury Traveler Michael",
+        rating: 5,
+        comment: "Five-star experience! My poodle got a massage while I relaxed by the pool.",
+        date: "2025-09-15"
+      },
+      {
+        id: "1702",
+        userId: "user18",
+        userName: "Casey Morgan",
+        rating: 5,
+        comment: "Exceeded our expectations in every way.",
+        date: "2025-09-10"
+      }
+    ],
+    contactInfo: {
+      phone: "555-777-8888",
+      email: "concierge@gildedpaw.com",
+      website: "https://gildedpawresort.com"
+    }
+  },
+  {
+    id: "18",
+    name: "Woodland Trails",
+    type: "park",
+    location: "456 Forest Road, Portland, OR",
+    description: "Miles of scenic hiking trails through lush forests. Perfect for adventurous dogs and nature-loving cats on leashes.",
+    allowedPets: ["dogs", "cats"],
+    amenities: ["Hiking trails", "Water stations", "Waste stations", "Picnic areas", "Off-leash zones"],
+    photos: ["park1.jpg", "park2.jpg"],
+    rating: 4.7,
+    reviews: [
+      {
+        id: "1801",
+        userId: "user19",
+        userName: "Outdoor Adventurer Lisa",
+        rating: 5,
+        comment: "Perfect for active dogs! Beautiful trails and my lab loves the streams.",
+        date: "2025-09-20"
+      },
+      {
+        id: "1802",
+        userId: "user20",
+        userName: "Sam Chen",
+        rating: 4,
+        comment: "Great atmosphere and very accommodating to pets.",
+        date: "2025-09-18"
+      }
+    ],
+    contactInfo: {
+      phone: "555-333-4444",
+      email: "info@woodlandtrails.com",
+      website: "https://woodlandtrails.com"
+    }
+  },
+  {
+    id: "19",
+    name: "Cozy Cottage",
+    type: "restaurant",
+    location: "789 Maple Street, Nashville, TN",
+    description: "A charming cottage-style restaurant with a pet-friendly patio serving comfort food classics. Dogs and cats welcome!",
+    allowedPets: ["dogs", "cats"],
+    amenities: ["Outdoor patio", "Pet menu", "Water bowls", "Treats", "Heaters in winter"],
+    photos: ["cafe1.jpg", "cafe2.jpg"],
+    rating: 4.5,
+    reviews: [
+      {
+        id: "1901",
+        userId: "user21",
+        userName: "Country Lover Dan",
+        rating: 4,
+        comment: "Peaceful and quiet. Our dogs loved running in the huge yard!",
+        date: "2025-09-25"
+      },
+      {
+        id: "1902",
+        userId: "user22",
+        userName: "Riley Thompson",
+        rating: 5,
+        comment: "My pets felt right at home here. Will definitely return!",
+        date: "2025-09-22"
+      }
+    ],
+    contactInfo: {
+      phone: "555-222-3333",
+      email: "reservations@cozycottage.com",
+      website: "https://cozycottage.com"
+    }
+  },
+  {
+    id: "20",
+    name: "Bark & Brew",
+    type: "cafe",
+    location: "321 Coffee Street, Seattle, WA",
+    description: "A dog-friendly coffee shop with treats for both humans and pups. Great wifi, cozy atmosphere, and a small indoor play area for dogs.",
+    allowedPets: ["dogs"],
+    amenities: ["Puppuccinos", "Dog play area", "Free wifi", "Outdoor seating", "Dog treats"],
+    photos: ["moochs1.jpg", "moochs2.jpg"],
+    rating: 4.8,
+    reviews: [
+      {
+        id: "2001",
+        userId: "user23",
+        userName: "Beer Enthusiast Jake",
+        rating: 5,
+        comment: "Great vibes! My dog made friends while I enjoyed local craft beer.",
+        date: "2025-10-01"
+      },
+      {
+        id: "2002",
+        userId: "user24",
+        userName: "Alex Parker",
+        rating: 4,
+        comment: "Five stars! This place really understands pet needs.",
+        date: "2025-09-28"
+      }
+    ],
+    contactInfo: {
+      phone: "555-999-0000",
+      email: "hello@barkandbrew.com",
+      website: "https://barkandbrew.com"
+    }
+  },
+  {
+    id: "21",
+    name: "Exotic Pets Emporium",
+    type: "shop",
+    location: "654 Reptile Road, Austin, TX",
+    description: "Specialty shop catering to exotic pet owners. Supplies for reptiles, birds, small mammals, and more. Knowledgeable staff and adoption services.",
+    allowedPets: ["birds", "reptiles", "small_mammals", "other"],
+    amenities: ["Expert staff", "Adoption services", "Specialty supplies", "Educational workshops", "Pet grooming"],
+    photos: ["store1.jpg", "store2.jpg"],
+    rating: 4.6,
+    reviews: [
+      {
+        id: "2101",
+        userId: "user25",
+        userName: "Reptile Owner Chris",
+        rating: 5,
+        comment: "Finally a place that understands exotic pets! The staff is incredibly knowledgeable.",
+        date: "2025-10-05"
+      },
+      {
+        id: "2102",
+        userId: "user26",
+        userName: "Jamie Lee",
+        rating: 4,
+        comment: "Loved everything about this place. Our pets had a blast!",
+        date: "2025-10-02"
+      }
+    ],
+    contactInfo: {
+      phone: "555-444-5555",
+      email: "info@exoticpets.com",
+      website: "https://exoticpetsemporium.com"
+    }
+  },
+  {
+    id: "22",
+    name: "Fins & Friends Aquatic Center",
+    type: "shop",
+    location: "987 Ocean Boulevard, San Diego, CA",
+    description: "Premium aquarium shop specializing in fish, aquatic plants, and supplies. Also welcomes small aquatic pets and reptiles. Expert advice for saltwater and freshwater enthusiasts.",
+    allowedPets: ["fish", "reptiles", "small_mammals"],
+    amenities: ["Expert consultations", "Custom aquarium design", "Live plants", "Rare fish species", "Maintenance services"],
+    photos: ["home1.jpg", "home2.jpg"],
+    rating: 4.9,
+    reviews: [
+      {
+        id: "2201",
+        userId: "user27",
+        userName: "Aquarium Expert Sarah",
+        rating: 5,
+        comment: "The best aquarium shop in the area! Expert staff helped me set up my reef tank perfectly.",
+        date: "2025-10-10"
+      },
+      {
+        id: "2202",
+        userId: "user28",
+        userName: "Morgan Davis",
+        rating: 5,
+        comment: "Cannot wait to come back. Highly recommended!",
+        date: "2025-10-08"
+      }
+    ],
+    contactInfo: {
+      phone: "555-666-7777",
+      email: "info@finsandfriends.com",
+      website: "https://finsandfriends.com"
+    }
   }
 ];
 

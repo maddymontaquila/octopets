@@ -55,6 +55,9 @@ You can find prompts that can be used to generate the project as well as automat
 
 ### 📦 Installation
 
+>[!NOTE]
+>All commands below are to be executed from the **repository root**.
+
 1. Clone the repository
 
    ```bash
@@ -79,7 +82,23 @@ You can find prompts that can be used to generate the project as well as automat
 1. Restore Python agent dependencies
 
     ```bash
-    uv sync
+    cd agent; uv sync
+    cd ../orchestrator-agent; uv sync
+    cd ../sitter-agent; uv sync
+    ```
+
+1. Set the environment variables:
+
+    ```powershell
+    $env:AZURE_OPENAI_ENDPOINT = "YOUR_ENDPOINT"
+    $env:AGENT_ID = "AGENT_ID"
+    ```
+
+    Or Bash:
+
+    ```bash
+    export AZURE_OPENAI_ENDPOINT="YOUR_ENDPOINT"
+    export AGENT_ID="AGENT_ID"
     ```
 
 1. Start the application using Aspire AppHost

@@ -57,30 +57,23 @@ const Listings: React.FC = () => {
 
   return (
     <div className="listings-page">
-      <div className="hero-section">
-        <h1>Find pet-friendly venues</h1>
-        <div className="search-container">          <input
-            type="text"
-            placeholder="Search by name, description, or location..."
-            value={searchTerm}
-            onChange={(e) => {
-              const value = e.target.value;
-              setSearchTerm(value);
-              updateSearchParams('search', value);
-            }}
-            className="hero-search-input"
-          />
-          <button 
-            className="search-button"
-            onClick={() => console.log('Search triggered')}
-          >
-            Search
-          </button>
-        </div>
-      </div>
+      <div className="search-filter-section">
+        <div className="search-filter-container">
+          <div className="search-group">
+            <input
+              type="text"
+              placeholder="Search by name, description, or location..."
+              value={searchTerm}
+              onChange={(e) => {
+                const value = e.target.value;
+                setSearchTerm(value);
+                updateSearchParams('search', value);
+              }}
+              className="search-input"
+            />
+          </div>
 
-      <div className="filter-section">
-        <div className="filter-controls">          <div className="filter-group">
+          <div className="filter-group">
             <label htmlFor="pet-type">Pet Type</label>
             <select
               id="pet-type"
@@ -155,7 +148,7 @@ const Listings: React.FC = () => {
               <p>Help other pet owners discover great places for their furry, feathery, or scaly friends.</p>
             </div>
             <div className="hero-buttons">
-              <Link to={ROUTES.ADD_LISTING} className="btn btn-black">Add a listing</Link>
+              <Link to={ROUTES.ADD_LISTING} className="btn btn-secondary">Add a listing</Link>
             </div>
           </div>
         </section>

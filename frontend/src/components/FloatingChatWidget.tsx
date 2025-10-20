@@ -1,0 +1,270 @@
+import React, { useState, useRef, useEffect } from 'react';
+import { ChatMessage, ChatState } from '../types/types';
+import { agentService, AgentType } from '../data/agentService';
+import MarkdownMessage from './MarkdownMessage';
+import '../styles/FloatingChatWidget.css';
+
+const FloatingChatWidget: React.FC = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [chatState, setChatState] = useState<ChatState>({
+    messages: [
+      {
+        id: '1',
+        content: "Hi there! 🐾 I'm here to help you find the best pet-friendly spots for you and your furry friend! Tell me about your pet - what kind of animal do you have, what do they enjoy doing, and what are you looking for today?",
+        sender: 'agent',
+        timestamp: new Date(),
+      }
+    ],
+    isWaitingForResponse: false,
+  });
+
+  const [inputValue, setInputValue] = useState('');
+  const [isTyping, setIsTyping] = useState(false);
+  const [apiError, setApiError] = useState<string | null>(null);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
+
+  const scrollToBottom = () => {
+    if (messagesContainerRef.current) {
+      messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
+    }
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [chatState.messages]);
+
+  useEffect(() => {
+    if (isOpen && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [isOpen]);
+
+  // Check API health on component mount
+  useEffect(() => {
+    const checkApiHealth = async () => {
+      try {
+        await agentService.checkHealth();
+        setApiError(null);
+      } catch (error) {
+        console.warn('Agent API not available, using fallback responses:', error);
+        setApiError('Agent service unavailable - using fallback responses');
+      }
+    };
+    
+    checkApiHealth();
+  }, []);
+
+  const handleSendMessage = async () => {
+    if (!inputValue.trim() || chatState.isWaitingForResponse) return;
+
+    const userMessage: ChatMessage = {
+      id: Date.now().toString(),
+      content: inputValue.trim(),
+      sender: 'user',
+      timestamp: new Date(),
+    };
+
+    setChatState(prev => ({
+      messages: [...prev.messages, userMessage],
+      isWaitingForResponse: true,
+    }));
+
+    setInputValue('');
+    setIsTyping(true);
+
+    try {
+      const response = await agentService.sendMessage(
+        userMessage.content,
+        AgentType.ORCHESTRATOR,
+        {
+          timestamp: new Date().toISOString(),
+          sessionId: 'frontend-session'
+        }
+      );
+
+      setIsTyping(false);
+      
+      const agentResponse: ChatMessage = {
+        id: response.message.id,
+        content: response.message.content,
+        sender: 'agent',
+        timestamp: new Date(response.message.timestamp),
+      };
+
+      setChatState(prev => ({
+        messages: [...prev.messages, agentResponse],
+        isWaitingForResponse: false,
+      }));
+
+      setApiError(null);
+
+    } catch (error) {
+      console.error('Error calling agent API:', error);
+      setIsTyping(false);
+      
+      const fallbackResponse = getFallbackResponse(userMessage.content);
+      
+      const agentResponse: ChatMessage = {
+        id: (Date.now() + 1).toString(),
+        content: fallbackResponse,
+        sender: 'agent',
+        timestamp: new Date(),
+      };
+
+      setChatState(prev => ({
+        messages: [...prev.messages, agentResponse],
+        isWaitingForResponse: false,
+      }));
+
+      setApiError('Using fallback responses - agent service unavailable');
+    }
+  };
+
+  const getFallbackResponse = (userMessage: string): string => {
+    const lowerMessage = userMessage.toLowerCase();
+    
+    if (lowerMessage.includes('dog') || lowerMessage.includes('puppy')) {
+      return "🐕 That's awesome! Dogs love exploring new places. Are you looking for dog parks, pet-friendly restaurants, or maybe hiking trails? I can help you find spots where your pup can socialize and have fun!";
+    } else if (lowerMessage.includes('cat') || lowerMessage.includes('kitten')) {
+      return "🐱 Cats are wonderful companions! Are you looking for cat-friendly cafes, pet stores with climbing areas, or perhaps quiet outdoor spaces where your kitty can safely explore?";
+    } else if (lowerMessage.includes('bird') || lowerMessage.includes('parrot')) {
+      return "🦜 Birds are such intelligent companions! Are you interested in bird-friendly venues, pet stores with avian sections, or outdoor spaces where your feathered friend can enjoy fresh air safely?";
+    } else if (lowerMessage.includes('rabbit') || lowerMessage.includes('bunny')) {
+      return "🐰 Rabbits are adorable! I can help you find bunny-friendly spaces, pet stores with rabbit supplies, or quiet outdoor areas where your hoppy friend can safely explore.";
+    } else if (lowerMessage.includes('restaurant') || lowerMessage.includes('cafe') || lowerMessage.includes('food')) {
+      return "🍽️ Great choice! I can help you find pet-friendly restaurants and cafes where you and your companion can enjoy a meal together. What type of cuisine are you in the mood for?";
+    } else if (lowerMessage.includes('park') || lowerMessage.includes('outdoor') || lowerMessage.includes('walk')) {
+      return "🌳 Perfect! Outdoor activities are great for pets. I can suggest dog parks, hiking trails, beaches, and other outdoor spaces where pets are welcome. What kind of outdoor experience are you looking for?";
+    } else if (lowerMessage.includes('shop') || lowerMessage.includes('store') || lowerMessage.includes('supplies')) {
+      return "🛍️ Shopping for your pet! I can direct you to the best pet stores, grooming services, and pet-friendly retail locations. What do you need to pick up for your furry friend?";
+    } else if (lowerMessage.includes('hello') || lowerMessage.includes('hi') || lowerMessage.includes('hey')) {
+      return "Hello! 👋 I'm excited to help you discover amazing pet-friendly places. Tell me about your pet and what kind of adventure you're planning today!";
+    } else {
+      return "That sounds interesting! 🎯 Based on what you've told me, I can help you find the perfect pet-friendly venues. Would you like me to suggest some options, or do you have a specific type of place in mind? I can recommend restaurants, parks, shops, or other pet-welcoming spots!";
+    }
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleSendMessage();
+    }
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value);
+  };
+
+  const toggleChat = () => {
+    setIsOpen(!isOpen);
+  };
+
+  return (
+    <>
+      {/* Floating Chat Button */}
+      <button 
+        className={`floating-chat-button ${isOpen ? 'chat-open' : ''}`}
+        onClick={toggleChat}
+        aria-label="Toggle chat"
+      >
+        <div className="chat-button-icon">
+          {isOpen ? (
+            <span className="close-icon">✕</span>
+          ) : (
+            <span className="robot-icon">🤖</span>
+          )}
+        </div>
+        {!isOpen && (
+          <div className="chat-button-bubble">
+            <span className="bubble-text">Need help finding pet-friendly places?</span>
+          </div>
+        )}
+      </button>
+
+      {/* Chat Widget */}
+      {isOpen && (
+        <div className="floating-chat-widget">
+          <div className="chat-widget-header">
+            <div className="agent-avatar">
+              <span className="agent-icon">🤖</span>
+            </div>
+            <div className="agent-info">
+              <h3>Your Pet-Friendly Guide</h3>
+              <p>Ask me anything about pet-friendly venues!</p>
+              {apiError && (
+                <small className="api-status-warning">⚠️ {apiError}</small>
+              )}
+            </div>
+            <button 
+              className="minimize-button" 
+              onClick={toggleChat}
+              aria-label="Close chat"
+            >
+              ✕
+            </button>
+          </div>
+          
+          <div className="chat-widget-messages" ref={messagesContainerRef}>
+            {chatState.messages.map((message) => (
+              <div
+                key={message.id}
+                className={`message ${message.sender === 'user' ? 'user-message' : 'agent-message'}`}
+              >
+                <div className="message-content">
+                  {message.sender === 'agent' ? (
+                    <MarkdownMessage content={message.content} />
+                  ) : (
+                    message.content
+                  )}
+                </div>
+                <div className="message-timestamp">
+                  {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                </div>
+              </div>
+            ))}
+            
+            {isTyping && (
+              <div className="message agent-message typing-message">
+                <div className="message-content">
+                  <div className="typing-indicator">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                </div>
+              </div>
+            )}
+            
+            <div ref={messagesEndRef} />
+          </div>
+          
+          <div className="chat-widget-input">
+            <div className="chat-input-wrapper">
+              <input
+                ref={inputRef}
+                type="text"
+                value={inputValue}
+                onChange={handleInputChange}
+                onKeyPress={handleKeyPress}
+                placeholder="Ask about pet-friendly places..."
+                className="chat-input"
+                disabled={chatState.isWaitingForResponse}
+              />
+              <button
+                onClick={handleSendMessage}
+                disabled={!inputValue.trim() || chatState.isWaitingForResponse}
+                className="send-button"
+              >
+                <span className="send-icon">📤</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+  );
+};
+
+export default FloatingChatWidget;

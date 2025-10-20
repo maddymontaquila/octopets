@@ -10,6 +10,7 @@ import ListingDetails from './pages/ListingDetails';
 // Import components
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import FloatingChatWidget from './components/FloatingChatWidget';
 
 // Import styles
 import './App.css';
@@ -27,6 +28,7 @@ const App: React.FC = () => {
           </Routes>
         </main>
         <Footer />
+        <FloatingChatWidget />
       </div>
     </Router>
   );

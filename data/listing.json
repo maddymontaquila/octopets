@@ -265,5 +265,684 @@
         "listing": null
       }
     ]
+  },
+  {
+    "id": 7,
+    "name": "Central Paws Plaza",
+    "description": "Downtown park with separate areas for large and small dogs, agility course, and covered pavilions for rainy days.",
+    "price": 0,
+    "address": "555 Broadway Ave, New York, NY",
+    "location": "555 Broadway Ave, New York, NY",
+    "type": "park",
+    "allowedPets": [
+      "dogs"
+    ],
+    "amenities": [
+      "Agility course",
+      "Separate small/large dog areas",
+      "Covered pavilions",
+      "Water fountains",
+      "Waste stations"
+    ],
+    "createdAt": "2025-05-15T00:00:00",
+    "updatedAt": null,
+    "reviews": [
+      {
+        "id": 701,
+        "listingId": 7,
+        "reviewer": "Maya Singh",
+        "rating": 5,
+        "comment": "The agility course is amazing! My border collie gets such a great workout here.",
+        "createdAt": "2025-05-15T00:00:00",
+        "listing": null
+      },
+      {
+        "id": 702,
+        "listingId": 7,
+        "reviewer": "Sam Chen",
+        "rating": 5,
+        "comment": "Great atmosphere and very accommodating to pets.",
+        "createdAt": "2025-10-15T22:02:43",
+        "listing": null
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "name": "Waterfront Pet Resort",
+    "description": "Luxury pet boarding facility with waterfront views, spacious suites, and 24/7 care for your beloved companions.",
+    "price": 75,
+    "address": "321 Marina Dr, Seattle, WA",
+    "location": "321 Marina Dr, Seattle, WA",
+    "type": "hotel",
+    "allowedPets": [
+      "dogs",
+      "cats",
+      "small_mammals"
+    ],
+    "amenities": [
+      "Waterfront views",
+      "Luxury suites",
+      "24/7 supervision",
+      "Daily walks",
+      "Pet webcams"
+    ],
+    "createdAt": "2025-06-02T00:00:00",
+    "updatedAt": null,
+    "reviews": [
+      {
+        "id": 801,
+        "listingId": 8,
+        "reviewer": "Derek Liu",
+        "rating": 5,
+        "comment": "Amazing facility! The webcams let me check on my dog throughout the day. She loved the waterfront walks!",
+        "createdAt": "2025-06-02T00:00:00",
+        "listing": null
+      },
+      {
+        "id": 802,
+        "listingId": 8,
+        "reviewer": "Jordan Blake",
+        "rating": 4,
+        "comment": "Five stars! This place really understands pet needs.",
+        "createdAt": "2025-09-25T22:02:43",
+        "listing": null
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "name": "Cozy Victorian Pet House",
+    "description": "Charming Victorian home with enclosed garden, pet doors, and all amenities needed for a comfortable stay with your pets.",
+    "price": 145,
+    "address": "890 Elm Street, San Francisco, CA",
+    "location": "890 Elm Street, San Francisco, CA",
+    "type": "home",
+    "allowedPets": [
+      "dogs",
+      "cats",
+      "small_mammals"
+    ],
+    "amenities": [
+      "Enclosed garden",
+      "Pet doors",
+      "Multiple pet beds",
+      "Feeding stations",
+      "Pet-safe plants"
+    ],
+    "createdAt": "2025-06-10T00:00:00",
+    "updatedAt": null,
+    "reviews": [
+      {
+        "id": 901,
+        "listingId": 9,
+        "reviewer": "Lisa Park",
+        "rating": 5,
+        "comment": "Perfect home for our weekend getaway! The enclosed garden was ideal for our anxious rescue dog.",
+        "createdAt": "2025-06-10T00:00:00",
+        "listing": null
+      },
+      {
+        "id": 902,
+        "listingId": 9,
+        "reviewer": "Jamie Lee",
+        "rating": 5,
+        "comment": "Great atmosphere and very accommodating to pets.",
+        "createdAt": "2025-09-27T22:02:43",
+        "listing": null
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "name": "Wild Wings B&B",
+    "description": "Cozy bed and breakfast specializing in bird-friendly accommodations with outdoor aviaries and bird-watching areas.",
+    "price": 120,
+    "address": "442 Forest Path, Los Angeles, CA",
+    "location": "442 Forest Path, Los Angeles, CA",
+    "type": "home",
+    "allowedPets": [
+      "birds",
+      "small_mammals"
+    ],
+    "amenities": [
+      "Outdoor aviaries",
+      "Bird-watching areas",
+      "Specialized bird care",
+      "Quiet environment",
+      "Garden views"
+    ],
+    "createdAt": "2025-06-18T00:00:00",
+    "updatedAt": null,
+    "reviews": [
+      {
+        "id": 1001,
+        "listingId": 10,
+        "reviewer": "Rachel Green",
+        "rating": 5,
+        "comment": "Perfect for my cockatiel! The outdoor aviaries gave him so much enrichment.",
+        "createdAt": "2025-06-18T00:00:00",
+        "listing": null
+      },
+      {
+        "id": 1002,
+        "listingId": 10,
+        "reviewer": "Quinn Taylor",
+        "rating": 4,
+        "comment": "Cannot wait to come back. Highly recommended!",
+        "createdAt": "2025-09-24T22:02:43",
+        "listing": null
+      }
+    ]
+  },
+  {
+    "id": 11,
+    "name": "Paws & Pasta",
+    "description": "Italian restaurant with a special pet patio featuring water misters and comfortable seating for both humans and pets.",
+    "price": 0,
+    "address": "778 Little Italy St, Chicago, IL",
+    "location": "778 Little Italy St, Chicago, IL",
+    "type": "cafe",
+    "allowedPets": [
+      "dogs",
+      "cats"
+    ],
+    "amenities": [
+      "Pet patio",
+      "Water misters",
+      "Pet menu",
+      "Comfortable seating",
+      "Shade umbrellas"
+    ],
+    "createdAt": "2025-07-01T00:00:00",
+    "updatedAt": null,
+    "reviews": [
+      {
+        "id": 1101,
+        "listingId": 11,
+        "reviewer": "Tony Ricci",
+        "rating": 4,
+        "comment": "Great food and my dog loved the pet patio! The water misters were perfect on a hot day.",
+        "createdAt": "2025-07-01T00:00:00",
+        "listing": null
+      },
+      {
+        "id": 1102,
+        "listingId": 11,
+        "reviewer": "Quinn Taylor",
+        "rating": 5,
+        "comment": "My pets felt right at home here. Will definitely return!",
+        "createdAt": "2025-10-09T22:02:43",
+        "listing": null
+      }
+    ]
+  },
+  {
+    "id": 12,
+    "name": "Adventure Trails Resort",
+    "description": "Mountain resort with hiking trails, pet daycare, and specialized services for active pets and their families.",
+    "price": 180,
+    "address": "1200 Mountain View Rd, Miami, FL",
+    "location": "1200 Mountain View Rd, Miami, FL",
+    "type": "hotel",
+    "allowedPets": [
+      "dogs",
+      "cats",
+      "birds"
+    ],
+    "amenities": [
+      "Hiking trails",
+      "Pet daycare",
+      "Adventure gear rental",
+      "Pet fitness programs",
+      "Mountain views"
+    ],
+    "createdAt": "2025-07-12T00:00:00",
+    "updatedAt": null,
+    "reviews": [
+      {
+        "id": 1201,
+        "listingId": 12,
+        "reviewer": "Adventure Mike",
+        "rating": 5,
+        "comment": "Perfect for active dogs! The hiking trails and pet fitness programs were incredible.",
+        "createdAt": "2025-07-12T00:00:00",
+        "listing": null
+      },
+      {
+        "id": 1202,
+        "listingId": 12,
+        "reviewer": "Casey Morgan",
+        "rating": 5,
+        "comment": "Professional staff and excellent facilities.",
+        "createdAt": "2025-09-22T22:02:43",
+        "listing": null
+      }
+    ]
+  },
+  {
+    "id": 13,
+    "name": "Metropolitan Pet Suites",
+    "description": "Upscale pet boarding facility in the heart of the city with individual suites, play areas, and premium care services.",
+    "price": 85,
+    "address": "567 Wellness Way, New York, NY",
+    "location": "567 Wellness Way, New York, NY",
+    "type": "hotel",
+    "allowedPets": [
+      "dogs",
+      "cats",
+      "small_mammals"
+    ],
+    "amenities": [
+      "Individual suites",
+      "Indoor play areas",
+      "Premium bedding",
+      "Gourmet pet meals",
+      "Exercise programs"
+    ],
+    "createdAt": "2025-07-20T00:00:00",
+    "updatedAt": null,
+    "reviews": [
+      {
+        "id": 1301,
+        "listingId": 13,
+        "reviewer": "Dr. Sarah Kim",
+        "rating": 5,
+        "comment": "The individual suites are fantastic! My senior dog was so comfortable and well-cared for during our week away.",
+        "createdAt": "2025-07-20T00:00:00",
+        "listing": null
+      },
+      {
+        "id": 1302,
+        "listingId": 13,
+        "reviewer": "Alex Parker",
+        "rating": 4,
+        "comment": "Great atmosphere and very accommodating to pets.",
+        "createdAt": "2025-09-28T22:02:43",
+        "listing": null
+      }
+    ]
+  },
+  {
+    "id": 14,
+    "name": "Exotic Companions Lodge",
+    "description": "Specialized boarding facility for exotic pets with climate-controlled environments and expert care staff.",
+    "price": 95,
+    "address": "1001 Safari Blvd, Seattle, WA",
+    "location": "1001 Safari Blvd, Seattle, WA",
+    "type": "hotel",
+    "allowedPets": [
+      "birds",
+      "small_mammals",
+      "reptiles",
+      "other"
+    ],
+    "amenities": [
+      "Climate-controlled environments",
+      "Expert care staff",
+      "Species-specific diets",
+      "Enrichment activities",
+      "24/7 monitoring"
+    ],
+    "createdAt": "2025-08-05T00:00:00",
+    "updatedAt": null,
+    "reviews": [
+      {
+        "id": 1401,
+        "listingId": 14,
+        "reviewer": "Emma Rodriguez",
+        "rating": 5,
+        "comment": "The only place I trust with my iguana! They really understand exotic pet needs.",
+        "createdAt": "2025-08-05T00:00:00",
+        "listing": null
+      },
+      {
+        "id": 1402,
+        "listingId": 14,
+        "reviewer": "Jamie Lee",
+        "rating": 5,
+        "comment": "Clean, safe, and perfect for bringing our furry friends.",
+        "createdAt": "2025-09-28T22:02:43",
+        "listing": null
+      }
+    ]
+  },
+  {
+    "id": 15,
+    "name": "Beachside Bungalows",
+    "description": "Ocean-front vacation rental with private beach access, pet washing station, and coastal walking trails.",
+    "price": 250,
+    "address": "321 Ocean Breeze Ln, San Francisco, CA",
+    "location": "321 Ocean Breeze Ln, San Francisco, CA",
+    "type": "home",
+    "allowedPets": [
+      "dogs",
+      "cats"
+    ],
+    "amenities": [
+      "Private beach access",
+      "Pet washing station",
+      "Coastal walking trails",
+      "Ocean views",
+      "Fenced outdoor area"
+    ],
+    "createdAt": "2025-08-15T00:00:00",
+    "updatedAt": null,
+    "reviews": [
+      {
+        "id": 1501,
+        "listingId": 15,
+        "reviewer": "Beach Lover Sarah",
+        "rating": 5,
+        "comment": "Paradise for dogs! The private beach access and pet washing station made our vacation perfect.",
+        "createdAt": "2025-08-15T00:00:00",
+        "listing": null
+      },
+      {
+        "id": 1502,
+        "listingId": 15,
+        "reviewer": "Quinn Taylor",
+        "rating": 5,
+        "comment": "Such a welcoming environment for both pets and owners.",
+        "createdAt": "2025-10-15T22:02:43",
+        "listing": null
+      }
+    ]
+  },
+  {
+    "id": 16,
+    "name": "Urban Jungle Park",
+    "description": "City park with specialized areas for different pet types including a cat garden, rabbit runs, and bird observation areas.",
+    "price": 0,
+    "address": "888 Green Space Ave, Los Angeles, CA",
+    "location": "888 Green Space Ave, Los Angeles, CA",
+    "type": "park",
+    "allowedPets": [
+      "dogs",
+      "cats",
+      "small_mammals",
+      "birds"
+    ],
+    "amenities": [
+      "Cat garden",
+      "Rabbit runs",
+      "Bird observation areas",
+      "Native plant gardens",
+      "Educational signage"
+    ],
+    "createdAt": "2025-09-01T00:00:00",
+    "updatedAt": null,
+    "reviews": [
+      {
+        "id": 1601,
+        "listingId": 16,
+        "reviewer": "Nature Enthusiast Tom",
+        "rating": 4,
+        "comment": "Love the variety! My rabbit enjoyed the specialized runs, and the native plant gardens are beautiful.",
+        "createdAt": "2025-09-01T00:00:00",
+        "listing": null
+      },
+      {
+        "id": 1602,
+        "listingId": 16,
+        "reviewer": "Drew Wilson",
+        "rating": 4,
+        "comment": "My pets felt right at home here. Will definitely return!",
+        "createdAt": "2025-10-16T22:02:43",
+        "listing": null
+      }
+    ]
+  },
+  {
+    "id": 17,
+    "name": "Mooch's Meow",
+    "description": "A trendy cat cafe with climbing structures, cozy nooks, and a special menu for feline friends. Humans welcome too!",
+    "price": 0,
+    "address": "777 Purr Street, Austin, TX",
+    "location": "777 Purr Street, Austin, TX",
+    "type": "cafe",
+    "allowedPets": [
+      "cats",
+      "small_mammals"
+    ],
+    "amenities": [
+      "Cat climbing walls",
+      "Cozy nooks",
+      "Cat treats menu",
+      "Free WiFi",
+      "Instagrammable spaces"
+    ],
+    "createdAt": "2025-09-10T00:00:00",
+    "updatedAt": null,
+    "reviews": [
+      {
+        "id": 1701,
+        "listingId": 17,
+        "reviewer": "Cat Parent Emma",
+        "rating": 5,
+        "comment": "My cats absolutely loved it! The banana-themed decor is so fun and unique.",
+        "createdAt": "2025-09-10T00:00:00",
+        "listing": null
+      },
+      {
+        "id": 1702,
+        "listingId": 17,
+        "reviewer": "Taylor Rivera",
+        "rating": 5,
+        "comment": "Such a welcoming environment for both pets and owners.",
+        "createdAt": "2025-09-29T22:02:43",
+        "listing": null
+      }
+    ]
+  },
+  {
+    "id": 18,
+    "name": "The Gilded Paw Resort",
+    "description": "Ultra-luxury resort offering spa treatments, gourmet meals, and premium accommodations for pampered pets and their owners.",
+    "price": 0,
+    "address": "999 Diamond Drive, Beverly Hills, CA",
+    "location": "999 Diamond Drive, Beverly Hills, CA",
+    "type": "hotel",
+    "allowedPets": [
+      "dogs",
+      "cats"
+    ],
+    "amenities": [
+      "Pet spa & massage",
+      "Gourmet pet menu",
+      "24/7 concierge",
+      "Private suites",
+      "Rooftop garden"
+    ],
+    "createdAt": "2025-09-15T00:00:00",
+    "updatedAt": null,
+    "reviews": [
+      {
+        "id": 1801,
+        "listingId": 18,
+        "reviewer": "Luxury Traveler Michael",
+        "rating": 5,
+        "comment": "Five-star experience! My poodle got a massage while I relaxed by the pool.",
+        "createdAt": "2025-09-15T00:00:00",
+        "listing": null
+      },
+      {
+        "id": 1802,
+        "listingId": 18,
+        "reviewer": "Jordan Blake",
+        "rating": 4,
+        "comment": "Five stars! This place really understands pet needs.",
+        "createdAt": "2025-10-01T22:02:43",
+        "listing": null
+      }
+    ]
+  },
+  {
+    "id": 19,
+    "name": "Woodland Trails Park",
+    "description": "Natural forest park with miles of hiking trails, streams for dogs to splash in, and wildlife viewing opportunities.",
+    "price": 0,
+    "address": "333 Forest Road, Portland, OR",
+    "location": "333 Forest Road, Portland, OR",
+    "type": "park",
+    "allowedPets": [
+      "dogs"
+    ],
+    "amenities": [
+      "Hiking trails",
+      "Stream access",
+      "Wildlife viewing",
+      "Picnic areas",
+      "Parking"
+    ],
+    "createdAt": "2025-09-20T00:00:00",
+    "updatedAt": null,
+    "reviews": [
+      {
+        "id": 1901,
+        "listingId": 19,
+        "reviewer": "Outdoor Adventurer Lisa",
+        "rating": 5,
+        "comment": "Perfect for active dogs! Beautiful trails and my lab loves the streams.",
+        "createdAt": "2025-09-20T00:00:00",
+        "listing": null
+      },
+      {
+        "id": 1902,
+        "listingId": 19,
+        "reviewer": "Drew Wilson",
+        "rating": 4,
+        "comment": "Cannot wait to come back. Highly recommended!",
+        "createdAt": "2025-09-21T22:02:43",
+        "listing": null
+      }
+    ]
+  },
+  {
+    "id": 20,
+    "name": "Cozy Cottage Getaway",
+    "description": "Charming countryside cottage with a large fenced yard, perfect for a peaceful retreat with your pets.",
+    "price": 0,
+    "address": "555 Meadow Lane, Nashville, TN",
+    "location": "555 Meadow Lane, Nashville, TN",
+    "type": "home",
+    "allowedPets": [
+      "dogs",
+      "cats",
+      "small_mammals"
+    ],
+    "amenities": [
+      "Large fenced yard",
+      "Fireplace",
+      "Pet-friendly furniture",
+      "Rural setting",
+      "Full kitchen"
+    ],
+    "createdAt": "2025-09-25T00:00:00",
+    "updatedAt": null,
+    "reviews": [
+      {
+        "id": 2001,
+        "listingId": 20,
+        "reviewer": "Country Lover Dan",
+        "rating": 4,
+        "comment": "Peaceful and quiet. Our dogs loved running in the huge yard!",
+        "createdAt": "2025-09-25T00:00:00",
+        "listing": null
+      },
+      {
+        "id": 2002,
+        "listingId": 20,
+        "reviewer": "Quinn Taylor",
+        "rating": 4,
+        "comment": "Exceeded our expectations in every way.",
+        "createdAt": "2025-10-05T22:02:43",
+        "listing": null
+      }
+    ]
+  },
+  {
+    "id": 21,
+    "name": "Bark & Brew Pub",
+    "description": "Dog-friendly pub with outdoor beer garden, dog menu, and weekly social events for pets and owners.",
+    "price": 0,
+    "address": "444 Tap Street, Denver, CO",
+    "location": "444 Tap Street, Denver, CO",
+    "type": "cafe",
+    "allowedPets": [
+      "dogs"
+    ],
+    "amenities": [
+      "Outdoor beer garden",
+      "Dog menu",
+      "Social events",
+      "Live music",
+      "Water bowls"
+    ],
+    "createdAt": "2025-10-01T00:00:00",
+    "updatedAt": null,
+    "reviews": [
+      {
+        "id": 2101,
+        "listingId": 21,
+        "reviewer": "Beer Enthusiast Jake",
+        "rating": 5,
+        "comment": "Great vibes! My dog made friends while I enjoyed local craft beer.",
+        "createdAt": "2025-10-01T00:00:00",
+        "listing": null
+      },
+      {
+        "id": 2102,
+        "listingId": 21,
+        "reviewer": "Taylor Rivera",
+        "rating": 4,
+        "comment": "Five stars! This place really understands pet needs.",
+        "createdAt": "2025-09-18T22:02:43",
+        "listing": null
+      }
+    ]
+  },
+  {
+    "id": 22,
+    "name": "Exotic Pets Emporium",
+    "description": "Specialty store welcoming all types of exotic pets with expert staff and unique supplies for unusual companions.",
+    "price": 0,
+    "address": "222 Unique Boulevard, Miami, FL",
+    "location": "222 Unique Boulevard, Miami, FL",
+    "type": "custom",
+    "allowedPets": [
+      "birds",
+      "small_mammals",
+      "other"
+    ],
+    "amenities": [
+      "Expert staff",
+      "Exotic supplies",
+      "Educational workshops",
+      "Species-specific areas",
+      "Consultation services"
+    ],
+    "createdAt": "2025-10-05T00:00:00",
+    "updatedAt": null,
+    "reviews": [
+      {
+        "id": 2201,
+        "listingId": 22,
+        "reviewer": "Reptile Owner Chris",
+        "rating": 5,
+        "comment": "Finally a place that understands exotic pets! The staff is incredibly knowledgeable.",
+        "createdAt": "2025-10-05T00:00:00",
+        "listing": null
+      },
+      {
+        "id": 2202,
+        "listingId": 22,
+        "reviewer": "Jamie Lee",
+        "rating": 5,
+        "comment": "My pets felt right at home here. Will definitely return!",
+        "createdAt": "2025-10-01T22:02:43",
+        "listing": null
+      }
+    ]
   }
 ]

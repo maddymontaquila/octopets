@@ -4,18 +4,28 @@
   flex-direction: column;
   align-items: flex-start;
   width: 100%;
-  margin-top: var(--space-2);
-  gap: var(--space-2);
-  padding: var(--space-2) 0;
+  padding: 16px;
+  gap: 8px;
+  flex: 1;
+}
+
+/* Card footer for pet icons */
+.listing-card-footer {
+  border-top: 1px solid var(--neutral-300);
+  background: var(--neutral-300);
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
 }
 
 /* Address under name, styled for left alignment and spacing */
 .listing-address {
   color: var(--neutral-600);
-  font-size: var(--font-size-sm);
+  font-size: 14px;
   margin: 0;
   padding: 0;
-  line-height: 1.4;
+  line-height: 1.5;
   text-align: left;
 }
 
@@ -24,31 +34,41 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: var(--space-2);
-  margin-top: 0;
+  gap: 8px;
+  margin: 0;
 }
 
+/* Listing Card - Clean minimalist design */
 .listing-card {
   background-color: var(--neutral-100);
-  border-radius: 20px;
+  border-radius: 12px;
   overflow: hidden;
   position: relative;
   display: flex;
   flex-direction: column;
-  border: 1px solid var(--neutral-900);
+  border: 2px solid var(--neutral-400);
   text-decoration: none;
+  color: inherit;
   height: fit-content;
-  padding: 12px;
-  gap: 8px;
+  padding: 0;
+  transition: all 0.2s ease;
+  cursor: pointer;
 }
 
-/* No hover effect as requested - no motion */
+.listing-card:hover {
+  border-color: var(--neutral-600);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.listing-card:hover h3 {
+  color: var(--neutral-700);
+}
 
 .listing-image {
-  height: 200px;
+  height: 220px;
   overflow: hidden;
   position: relative;
-  border-radius: 12px;
+  border-radius: 0;
 }
 
 .listing-image img {
@@ -64,7 +84,7 @@
   right: 0;
   display: flex;
   justify-content: space-between;
-  padding: var(--space-2);
+  padding: 12px;
 }
 
 /* Create a consistent look with venue-card */
@@ -90,48 +110,52 @@
 .listing-details-under-name h3 {
   margin: 0;
   padding: 0;
-  font-size: var(--font-size-lg);
+  font-size: 18px;
+  font-weight: 600;
   color: var(--neutral-900);
+  line-height: 1.3;
 }
 
 .listing-buttons {
-  margin-top: var(--space-2);
+  margin-top: 12px;
   display: flex;
-  gap: var(--space-2);
+  gap: 8px;
 }
 
 .overlay-type {
+  color: var(--neutral-900);
+  font-size: 13px;
+  font-weight: 500;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 6px 10px;
+  border-radius: 8px;
+  backdrop-filter: blur(8px);
+  border: 2px solid var(--neutral-400);
   display: inline-flex;
   align-items: center;
-  gap: var(--space-2);
-  color: var(--neutral-900);
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-medium);
-  background: white;
-  padding: var(--space-1) var(--space-2);
-  border-radius: var(--border-radius-full);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  gap: 6px;
 }
 
 .overlay-rating {
   display: inline-flex;
   align-items: center;
-  gap: var(--space-1);
-  background: white;
-  padding: var(--space-1) var(--space-2);
-  border-radius: var(--border-radius-full);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  gap: 4px;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 6px 10px;
+  border-radius: 8px;
+  backdrop-filter: blur(8px);
+  border: 2px solid var(--neutral-400);
 }
 
-.overlay-rating .stars {
-  color: var(--neutral-900);
-  font-size: var(--font-size-md);
+.overlay-rating .star-icon {
+  color: #FFC107;
+  font-size: 14px;
 }
 
 .overlay-rating .rating-value {
   color: var(--neutral-900);
-  font-weight: var(--font-weight-bold);
-  font-size: var(--font-size-md);
+  font-weight: 600;
+  font-size: 13px;
 }
 
 .listing-location {
@@ -185,22 +209,39 @@
 }
 
 .pet-icon {
-  background: var(--neutral-100);
-  color: var(--neutral-900);
-  padding: var(--space-1);
-  border-radius: var(--border-radius-full);
-  font-size: var(--font-size-md);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
-  transition: none; /* Explicitly disable transitions */
+  background: transparent;
+  color: var(--neutral-600);
+  padding: 0;
+  border-radius: 0;
+  font-size: 12px !important;
+  line-height: 1 !important;
+  display: inline-block;
+  transition: none;
+  border: none;
 }
 
 /* Explicitly disable hover effects */
 .pet-icon:hover {
   transform: none;
-  background: var(--neutral-100);
-  color: var(--neutral-900);
+  background: transparent;
+  color: var(--neutral-600);
+}
+
+.pet-icon-fa {
+  background: transparent;
+  color: var(--neutral-700);
+  padding: 0;
+  font-size: 16px;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: none;
+  border: none;
+}
+
+.pet-icon-fa:hover {
+  transform: none;
+  background: transparent;
+  color: var(--neutral-700);
 }

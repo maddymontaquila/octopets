@@ -1,0 +1,30 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Octopets.ServiceDefaults", "servicedefaults\Octopets.ServiceDefaults.csproj", "{D8857ABB-2EB3-F01C-4175-FAADD5C4EEC1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Octopets.Backend", "backend\Octopets.Backend.csproj", "{A19CC156-769E-FF7B-6907-7689F70D49EA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D8857ABB-2EB3-F01C-4175-FAADD5C4EEC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8857ABB-2EB3-F01C-4175-FAADD5C4EEC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8857ABB-2EB3-F01C-4175-FAADD5C4EEC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8857ABB-2EB3-F01C-4175-FAADD5C4EEC1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A19CC156-769E-FF7B-6907-7689F70D49EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A19CC156-769E-FF7B-6907-7689F70D49EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A19CC156-769E-FF7B-6907-7689F70D49EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A19CC156-769E-FF7B-6907-7689F70D49EA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A5C42E03-E576-4F12-8CCD-36D7E86B955D}
+	EndGlobalSection
+EndGlobal

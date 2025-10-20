@@ -5,8 +5,10 @@ import { ListingType } from '../types/types';
 export const LISTING_TYPES: ListingType[] = [
   { id: "park", name: "Parks", icon: "🌳", description: "Open spaces for pets to run and play" },
   { id: "cafe", name: "Cafés", icon: "☕", description: "Places to eat and drink with your pet" },
+  { id: "restaurant", name: "Restaurants", icon: "🍽️", description: "Dining establishments that welcome pets" },
   { id: "home", name: "Homes", icon: "🏠", description: "Pet-friendly accommodations" },
   { id: "hotel", name: "Hotels", icon: "🏨", description: "Places to stay overnight with your pet" },
+  { id: "shop", name: "Shops", icon: "🛒", description: "Pet supply stores and pet-friendly retail" },
   { id: "custom", name: "Custom Venues", icon: "🏢", description: "Other pet-friendly establishments" }
 ];
 

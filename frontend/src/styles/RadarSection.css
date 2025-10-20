@@ -1,0 +1,236 @@
+/* Radar Section - AI Discovery Feature */
+.radar-section {
+  position: relative;
+  background: #1a1a1a;
+  min-height: 600px;
+  margin: 0;
+  overflow: hidden;
+  border-bottom: 1px solid var(--neutral-300);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Topographic map background with gradient blend */
+.radar-background {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  
+  /* Topographic map effect from hero - white/gray on dark background */
+  background: white;
+  filter: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg"><defs><filter id="topo"><feTurbulence seed="0" type="fractalNoise" baseFrequency="0.0033" numOctaves="1"/><feColorMatrix type="saturate" values="0" result="noise"/><feComponentTransfer in="noise" result="h1"><feFuncA type="table" tableValues="-220 100"/></feComponentTransfer><feMorphology operator="dilate" radius="1"/><feComposite in2="h1" result="a1" operator="out"/><feComponentTransfer in="noise" result="h2"><feFuncA type="table" tableValues="-160 100"/></feComponentTransfer><feMorphology operator="dilate" radius="1"/><feComposite in2="h2" result="a2" operator="out"/><feComponentTransfer in="noise" result="h3"><feFuncA type="table" tableValues="-120 100"/></feComponentTransfer><feMorphology operator="dilate" radius="1"/><feComposite in2="h3" result="a3" operator="out"/><feComponentTransfer in="noise" result="h4"><feFuncA type="table" tableValues="-80 100"/></feComponentTransfer><feMorphology operator="dilate" radius="1"/><feComposite in2="h4" result="a4" operator="out"/><feComponentTransfer in="noise" result="h5"><feFuncA type="table" tableValues="-50 100"/></feComponentTransfer><feMorphology operator="dilate" radius="1"/><feComposite in2="h5" result="a5" operator="out"/><feComposite in="a1" in2="a2" result="c1" operator="over"/><feComposite in="c1" in2="a3" result="c2" operator="over"/><feComposite in="c2" in2="a4" result="c3" operator="over"/><feComposite in="c3" in2="a5" result="c4" operator="over"/><feComponentTransfer in="c4" result="c5"><feFuncR type="discrete" tableValues="0 1 0 1"/><feFuncG type="discrete" tableValues="0 1 0 1"/><feFuncB type="discrete" tableValues="0 1 0 1"/><feFuncA type="discrete" tableValues="0 1 0 1"/></feComponentTransfer><feComposite in="SourceAlpha" in2="c5" operator="out" result="alpha"/><feComposite in="SourceGraphic" operator="in"/></filter></defs></svg>#topo');
+  mix-blend-mode: overlay;
+  opacity: 0.35; /* Increased from 0.2 to 0.35 for better visibility */
+}
+
+/* Radial gradient overlay - emerging from bottom center and fading out in semicircle */
+.radar-background::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 100% 120% at 50% 100%,
+    rgba(34, 197, 94, 0.08) 0%,
+    rgba(34, 197, 94, 0.04) 30%,
+    rgba(26, 26, 26, 0.95) 60%,
+    #1a1a1a 80%
+  );
+  z-index: 1;
+}
+
+/* Green tint overlay for the topo map */
+.radar-background::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 80% 100% at 50% 100%,
+    rgba(34, 197, 94, 0.06) 0%,
+    transparent 50%
+  );
+  z-index: 2;
+}
+
+/* Canvas for radar animation */
+.radar-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  pointer-events: none;
+}
+
+/* Content container */
+.radar-content {
+  position: relative;
+  z-index: 4;
+  max-width: 1400px;
+  width: 100%;
+  padding: 80px 20px;
+  margin: 0 auto;
+}
+
+.radar-text {
+  max-width: 700px;
+  margin: 0; /* Left-aligned instead of centered */
+  text-align: left; /* Left-aligned */
+  color: var(--neutral-100);
+}
+
+.radar-text h2 {
+  font-family: var(--font-family-heading);
+  font-size: clamp(32px, 4.5vw, 48px);
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: var(--neutral-100);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.radar-text p {
+  font-family: var(--font-family-base);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.6;
+  margin-bottom: 40px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* Feature pills - minimalist style */
+.radar-features {
+  display: flex;
+  justify-content: flex-start; /* Left-aligned instead of centered */
+  gap: 12px; /* Reduced gap for more compact look */
+  flex-wrap: wrap;
+  margin-top: 32px;
+}
+
+.radar-feature {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px; /* Reduced padding for more minimal look */
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px; /* Less rounded for minimalist style */
+  font-family: var(--font-family-base);
+  font-size: 14px; /* Slightly smaller text */
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.radar-feature:hover {
+  background: rgba(59, 130, 246, 0.1);
+  border-color: rgba(59, 130, 246, 0.2);
+  transform: none; /* No transform for more minimal hover */
+}
+
+/* Removed radar-feature-icon styles since emojis are removed */
+
+/* CTA Button Container */
+.radar-cta {
+  margin-top: 40px;
+  display: flex;
+  justify-content: flex-start; /* Left-aligned instead of centered */
+}
+
+.radar-btn {
+  /* Use the same styles as hero buttons for consistency */
+  background-color: var(--neutral-100);
+  color: #1a1a1a;
+  border: 1px solid var(--neutral-100);
+  padding: 13px 28px;
+  font-size: 15px;
+  font-weight: 500;
+  border-radius: 10px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+
+.radar-btn:hover {
+  background-color: var(--neutral-200);
+  border-color: var(--neutral-200);
+  color: #1a1a1a;
+}
+
+.radar-btn .btn-arrow {
+  font-size: 18px;
+  display: inline-flex;
+  align-items: center;
+  transition: transform 0.2s ease;
+}
+
+.radar-btn:hover .btn-arrow {
+  transform: translateY(2px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .radar-section {
+    min-height: 500px;
+  }
+
+  .radar-content {
+    padding: 60px 20px;
+  }
+
+  .radar-text h2 {
+    font-size: 32px;
+  }
+
+  .radar-text p {
+    font-size: 16px;
+  }
+
+  .radar-features {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .radar-feature {
+    width: 100%;
+    max-width: 280px;
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .radar-section {
+    min-height: 450px;
+  }
+
+  .radar-content {
+    padding: 40px 16px;
+  }
+
+  .radar-text h2 {
+    font-size: 28px;
+    margin-bottom: 16px;
+  }
+
+  .radar-text p {
+    font-size: 15px;
+    margin-bottom: 32px;
+  }
+
+  .radar-features {
+    gap: 12px;
+  }
+
+  .radar-feature {
+    padding: 10px 16px;
+    font-size: 14px;
+  }
+
+  .radar-feature-icon {
+    font-size: 18px;
+  }
+}
