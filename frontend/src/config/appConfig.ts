@@ -11,5 +11,5 @@ export const appConfig: AppConfig = {
     agentApiUrl: '/agent',
     sitterAgentApiUrl: '/sitter',
     orchestratorApiUrl: '/orchestrator',
-    useMockData: process.env.REACT_APP_USE_MOCK_DATA === undefined ? false : process.env.REACT_APP_USE_MOCK_DATA.toLowerCase() === 'true'
+    useMockData: process.env.REACT_APP_USE_MOCK_DATA === undefined ? true : process.env.REACT_APP_USE_MOCK_DATA.toLowerCase() === 'true'
 };
