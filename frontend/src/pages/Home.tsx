@@ -58,7 +58,7 @@ const heroPets: { [key: string]: PetInfo } = {
   bunny: {
     image: '/images/pets/bunny.jpg',
     name: 'Milk',
-    type: 'Holland Lop Rabbit',
+    type: 'Broken Lionhead Rabbit',
     description: 'A gruff bunny with a misanthropic streak, Milk is a bunnicula who tolerates pet-friendly venues on his own terms. He\'s not here to make friends.',
     funFact: 'Milk prefers dark corners and has been spotted giving judgmental side-eye to overly cheerful dogs.'
   },
