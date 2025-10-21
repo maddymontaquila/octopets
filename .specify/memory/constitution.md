@@ -13,13 +13,16 @@
   Added Sections:
   - Principle 0: Azure Development Prerequisites (MAJOR addition)
   - Azure MCP tools requirements in multi-agent architecture
+  - Azure AI Toolkit MCP tools (aitk-*) for agent code generation
   - Azure CLI verification in development workflow
   
   Removed Sections: None
   
   Rationale:
   - Azure MCP tools provide official, up-to-date best practices from Microsoft
+  - Azure AI Toolkit MCP tools ensure Agent Framework best practices
   - Prevents common Azure misconfigurations and deployment failures
+  - Ensures agents follow latest Microsoft patterns for evaluation, tracing, models
   - Ensures developers have required tooling before starting work
   - Aligns with existing Azure instructions in copilot-instructions.md
   
@@ -27,11 +30,12 @@
   ✅ plan-template.md: Constitution Check section now includes Azure verification
   ✅ spec-template.md: No changes needed (user stories unaffected)
   ✅ tasks-template.md: No changes needed (phase structure unaffected)
-  ⚠ Commands: Should verify Azure MCP tools are invoked before Azure operations
+  ⚠ Commands: Should verify Azure MCP and AI Toolkit tools are invoked before operations
   
   Follow-up TODOs:
   - Update plan.md template to include Azure CLI verification checklist
-  - Ensure agents that invoke Azure MCP tools before code generation
+  - Ensure agents invoke aitk-* tools before agent code generation
+  - Ensure agents invoke Azure MCP tools before Azure operations
   ============================================================================
 -->
 
@@ -50,8 +54,14 @@
   - Deploying to Azure (invoke with resource=`general`, action=`deployment`)
   - Working with Azure Functions (invoke with resource=`azurefunctions`, action=`code-generation` or `deployment`)
   - Working with Azure Static Web Apps (invoke appropriate best practices tool)
+- Azure AI Toolkit MCP tools (prefixed with `aitk_`) MUST be invoked for:
+  - AI agent code generation (`aitk-get_agent_code_gen_best_practices`)
+  - AI agent evaluation code (`aitk-get_evaluation_code_gen_best_practices`)
+  - Agent runner setup (`aitk-evaluation_agent_runner_best_practices`)
+  - AI model guidance (`aitk_get_ai_model_guidance`)
+  - Tracing implementation (`aitk_get_tracing_code_gen_best_practices`)
 
-**Rationale**: Azure MCP tools provide up-to-date official guidance that prevents common misconfigurations, security issues, and deployment failures. Verifying prerequisites prevents wasted development time on environments that cannot authenticate or deploy.
+**Rationale**: Azure MCP tools provide up-to-date official guidance that prevents common misconfigurations, security issues, and deployment failures. Azure AI Toolkit tools ensure agents follow Microsoft's latest patterns for Agent Framework, evaluation, and observability. Verifying prerequisites prevents wasted development time on environments that cannot authenticate or deploy.
 
 ### I. Aspire-First Orchestration
 
@@ -76,6 +86,7 @@
 - MUST use `uv` for dependency management (never `pip install` directly)
 - MUST authenticate via `DefaultAzureCredential` (requires `az login` locally)
 - MUST follow Azure best practices obtained via Azure MCP tools before code generation
+- MUST invoke Azure AI Toolkit MCP tools (`aitk_get_agent_code_gen_best_practices`) before agent code generation
 
 **Orchestrator requirements**:
 
@@ -216,12 +227,13 @@ aspire run
 ### Python Agent Development
 
 1. **Verify Azure prerequisites**: Run `az --version` and `az login` before development
-2. **Invoke Azure best practices**: Before code changes, use Azure MCP tools for guidance
-3. **Never use standalone Python execution** for integrated agents (use AppHost)
-4. Standalone testing: `uv run python <agent>.py` (interactive CLI)
-5. Dependency changes: `uv sync` in agent directory, commit `pyproject.toml` and `uv.lock`
-6. Authentication: `az login` required before `aspire run`
-7. File search agents: Verify `tool_resources` passed to thread creation (see AGENT_FRAMEWORK_FEEDBACK.md)
+2. **Invoke Azure AI Toolkit MCP tools**: Before agent code changes, use `aitk_get_agent_code_gen_best_practices` for guidance
+3. **Invoke Azure best practices**: Before Azure-specific code, use Azure MCP tools for guidance
+4. **Never use standalone Python execution** for integrated agents (use AppHost)
+5. Standalone testing: `uv run python <agent>.py` (interactive CLI)
+6. Dependency changes: `uv sync` in agent directory, commit `pyproject.toml` and `uv.lock`
+7. Authentication: `az login` required before `aspire run`
+8. File search agents: Verify `tool_resources` passed to thread creation (see AGENT_FRAMEWORK_FEEDBACK.md)
 
 ### Backend Development
 
@@ -244,6 +256,7 @@ aspire run
 
 - [ ] Azure CLI installed and user authenticated (`az login`)
 - [ ] Azure MCP best practices invoked for all Azure-related code/deployments
+- [ ] Azure AI Toolkit MCP tools invoked for all agent code generation
 - [ ] All services registered in AppHost.cs
 - [ ] No hardcoded URLs or ports
 - [ ] Mock data synchronized across `/data`, frontend, backend
