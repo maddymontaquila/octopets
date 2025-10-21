@@ -2,37 +2,56 @@
   ============================================================================
   SYNC IMPACT REPORT
   ============================================================================
-  Version Change: [TEMPLATE] → 1.0.0
+  Version Change: 1.0.0 → 1.1.0
   
   Modified Principles:
-  - All principles: Initial constitution created from template
+  - Added Principle 0: Azure Development Prerequisites (NEW)
+  - Modified Principle II: Added Azure MCP tools requirement for agents
+  - Modified Python Agent Development: Added Azure CLI verification steps
+  - Modified Constitution Compliance Checks: Added Azure prerequisites
   
   Added Sections:
-  - I. Aspire-First Orchestration
-  - II. Multi-Agent Architecture
-  - III. Mock Data Synchronization (NON-NEGOTIABLE)
-  - IV. Service Discovery & Dynamic Configuration
-  - V. Environment-Aware Behavior
-  - VI. Observability & Telemetry
-  - VII. Independent User Story Delivery
-  - Technology Stack Standards
-  - Development Workflow
+  - Principle 0: Azure Development Prerequisites (MAJOR addition)
+  - Azure MCP tools requirements in multi-agent architecture
+  - Azure CLI verification in development workflow
   
-  Removed Sections: None (template placeholders replaced)
+  Removed Sections: None
+  
+  Rationale:
+  - Azure MCP tools provide official, up-to-date best practices from Microsoft
+  - Prevents common Azure misconfigurations and deployment failures
+  - Ensures developers have required tooling before starting work
+  - Aligns with existing Azure instructions in copilot-instructions.md
   
   Templates Status:
-  ✅ plan-template.md: Constitution Check section aligns with principles
-  ✅ spec-template.md: User Story prioritization aligns with Principle VII
-  ✅ tasks-template.md: Phase structure aligns with Principle VII
-  ⚠ Commands: No agent-specific (CLAUDE) references found
+  ✅ plan-template.md: Constitution Check section now includes Azure verification
+  ✅ spec-template.md: No changes needed (user stories unaffected)
+  ✅ tasks-template.md: No changes needed (phase structure unaffected)
+  ⚠ Commands: Should verify Azure MCP tools are invoked before Azure operations
   
-  Follow-up TODOs: None
+  Follow-up TODOs:
+  - Update plan.md template to include Azure CLI verification checklist
+  - Ensure agents that invoke Azure MCP tools before code generation
   ============================================================================
 -->
 
 # Octopets Constitution
 
 ## Core Principles
+
+### 0. Azure Development Prerequisites
+
+**All Azure-related development MUST verify prerequisites before code generation or deployment**:
+
+- Azure CLI MUST be installed and up-to-date (`az --version` to verify)
+- User MUST be authenticated via `az login` with valid subscription access
+- Azure MCP best practices tools MUST be invoked before:
+  - Generating Azure-related code (invoke with resource=`general`, action=`code-generation`)
+  - Deploying to Azure (invoke with resource=`general`, action=`deployment`)
+  - Working with Azure Functions (invoke with resource=`azurefunctions`, action=`code-generation` or `deployment`)
+  - Working with Azure Static Web Apps (invoke appropriate best practices tool)
+
+**Rationale**: Azure MCP tools provide up-to-date official guidance that prevents common misconfigurations, security issues, and deployment failures. Verifying prerequisites prevents wasted development time on environments that cannot authenticate or deploy.
 
 ### I. Aspire-First Orchestration
 
@@ -56,6 +75,7 @@
 - MUST implement health check endpoints at `/health`
 - MUST use `uv` for dependency management (never `pip install` directly)
 - MUST authenticate via `DefaultAzureCredential` (requires `az login` locally)
+- MUST follow Azure best practices obtained via Azure MCP tools before code generation
 
 **Orchestrator requirements**:
 
@@ -195,11 +215,13 @@ aspire run
 
 ### Python Agent Development
 
-1. **Never use standalone Python execution** for integrated agents (use AppHost)
-2. Standalone testing: `uv run python <agent>.py` (interactive CLI)
-3. Dependency changes: `uv sync` in agent directory, commit `pyproject.toml` and `uv.lock`
-4. Authentication: `az login` required before `aspire run`
-5. File search agents: Verify `tool_resources` passed to thread creation (see AGENT_FRAMEWORK_FEEDBACK.md)
+1. **Verify Azure prerequisites**: Run `az --version` and `az login` before development
+2. **Invoke Azure best practices**: Before code changes, use Azure MCP tools for guidance
+3. **Never use standalone Python execution** for integrated agents (use AppHost)
+4. Standalone testing: `uv run python <agent>.py` (interactive CLI)
+5. Dependency changes: `uv sync` in agent directory, commit `pyproject.toml` and `uv.lock`
+6. Authentication: `az login` required before `aspire run`
+7. File search agents: Verify `tool_resources` passed to thread creation (see AGENT_FRAMEWORK_FEEDBACK.md)
 
 ### Backend Development
 
@@ -220,6 +242,8 @@ aspire run
 
 **Before Phase 0 research AND after Phase 1 design**, verify:
 
+- [ ] Azure CLI installed and user authenticated (`az login`)
+- [ ] Azure MCP best practices invoked for all Azure-related code/deployments
 - [ ] All services registered in AppHost.cs
 - [ ] No hardcoded URLs or ports
 - [ ] Mock data synchronized across `/data`, frontend, backend
@@ -268,4 +292,4 @@ aspire run
 - Known issues: `AGENT_FRAMEWORK_FEEDBACK.md`
 - Quick reference: `README.md`
 
-**Version**: 1.0.0 | **Ratified**: 2025-10-20 | **Last Amended**: 2025-10-20
+**Version**: 1.1.0 | **Ratified**: 2025-10-20 | **Last Amended**: 2025-10-21
