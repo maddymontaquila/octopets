@@ -1,28 +1,21 @@
 ---
-description: "Task list for Pet Sitter Marketplace implementation"
+description: "Task breakdown for Pet Sitter Marketplace implementation"
 ---
 
-# Tasks: Octopets Pet Sitter Marketplace
+# Tasks: Pet Sitter Marketplace
 
-**Input**: Design documents from `/specs/001-pet-sitter-marketplace/`
-**Prerequisites**: plan.md ✓, spec.md ✓
+**Feature Branch**: `001-pet-sitter-marketplace`  
+**Input**: Design documents from `/specs/001-pet-sitter-marketplace/`  
+**Prerequisites**: plan.md ✅, spec.md ✅, research.md ✅, data-model.md ✅, contracts/pet-owner-api.yaml ✅
 
-**Tests**: Tests are OPTIONAL in this implementation - focusing on rapid MVP delivery with manual testing via Aspire Dashboard and frontend E2E tests.
+**Tests**: Tests are NOT explicitly requested in the specification, so test tasks are excluded per template instructions.
 
-**Organization**: Tasks are grouped by user story to enable independent implementation and testing of each story per Constitution VII.
+**Organization**: Tasks are grouped by user story to enable independent implementation and testing of each story.
 
-## Format: `- [ ] [ID] [P?] [Story] Description`
-- **- [ ]**: Markdown checkbox for tracking
-- **[ID]**: Sequential task ID (T001, T002, etc.)
+## Format: `[ID] [P?] [Story] Description`
 - **[P]**: Can run in parallel (different files, no dependencies)
-- **[Story]**: User story label (US1, US2, US3, US5, US6) - only for story-specific tasks
+- **[Story]**: Which user story this task belongs to (e.g., US1, US2, US3)
 - Include exact file paths in descriptions
-
-## Path Conventions
-- Backend: `backend/`
-- Frontend: `frontend/src/`
-- Data: `data/`
-- Agents: `orchestrator-agent/`, `agent/`, `sitter-agent/`
 
 ---
 

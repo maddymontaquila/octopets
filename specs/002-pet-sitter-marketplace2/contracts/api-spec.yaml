@@ -1,0 +1,1530 @@
+openapi: 3.0.3
+info:
+  title: Octopets Pet Sitter Marketplace API
+  description: |
+    REST API for the Octopets pet sitter marketplace platform, enabling pet owners to search for sitters, create bookings, manage pet profiles, communicate via messaging, and leave reviews.
+    
+    **Base URL**: Configured via Aspire service discovery
+    - Development: Dynamic port assigned by AppHost
+    - Production: Azure Container Apps endpoint
+    
+    **Authentication**: Not implemented in initial version (future: JWT bearer tokens)
+    
+    **Constitution Compliance**:
+    - All endpoints follow Minimal API pattern
+    - No hardcoded URLs (service discovery)
+    - Mock data toggle via REACT_APP_USE_MOCK_DATA
+  version: 1.0.0
+  contact:
+    name: Octopets Development Team
+
+servers:
+  - url: '{baseUrl}/api'
+    description: Dynamic base URL from Aspire
+    variables:
+      baseUrl:
+        default: 'http://localhost'
+        description: Configured by AppHost
+
+tags:
+  - name: Search
+    description: Sitter search and discovery endpoints
+  - name: PetSitters
+    description: Pet sitter profile management
+  - name: PetOwners
+    description: Pet owner account management
+  - name: PetProfiles
+    description: Pet profile management
+  - name: Bookings
+    description: Booking creation and management
+  - name: Messages
+    description: Messaging between owners and sitters
+  - name: Reviews
+    description: Review and rating system
+  - name: Availability
+    description: Sitter availability calendar
+
+paths:
+  /search/sitters:
+    get:
+      tags: [Search]
+      summary: Search for pet sitters by location and filters
+      description: |
+        Returns sitters within specified radius of location, with optional filtering by pet type, service type, date availability, and rate range.
+        Implements FR-001, FR-002, FR-003, FR-004.
+      operationId: searchSitters
+      parameters:
+        - name: location
+          in: query
+          description: Zip code, city, or address to search around
+          required: true
+          schema:
+            type: string
+            example: "98052"
+        - name: radius
+          in: query
+          description: Search radius in miles
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 50
+            default: 10
+        - name: petType
+          in: query
+          description: Filter by accepted pet type
+          required: false
+          schema:
+            type: string
+            enum: [Dog, Cat, Bird, Reptile, SmallMammal]
+        - name: serviceType
+          in: query
+          description: Filter by offered service type
+          required: false
+          schema:
+            type: string
+            enum: [OvernightSitting, DailyCheckIn, DogWalking, Grooming, Training, MedicationAdministration, SpecialNeedsCare]
+        - name: startDate
+          in: query
+          description: Availability start date (ISO 8601)
+          required: false
+          schema:
+            type: string
+            format: date
+            example: "2025-11-01"
+        - name: endDate
+          in: query
+          description: Availability end date (ISO 8601)
+          required: false
+          schema:
+            type: string
+            format: date
+            example: "2025-11-07"
+        - name: minRate
+          in: query
+          description: Minimum rate per service (USD)
+          required: false
+          schema:
+            type: number
+            format: decimal
+            minimum: 0
+        - name: maxRate
+          in: query
+          description: Maximum rate per service (USD)
+          required: false
+          schema:
+            type: number
+            format: decimal
+        - name: sortBy
+          in: query
+          description: Sort results by field
+          required: false
+          schema:
+            type: string
+            enum: [rating, distance, rate_low, rate_high, most_reviewed]
+            default: "rating"
+        - name: page
+          in: query
+          description: Page number for pagination
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - name: pageSize
+          in: query
+          description: Results per page
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 50
+            default: 10
+      responses:
+        '200':
+          description: Search results with sitter previews
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  totalResults:
+                    type: integer
+                    description: Total matching sitters
+                  page:
+                    type: integer
+                  pageSize:
+                    type: integer
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/SitterSearchResult'
+        '400':
+          description: Invalid search parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /sitters/{id}:
+    get:
+      tags: [PetSitters]
+      summary: Get detailed sitter profile
+      description: Returns full sitter profile with bio, photos, services, rates, availability, and reviews. Implements FR-005.
+      operationId: getSitterById
+      parameters:
+        - name: id
+          in: path
+          description: Sitter unique identifier
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Sitter profile details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SitterProfile'
+        '404':
+          description: Sitter not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    put:
+      tags: [PetSitters]
+      summary: Update sitter profile
+      description: Updates sitter profile information. Implements FR-013 through FR-019.
+      operationId: updateSitterProfile
+      parameters:
+        - name: id
+          in: path
+          description: Sitter unique identifier
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SitterProfileUpdate'
+      responses:
+        '200':
+          description: Profile updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SitterProfile'
+        '400':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Sitter not found
+
+  /sitters/{id}/photos:
+    post:
+      tags: [PetSitters]
+      summary: Upload sitter photos
+      description: Uploads profile or gallery photos to Azure Blob Storage. Implements FR-014 (max 10 photos, 5MB each).
+      operationId: uploadSitterPhotos
+      parameters:
+        - name: id
+          in: path
+          description: Sitter unique identifier
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: photoType
+          in: query
+          description: Photo type (profile or gallery)
+          required: true
+          schema:
+            type: string
+            enum: [profile, gallery]
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '201':
+          description: Photo uploaded successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  photoUrl:
+                    type: string
+                    format: uri
+                  uploadedAt:
+                    type: string
+                    format: date-time
+        '400':
+          description: Invalid file (too large, wrong format)
+        '409':
+          description: Maximum photos reached (10 total)
+
+  /sitters/{id}/availability:
+    get:
+      tags: [Availability]
+      summary: Get sitter availability calendar
+      description: Returns available and blocked dates for sitter. Implements FR-017.
+      operationId: getSitterAvailability
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: startDate
+          in: query
+          description: Calendar start date
+          required: true
+          schema:
+            type: string
+            format: date
+        - name: endDate
+          in: query
+          description: Calendar end date (max 6 months from startDate per FR-017)
+          required: true
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: Availability calendar
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  sitterId:
+                    type: string
+                    format: uuid
+                  availability:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AvailabilityEntry'
+
+    post:
+      tags: [Availability]
+      summary: Update sitter availability
+      description: Marks dates as available or blocked. Implements FR-017.
+      operationId: updateSitterAvailability
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/AvailabilityUpdate'
+      responses:
+        '200':
+          description: Availability updated successfully
+        '400':
+          description: Invalid date range (>6 months per FR-017)
+
+  /owners/{id}:
+    get:
+      tags: [PetOwners]
+      summary: Get owner profile
+      description: Returns owner account information.
+      operationId: getOwnerById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Owner profile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OwnerProfile'
+        '404':
+          description: Owner not found
+
+    put:
+      tags: [PetOwners]
+      summary: Update owner profile
+      description: Updates owner account information.
+      operationId: updateOwnerProfile
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OwnerProfileUpdate'
+      responses:
+        '200':
+          description: Profile updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OwnerProfile'
+
+  /owners/{ownerId}/pets:
+    get:
+      tags: [PetProfiles]
+      summary: List owner's pet profiles
+      description: Returns all pet profiles for an owner. Implements FR-020, FR-021.
+      operationId: listPetProfiles
+      parameters:
+        - name: ownerId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: includeArchived
+          in: query
+          description: Include archived pets
+          required: false
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: List of pet profiles
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PetProfile'
+
+    post:
+      tags: [PetProfiles]
+      summary: Create new pet profile
+      description: Creates a pet profile with details. Implements FR-020 through FR-025.
+      operationId: createPetProfile
+      parameters:
+        - name: ownerId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PetProfileCreate'
+      responses:
+        '201':
+          description: Pet profile created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PetProfile'
+        '400':
+          description: Validation error
+
+  /pets/{id}:
+    get:
+      tags: [PetProfiles]
+      summary: Get pet profile by ID
+      description: Returns detailed pet profile information.
+      operationId: getPetProfileById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Pet profile details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PetProfile'
+        '404':
+          description: Pet profile not found
+
+    put:
+      tags: [PetProfiles]
+      summary: Update pet profile
+      description: Updates pet profile information. Implements FR-025.
+      operationId: updatePetProfile
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PetProfileUpdate'
+      responses:
+        '200':
+          description: Pet profile updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PetProfile'
+
+    delete:
+      tags: [PetProfiles]
+      summary: Archive pet profile
+      description: Marks pet profile as inactive (soft delete).
+      operationId: archivePetProfile
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: Pet profile archived
+
+  /bookings:
+    post:
+      tags: [Bookings]
+      summary: Create booking request
+      description: Creates a booking request for sitter. Implements FR-006, FR-007.
+      operationId: createBooking
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookingCreate'
+      responses:
+        '201':
+          description: Booking request created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Booking'
+        '400':
+          description: Validation error (invalid dates, unavailable sitter)
+        '409':
+          description: Booking conflict (double-booking per FR-010)
+
+  /bookings/{id}:
+    get:
+      tags: [Bookings]
+      summary: Get booking details
+      description: Returns booking information and status.
+      operationId: getBookingById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Booking details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Booking'
+        '404':
+          description: Booking not found
+
+  /bookings/{id}/accept:
+    post:
+      tags: [Bookings]
+      summary: Accept booking request (sitter action)
+      description: Sitter accepts a booking request. Implements FR-009, FR-011.
+      operationId: acceptBooking
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Booking accepted, notifications sent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Booking'
+        '400':
+          description: Invalid state transition
+        '409':
+          description: Booking conflict (dates no longer available)
+
+  /bookings/{id}/decline:
+    post:
+      tags: [Bookings]
+      summary: Decline booking request (sitter action)
+      description: Sitter declines a booking request. Implements FR-009.
+      operationId: declineBooking
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                reason:
+                  type: string
+                  description: Optional decline reason
+      responses:
+        '200':
+          description: Booking declined
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Booking'
+
+  /bookings/{id}/cancel:
+    post:
+      tags: [Bookings]
+      summary: Cancel booking
+      description: Owner or sitter cancels accepted booking. Implements FR-012 (24-48 hour notice).
+      operationId: cancelBooking
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [reason, cancelledBy]
+              properties:
+                reason:
+                  type: string
+                cancelledBy:
+                  type: string
+                  enum: [Owner, Sitter]
+      responses:
+        '200':
+          description: Booking cancelled
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Booking'
+        '400':
+          description: Cancellation too late (violates notice period per FR-012)
+
+  /bookings/owner/{ownerId}:
+    get:
+      tags: [Bookings]
+      summary: List owner's bookings
+      description: Returns all bookings created by owner with optional status filter.
+      operationId: listOwnerBookings
+      parameters:
+        - name: ownerId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: status
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [Pending, Accepted, Declined, Cancelled, Completed]
+      responses:
+        '200':
+          description: List of bookings
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Booking'
+
+  /bookings/sitter/{sitterId}:
+    get:
+      tags: [Bookings]
+      summary: List sitter's bookings
+      description: Returns all bookings received by sitter with optional status filter.
+      operationId: listSitterBookings
+      parameters:
+        - name: sitterId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: status
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [Pending, Accepted, Declined, Cancelled, Completed]
+      responses:
+        '200':
+          description: List of bookings
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Booking'
+
+  /messages:
+    post:
+      tags: [Messages]
+      summary: Send message
+      description: Sends a message between owner and sitter. Implements FR-026, FR-027, FR-028, FR-029.
+      operationId: sendMessage
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MessageCreate'
+      responses:
+        '201':
+          description: Message sent, notification triggered within 1 minute (per FR-029)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+        '400':
+          description: Validation error (attachment too large per FR-028)
+
+  /messages/conversation:
+    get:
+      tags: [Messages]
+      summary: Get conversation thread
+      description: Returns messages between two users, optionally filtered by booking. Implements FR-027.
+      operationId: getConversation
+      parameters:
+        - name: userId1
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: userId2
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: bookingId
+          in: query
+          required: false
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Conversation thread
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Message'
+
+  /messages/{id}/read:
+    post:
+      tags: [Messages]
+      summary: Mark message as read
+      description: Updates read status and timestamp. Implements FR-030.
+      operationId: markMessageRead
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Message marked as read
+        '404':
+          description: Message not found
+
+  /messages/unread/{userId}:
+    get:
+      tags: [Messages]
+      summary: Get unread messages for user
+      description: Returns unread messages for notification polling.
+      operationId: getUnreadMessages
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: List of unread messages
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Message'
+
+  /reviews:
+    post:
+      tags: [Reviews]
+      summary: Submit review
+      description: Owner submits review for sitter after booking completion. Implements FR-031, FR-034, FR-036.
+      operationId: createReview
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReviewCreate'
+      responses:
+        '201':
+          description: Review submitted and moderated via Azure AI Content Safety (per FR-036)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Review'
+        '400':
+          description: Validation error (too early per FR-034, too late per FR-034, or moderation failed)
+        '409':
+          description: Review already exists for booking
+
+  /reviews/sitter/{sitterId}:
+    get:
+      tags: [Reviews]
+      summary: Get sitter reviews
+      description: Returns reviews for sitter, sorted by most recent. Implements FR-033.
+      operationId: getSitterReviews
+      parameters:
+        - name: sitterId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - name: pageSize
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 50
+            default: 10
+      responses:
+        '200':
+          description: List of reviews
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  averageRating:
+                    type: number
+                    format: decimal
+                    description: Calculated average rating (per FR-032)
+                  totalReviews:
+                    type: integer
+                  reviews:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Review'
+
+  /reviews/{id}/respond:
+    post:
+      tags: [Reviews]
+      summary: Sitter responds to review
+      description: Sitter submits one-time response to review. Implements FR-035.
+      operationId: respondToReview
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [response]
+              properties:
+                response:
+                  type: string
+                  maxLength: 500
+                  description: Sitter response text (max 500 chars per FR-035)
+      responses:
+        '200':
+          description: Response submitted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Review'
+        '400':
+          description: Validation error (already responded, response too long)
+
+components:
+  schemas:
+    SitterSearchResult:
+      type: object
+      description: Sitter preview card for search results (per FR-002)
+      properties:
+        id:
+          type: string
+          format: uuid
+        displayName:
+          type: string
+        profilePhotoUrl:
+          type: string
+          format: uri
+          nullable: true
+        averageRating:
+          type: number
+          format: decimal
+        totalReviews:
+          type: integer
+        servicesOffered:
+          type: array
+          items:
+            type: string
+        approximateRate:
+          type: number
+          format: decimal
+          description: Starting rate for services
+        distanceMiles:
+          type: number
+          format: decimal
+        city:
+          type: string
+        state:
+          type: string
+
+    SitterProfile:
+      type: object
+      description: Full sitter profile (per FR-005, FR-013 through FR-019)
+      properties:
+        id:
+          type: string
+          format: uuid
+        displayName:
+          type: string
+        bio:
+          type: string
+          maxLength: 500
+        experienceYears:
+          type: integer
+        experienceDescription:
+          type: string
+          nullable: true
+        certifications:
+          type: array
+          items:
+            type: string
+        profilePhotoUrl:
+          type: string
+          format: uri
+          nullable: true
+        additionalPhotoUrls:
+          type: array
+          items:
+            type: string
+            format: uri
+          maxItems: 10
+        servicesOffered:
+          type: array
+          items:
+            type: string
+            enum: [OvernightSitting, DailyCheckIn, DogWalking, Grooming, Training, MedicationAdministration, SpecialNeedsCare]
+        petTypesAccepted:
+          type: array
+          items:
+            type: string
+            enum: [Dog, Cat, Bird, Reptile, SmallMammal]
+        petSizeRestrictions:
+          type: string
+          nullable: true
+        skills:
+          type: array
+          items:
+            type: string
+        rateStructure:
+          type: object
+          additionalProperties:
+            type: number
+            format: decimal
+        averageRating:
+          type: number
+          format: decimal
+        totalReviews:
+          type: integer
+        responseTimeMinutes:
+          type: integer
+          nullable: true
+        address:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        zipCode:
+          type: string
+        serviceRadius:
+          type: integer
+        isActive:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    SitterProfileUpdate:
+      type: object
+      description: Sitter profile update payload
+      properties:
+        bio:
+          type: string
+          maxLength: 500
+        experienceYears:
+          type: integer
+        experienceDescription:
+          type: string
+        certifications:
+          type: array
+          items:
+            type: string
+        servicesOffered:
+          type: array
+          items:
+            type: string
+        petTypesAccepted:
+          type: array
+          items:
+            type: string
+        petSizeRestrictions:
+          type: string
+        skills:
+          type: array
+          items:
+            type: string
+        rateStructure:
+          type: object
+          additionalProperties:
+            type: number
+        serviceRadius:
+          type: integer
+        isActive:
+          type: boolean
+
+    AvailabilityEntry:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+        isAvailable:
+          type: boolean
+        notes:
+          type: string
+          nullable: true
+
+    AvailabilityUpdate:
+      type: object
+      required: [date, isAvailable]
+      properties:
+        date:
+          type: string
+          format: date
+        isAvailable:
+          type: boolean
+        notes:
+          type: string
+          nullable: true
+
+    OwnerProfile:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        firstName:
+          type: string
+        lastName:
+          type: string
+        phoneNumber:
+          type: string
+          nullable: true
+        address:
+          type: string
+          nullable: true
+        city:
+          type: string
+          nullable: true
+        state:
+          type: string
+          nullable: true
+        zipCode:
+          type: string
+          nullable: true
+        profilePhotoUrl:
+          type: string
+          format: uri
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+
+    OwnerProfileUpdate:
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        phoneNumber:
+          type: string
+        address:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        zipCode:
+          type: string
+
+    PetProfile:
+      type: object
+      description: Pet profile with medical and behavioral info (per FR-020 through FR-025)
+      properties:
+        id:
+          type: string
+          format: uuid
+        ownerId:
+          type: string
+          format: uuid
+        name:
+          type: string
+        type:
+          type: string
+          enum: [Dog, Cat, Bird, Reptile, SmallMammal]
+        breed:
+          type: string
+          nullable: true
+        age:
+          type: integer
+        weight:
+          type: number
+          format: decimal
+        gender:
+          type: string
+          enum: [Male, Female, Unknown]
+        isSpayedNeutered:
+          type: boolean
+        profilePhotoUrl:
+          type: string
+          format: uri
+          nullable: true
+        additionalPhotoUrls:
+          type: array
+          items:
+            type: string
+            format: uri
+          maxItems: 5
+        allergies:
+          type: string
+          nullable: true
+        medications:
+          type: string
+          nullable: true
+        vetName:
+          type: string
+          nullable: true
+        vetPhone:
+          type: string
+          nullable: true
+        vaccinationRecordUrl:
+          type: string
+          format: uri
+          nullable: true
+        dietaryNeeds:
+          type: string
+          nullable: true
+        temperament:
+          type: string
+          nullable: true
+        energyLevel:
+          type: string
+          enum: [Low, Medium, High]
+          nullable: true
+        sociabilityWithDogs:
+          type: string
+          enum: [Unknown, Fearful, Neutral, Friendly]
+          nullable: true
+        sociabilityWithCats:
+          type: string
+          enum: [Unknown, Fearful, Neutral, Friendly]
+          nullable: true
+        sociabilityWithChildren:
+          type: string
+          enum: [Unknown, Fearful, Neutral, Friendly]
+          nullable: true
+        trainingStatus:
+          type: string
+          nullable: true
+        fearsAndTriggers:
+          type: string
+          nullable: true
+        feedingSchedule:
+          type: string
+          nullable: true
+        exerciseRoutine:
+          type: string
+          nullable: true
+        specialInstructions:
+          type: string
+          nullable: true
+        isActive:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    PetProfileCreate:
+      type: object
+      required: [name, type, age, weight, gender, isSpayedNeutered]
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+          enum: [Dog, Cat, Bird, Reptile, SmallMammal]
+        breed:
+          type: string
+        age:
+          type: integer
+        weight:
+          type: number
+        gender:
+          type: string
+          enum: [Male, Female, Unknown]
+        isSpayedNeutered:
+          type: boolean
+        allergies:
+          type: string
+        medications:
+          type: string
+        vetName:
+          type: string
+        vetPhone:
+          type: string
+        dietaryNeeds:
+          type: string
+        temperament:
+          type: string
+        energyLevel:
+          type: string
+        feedingSchedule:
+          type: string
+        exerciseRoutine:
+          type: string
+        specialInstructions:
+          type: string
+
+    PetProfileUpdate:
+      type: object
+      description: Same as PetProfileCreate but all fields optional
+
+    Booking:
+      type: object
+      description: Booking transaction (per FR-006 through FR-012)
+      properties:
+        id:
+          type: string
+          format: uuid
+        ownerId:
+          type: string
+          format: uuid
+        sitterId:
+          type: string
+          format: uuid
+        petIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+        serviceType:
+          type: string
+          enum: [OvernightSitting, DailyCheckIn, DogWalking, Grooming, Training, MedicationAdministration, SpecialNeedsCare]
+        startDate:
+          type: string
+          format: date-time
+        endDate:
+          type: string
+          format: date-time
+        status:
+          type: string
+          enum: [Pending, Accepted, Declined, Cancelled, Completed]
+        totalCost:
+          type: number
+          format: decimal
+        specialRequests:
+          type: string
+          nullable: true
+        sitterNotes:
+          type: string
+          nullable: true
+        declineReason:
+          type: string
+          nullable: true
+        cancellationReason:
+          type: string
+          nullable: true
+        cancelledBy:
+          type: string
+          enum: [Owner, Sitter, System]
+          nullable: true
+        cancelledAt:
+          type: string
+          format: date-time
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+        acceptedAt:
+          type: string
+          format: date-time
+          nullable: true
+        completedAt:
+          type: string
+          format: date-time
+          nullable: true
+        updatedAt:
+          type: string
+          format: date-time
+
+    BookingCreate:
+      type: object
+      required: [ownerId, sitterId, petIds, serviceType, startDate, endDate]
+      properties:
+        ownerId:
+          type: string
+          format: uuid
+        sitterId:
+          type: string
+          format: uuid
+        petIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+          minItems: 1
+        serviceType:
+          type: string
+          enum: [OvernightSitting, DailyCheckIn, DogWalking, Grooming, Training, MedicationAdministration, SpecialNeedsCare]
+        startDate:
+          type: string
+          format: date-time
+        endDate:
+          type: string
+          format: date-time
+        specialRequests:
+          type: string
+
+    Message:
+      type: object
+      description: Message between owner and sitter (per FR-026 through FR-030)
+      properties:
+        id:
+          type: string
+          format: uuid
+        bookingId:
+          type: string
+          format: uuid
+          nullable: true
+        senderId:
+          type: string
+          format: uuid
+        recipientId:
+          type: string
+          format: uuid
+        messageText:
+          type: string
+          maxLength: 5000
+        attachmentUrls:
+          type: array
+          items:
+            type: string
+            format: uri
+        isRead:
+          type: boolean
+        readAt:
+          type: string
+          format: date-time
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+
+    MessageCreate:
+      type: object
+      required: [senderId, recipientId, messageText]
+      properties:
+        senderId:
+          type: string
+          format: uuid
+        recipientId:
+          type: string
+          format: uuid
+        bookingId:
+          type: string
+          format: uuid
+          nullable: true
+        messageText:
+          type: string
+          maxLength: 5000
+        attachmentUrls:
+          type: array
+          items:
+            type: string
+            format: uri
+
+    Review:
+      type: object
+      description: Post-booking review (per FR-031 through FR-036)
+      properties:
+        id:
+          type: string
+          format: uuid
+        bookingId:
+          type: string
+          format: uuid
+        sitterId:
+          type: string
+          format: uuid
+        ownerId:
+          type: string
+          format: uuid
+        rating:
+          type: integer
+          minimum: 1
+          maximum: 5
+        reviewText:
+          type: string
+          maxLength: 500
+          nullable: true
+        sitterResponse:
+          type: string
+          maxLength: 500
+          nullable: true
+        isModerated:
+          type: boolean
+        moderationStatus:
+          type: string
+          enum: [Approved, Flagged, Rejected]
+        moderationReason:
+          type: string
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+        respondedAt:
+          type: string
+          format: date-time
+          nullable: true
+
+    ReviewCreate:
+      type: object
+      required: [bookingId, sitterId, ownerId, rating]
+      properties:
+        bookingId:
+          type: string
+          format: uuid
+        sitterId:
+          type: string
+          format: uuid
+        ownerId:
+          type: string
+          format: uuid
+        rating:
+          type: integer
+          minimum: 1
+          maximum: 5
+        reviewText:
+          type: string
+          maxLength: 500
+
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Error message
+        code:
+          type: string
+          description: Error code
+        details:
+          type: object
+          description: Additional error context

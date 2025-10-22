@@ -2,37 +2,66 @@
   ============================================================================
   SYNC IMPACT REPORT
   ============================================================================
-  Version Change: [TEMPLATE] → 1.0.0
+  Version Change: 1.0.0 → 1.1.0
   
   Modified Principles:
-  - All principles: Initial constitution created from template
+  - Added Principle 0: Azure Development Prerequisites (NEW)
+  - Modified Principle II: Added Azure MCP tools requirement for agents
+  - Modified Python Agent Development: Added Azure CLI verification steps
+  - Modified Constitution Compliance Checks: Added Azure prerequisites
   
   Added Sections:
-  - I. Aspire-First Orchestration
-  - II. Multi-Agent Architecture
-  - III. Mock Data Synchronization (NON-NEGOTIABLE)
-  - IV. Service Discovery & Dynamic Configuration
-  - V. Environment-Aware Behavior
-  - VI. Observability & Telemetry
-  - VII. Independent User Story Delivery
-  - Technology Stack Standards
-  - Development Workflow
+  - Principle 0: Azure Development Prerequisites (MAJOR addition)
+  - Azure MCP tools requirements in multi-agent architecture
+  - Azure AI Toolkit MCP tools (aitk-*) for agent code generation
+  - Azure CLI verification in development workflow
   
-  Removed Sections: None (template placeholders replaced)
+  Removed Sections: None
+  
+  Rationale:
+  - Azure MCP tools provide official, up-to-date best practices from Microsoft
+  - Azure AI Toolkit MCP tools ensure Agent Framework best practices
+  - Prevents common Azure misconfigurations and deployment failures
+  - Ensures agents follow latest Microsoft patterns for evaluation, tracing, models
+  - Ensures developers have required tooling before starting work
+  - Aligns with existing Azure instructions in copilot-instructions.md
   
   Templates Status:
-  ✅ plan-template.md: Constitution Check section aligns with principles
-  ✅ spec-template.md: User Story prioritization aligns with Principle VII
-  ✅ tasks-template.md: Phase structure aligns with Principle VII
-  ⚠ Commands: No agent-specific (CLAUDE) references found
+  ✅ plan-template.md: Constitution Check section now includes Azure verification
+  ✅ spec-template.md: No changes needed (user stories unaffected)
+  ✅ tasks-template.md: No changes needed (phase structure unaffected)
+  ⚠ Commands: Should verify Azure MCP and AI Toolkit tools are invoked before operations
   
-  Follow-up TODOs: None
+  Follow-up TODOs:
+  - Update plan.md template to include Azure CLI verification checklist
+  - Ensure agents invoke aitk-* tools before agent code generation
+  - Ensure agents invoke Azure MCP tools before Azure operations
   ============================================================================
 -->
 
 # Octopets Constitution
 
 ## Core Principles
+
+### 0. Azure Development Prerequisites
+
+**All Azure-related development MUST verify prerequisites before code generation or deployment**:
+
+- Azure CLI MUST be installed and up-to-date (`az --version` to verify)
+- User MUST be authenticated via `az login` with valid subscription access
+- Azure MCP best practices tools MUST be invoked before:
+  - Generating Azure-related code (invoke with resource=`general`, action=`code-generation`)
+  - Deploying to Azure (invoke with resource=`general`, action=`deployment`)
+  - Working with Azure Functions (invoke with resource=`azurefunctions`, action=`code-generation` or `deployment`)
+  - Working with Azure Static Web Apps (invoke appropriate best practices tool)
+- Azure AI Toolkit MCP tools (prefixed with `aitk_`) MUST be invoked for:
+  - AI agent code generation (`aitk-get_agent_code_gen_best_practices`)
+  - AI agent evaluation code (`aitk-get_evaluation_code_gen_best_practices`)
+  - Agent runner setup (`aitk-evaluation_agent_runner_best_practices`)
+  - AI model guidance (`aitk_get_ai_model_guidance`)
+  - Tracing implementation (`aitk_get_tracing_code_gen_best_practices`)
+
+**Rationale**: Azure MCP tools provide up-to-date official guidance that prevents common misconfigurations, security issues, and deployment failures. Azure AI Toolkit tools ensure agents follow Microsoft's latest patterns for Agent Framework, evaluation, and observability. Verifying prerequisites prevents wasted development time on environments that cannot authenticate or deploy.
 
 ### I. Aspire-First Orchestration
 
@@ -56,6 +85,8 @@
 - MUST implement health check endpoints at `/health`
 - MUST use `uv` for dependency management (never `pip install` directly)
 - MUST authenticate via `DefaultAzureCredential` (requires `az login` locally)
+- MUST follow Azure best practices obtained via Azure MCP tools before code generation
+- MUST invoke Azure AI Toolkit MCP tools (`aitk_get_agent_code_gen_best_practices`) before agent code generation
 
 **Orchestrator requirements**:
 
@@ -195,11 +226,14 @@ aspire run
 
 ### Python Agent Development
 
-1. **Never use standalone Python execution** for integrated agents (use AppHost)
-2. Standalone testing: `uv run python <agent>.py` (interactive CLI)
-3. Dependency changes: `uv sync` in agent directory, commit `pyproject.toml` and `uv.lock`
-4. Authentication: `az login` required before `aspire run`
-5. File search agents: Verify `tool_resources` passed to thread creation (see AGENT_FRAMEWORK_FEEDBACK.md)
+1. **Verify Azure prerequisites**: Run `az --version` and `az login` before development
+2. **Invoke Azure AI Toolkit MCP tools**: Before agent code changes, use `aitk_get_agent_code_gen_best_practices` for guidance
+3. **Invoke Azure best practices**: Before Azure-specific code, use Azure MCP tools for guidance
+4. **Never use standalone Python execution** for integrated agents (use AppHost)
+5. Standalone testing: `uv run python <agent>.py` (interactive CLI)
+6. Dependency changes: `uv sync` in agent directory, commit `pyproject.toml` and `uv.lock`
+7. Authentication: `az login` required before `aspire run`
+8. File search agents: Verify `tool_resources` passed to thread creation (see AGENT_FRAMEWORK_FEEDBACK.md)
 
 ### Backend Development
 
@@ -220,6 +254,9 @@ aspire run
 
 **Before Phase 0 research AND after Phase 1 design**, verify:
 
+- [ ] Azure CLI installed and user authenticated (`az login`)
+- [ ] Azure MCP best practices invoked for all Azure-related code/deployments
+- [ ] Azure AI Toolkit MCP tools invoked for all agent code generation
 - [ ] All services registered in AppHost.cs
 - [ ] No hardcoded URLs or ports
 - [ ] Mock data synchronized across `/data`, frontend, backend
@@ -268,4 +305,4 @@ aspire run
 - Known issues: `AGENT_FRAMEWORK_FEEDBACK.md`
 - Quick reference: `README.md`
 
-**Version**: 1.0.0 | **Ratified**: 2025-10-20 | **Last Amended**: 2025-10-20
+**Version**: 1.1.0 | **Ratified**: 2025-10-20 | **Last Amended**: 2025-10-21
